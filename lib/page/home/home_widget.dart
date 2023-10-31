@@ -8,35 +8,37 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: const [
-      SizedBox(height: 16),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          CategoryCard(name: "toyota"),
-          CategoryCard(name: "jeep"),
-        ],
-      ),
-      SizedBox(height: 16),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          CategoryCard(name: "honda"),
-          CategoryCard(name: "ford"),
-        ],
-      ),
-      SizedBox(height: 16),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          CategoryCard(name: "hyundai"),
-          CategoryCard(name: "kia"),
-        ],
-      ),
-      SizedBox(height: 4),
-      Divider(
-        color: Colors.black,
-      ),
-    ]);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+      child: ListView(children: const [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CategoryCard(name: "toyota"),
+            CategoryCard(name: "jeep"),
+          ],
+        ),
+        SizedBox(height: 12),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CategoryCard(name: "honda"),
+            CategoryCard(name: "ford"),
+          ],
+        ),
+        SizedBox(height: 12),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CategoryCard(name: "hyundai"),
+            CategoryCard(name: "kia"),
+          ],
+        ),
+        SizedBox(height: 4),
+        Divider(
+          color: Colors.black,
+        ),
+      ]),
+    );
   }
 }
