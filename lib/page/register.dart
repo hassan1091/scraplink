@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/page/home.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -39,7 +40,13 @@ class RegisterPage extends StatelessWidget {
                 controller: cityController, hint: "City", lable: "City"),
             const SizedBox(height: 12),
             ElevatedButton(
-                onPressed: () {}, child: const Text("Create Account"))
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomePage(),
+                      ));
+                }, child: const Text("Create Account"))
           ]),
         ),
       ),
