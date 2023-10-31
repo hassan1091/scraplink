@@ -16,15 +16,20 @@ class _HomePageState extends State<HomePage> {
     const Text("profile"),
   ];
 
+  List<String> titles = [
+    "Home",
+    "Nearby yards",
+    "Search",
+    "Profile",
+  ];
+
   int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Home")),
+      appBar: AppBar(title: Text(titles[selectedIndex])),
       body: views[selectedIndex],
-      floatingActionButton:
-          FloatingActionButton(child: const Icon(Icons.add), onPressed: () {}),
       bottomSheet: BottomNavigationBar(
           onTap: (selected) {
             setState(() {
@@ -32,6 +37,7 @@ class _HomePageState extends State<HomePage> {
             });
           },
           type: BottomNavigationBarType.fixed,
+          currentIndex: selectedIndex,
           items: const [
             BottomNavigationBarItem(label: "home", icon: Icon(Icons.home)),
             BottomNavigationBarItem(label: "map", icon: Icon(Icons.map)),
