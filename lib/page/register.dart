@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scraplink/page/home.dart';
+import 'package:scraplink/page/home/home.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -23,7 +23,11 @@ class RegisterPage extends StatelessWidget {
           child: ListView(children: [
             const SizedBox(height: 6),
             MyTextFormField(
-                controller: nameController, hint: "Name", lable: "Name",autofocus: true,),
+              controller: nameController,
+              hint: "Name",
+              lable: "Name",
+              autofocus: true,
+            ),
             const SizedBox(height: 12),
             MyTextFormField(
                 controller: emailController, hint: "Email", lable: "Email"),
@@ -46,7 +50,8 @@ class RegisterPage extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => const HomePage(),
                       ));
-                }, child: const Text("Create Account"))
+                },
+                child: const Text("Create Account"))
           ]),
         ),
       ),

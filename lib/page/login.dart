@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scraplink/page/home.dart';
+import 'package:scraplink/page/home/home.dart';
 import 'package:scraplink/page/register.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
