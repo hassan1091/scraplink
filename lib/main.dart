@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'page/login.dart';
 
 void main() {
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'ScrapLink',
       theme: ThemeData(
+        primaryColor: const Color(0xff810000),
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff810000)),
       ),
       home: const LoginPage(),
