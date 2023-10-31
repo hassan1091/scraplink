@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/page/register.dart';
 
 import '../widget/my_text_form_field.dart';
 
@@ -19,43 +20,49 @@ class LoginState extends State<LoginPage> {
       appBar: AppBar(
         title: const Text("Login"),
       ),
-      body: Center(
-          child: Padding(
+      body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Form(
-            child: ListView(
-          shrinkWrap: true,
-          children: [
-            const Image(image: AssetImage("assets/images/logoNoBackground.png")),
-            MyTextFormField(
-              controller: emailController,
-              lable: "Email",
-              hint: "Email",
-              autofocus: true,
-            ),
-            const SizedBox(
-              height: 6,
-            ),
-            MyTextFormField(
-              controller: passwordController,
-              lable: "Password",
-              hint: "Password",
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            InkWell(
-              child: const Text(
-                "Create new account",
-                style: TextStyle(
-                    color: Colors.blue, decoration: TextDecoration.underline),
-              ),
-              onTap: () {},
-            ),
-            ElevatedButton(onPressed: (){}, child: const Text("Login"))
-          ],
+        child: ListView(
+      shrinkWrap: true,
+      children: [
+        const Image(
+            image: AssetImage("assets/images/logoNoBackground.png")),
+        MyTextFormField(
+          controller: emailController,
+          lable: "Email",
+          hint: "Email",
+          autofocus: true,
+        ),
+        const SizedBox(
+          height: 6,
+        ),
+        MyTextFormField(
+          controller: passwordController,
+          lable: "Password",
+          hint: "Password",
+        ),
+        const SizedBox(
+          height: 4,
+        ),
+        InkWell(
+          child: const Text(
+            "Create new account",
+            style: TextStyle(
+                color: Colors.blue, decoration: TextDecoration.underline),
+          ),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RegisterPage(),
+                ));
+          },
+        ),
+        ElevatedButton(onPressed: () {}, child: const Text("Login"))
+      ],
         )),
-      )),
+      ),
     );
   }
 }
