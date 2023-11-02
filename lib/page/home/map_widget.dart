@@ -12,7 +12,7 @@ class MapWidget extends StatefulWidget {
 class _MapWidgetState extends State<MapWidget> {
   String? selectedCity;
 
-  void contact(phoneNumber) {
+  void _contact(phoneNumber) {
     Uri url = Uri.parse("https://wa.me/$phoneNumber");
     launchUrl(url, mode: LaunchMode.externalApplication).then((value) {
       if (!value) {
@@ -63,24 +63,24 @@ class _MapWidgetState extends State<MapWidget> {
               YardCard(
                 name: "scrap 1",
                 city: "Al-damam",
-                onPressed: () => contact("+966502130371"),
+                onPressed: () => _contact("+966502130371"),
               ),
               YardCard(
                   name: "scrap 2",
                   city: "mam",
-                  onPressed: () => contact("+9665021371")),
+                  onPressed: () => _contact("+9665021371")),
               YardCard(
                   name: "scrap 3",
                   city: "mam",
-                  onPressed: () => contact("+9665021371")),
+                  onPressed: () => _contact("+9665021371")),
               YardCard(
                   name: "scrap 4",
                   city: "mam",
-                  onPressed: () => contact("+9665021371")),
+                  onPressed: () => _contact("+9665021371")),
               YardCard(
                   name: "scrap 55",
                   city: "mam",
-                  onPressed: () => contact("+9665021371")),
+                  onPressed: () => _contact("+9665021371")),
             ],
           ),
         )
