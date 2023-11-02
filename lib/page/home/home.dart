@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/page/home/home_widget.dart';
+import 'package:scraplink/page/home/map_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,7 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Widget> views = [
     const HomeWidget(),
-    const Text("Map"),
+    const MapWidget(),
     const Text("Search"),
     const Text("profile"),
   ];
