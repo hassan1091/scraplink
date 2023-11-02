@@ -45,7 +45,7 @@ class RegisterPage extends StatelessWidget {
             const SizedBox(height: 12),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const HomePage(),
