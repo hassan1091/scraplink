@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/page/home/home_widget.dart';
 import 'package:scraplink/page/home/map_widget.dart';
+import 'package:scraplink/page/home/profile_widget.dart';
 import 'package:scraplink/page/login.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _HomePageState extends State<HomePage> {
     const HomeWidget(),
     const MapWidget(),
     const Text("Search"),
-    const Text("profile"),
+    const ProfilePage(),
   ];
 
   List<String> titles = [
