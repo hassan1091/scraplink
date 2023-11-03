@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/my_theme.dart';
 
 class SalvagePartItemCard extends StatelessWidget {
   const SalvagePartItemCard({
@@ -20,8 +21,6 @@ class SalvagePartItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
@@ -46,16 +45,16 @@ class SalvagePartItemCard extends StatelessWidget {
               children: <Widget>[
                 Text(
                   title,
-                  style: theme.textTheme.titleLarge,
+                  style: MyTheme().titleStyle,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   subtitle,
-                  style: theme.textTheme.bodyMedium,
+                  style: MyTheme().subtitleStyle,
                 ),
                 Text(
                   "Price: $price",
-                  style: theme.textTheme.bodyMedium,
+                  style: MyTheme().subtitleStyle,
                 ),
                 const SizedBox(height: 24),
                 SizedBox(
@@ -64,10 +63,7 @@ class SalvagePartItemCard extends StatelessWidget {
                     onPressed: onPressed,
                     child: Text(
                       buttonText,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: theme.colorScheme.onPrimary,
-                      ),
+                      style: MyTheme().buttonTextStyle,
                     ),
                   ),
                 ),

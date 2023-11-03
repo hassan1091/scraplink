@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/my_theme.dart';
 
 class YardCard extends StatelessWidget {
   const YardCard({
@@ -14,8 +15,6 @@ class YardCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
@@ -40,11 +39,11 @@ class YardCard extends StatelessWidget {
               children: <Widget>[
                 Text(
                   "Name: $name",
-                  style: theme.textTheme.titleLarge,
+                  style: MyTheme().titleStyle,
                 ),
                 Text(
                   "City: $city",
-                  style: theme.textTheme.bodyMedium,
+                  style: MyTheme().subtitleStyle,
                 ),
                 ElevatedButton(
                   onPressed: onPressed,

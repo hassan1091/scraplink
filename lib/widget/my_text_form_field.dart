@@ -23,7 +23,6 @@ class MyTextFormField extends StatelessWidget {
           border: const OutlineInputBorder(),
           label: Text(
             lable,
-            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           hintText: hint),
     );

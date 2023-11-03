@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/widget/category_card.dart';
 import 'package:scraplink/widget/salvage_part_item_card.dart';
 
@@ -41,7 +42,7 @@ class HomeWidget extends StatelessWidget {
         ),
         Text(
           "Latest salvage parts:",
-          style: Theme.of(context).textTheme.titleLarge,
+          style: MyTheme().titleStyle,
         ),
         SalvagePartItemCard(
           imageUrl:
