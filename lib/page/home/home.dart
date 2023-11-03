@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/page/home/home_widget.dart';
 import 'package:scraplink/page/home/map_widget.dart';
+import 'package:scraplink/page/login.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,7 +30,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(titles[selectedIndex])),
+      appBar: AppBar(title: Text(titles[selectedIndex]), actions: [
+        IconButton(
+          icon: const Icon(Icons.logout),
+          onPressed: () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginPage(),
+                ));
+          },
+        )
+      ]),
       body: views[selectedIndex],
       bottomSheet: BottomNavigationBar(
           onTap: (selected) {
