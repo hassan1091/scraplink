@@ -52,10 +52,11 @@ class _HomePageState extends State<HomePage> {
           type: BottomNavigationBarType.fixed,
           currentIndex: selectedIndex,
           items: const [
-            BottomNavigationBarItem(label: "home", icon: Icon(Icons.home)),
-            BottomNavigationBarItem(label: "map", icon: Icon(Icons.map)),
-            BottomNavigationBarItem(label: "search", icon: Icon(Icons.search)),
-            BottomNavigationBarItem(label: "person", icon: Icon(Icons.person)),
+            BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
+            BottomNavigationBarItem(
+                label: "Nearby yards", icon: Icon(Icons.map)),
+            BottomNavigationBarItem(label: "Search", icon: Icon(Icons.search)),
+            BottomNavigationBarItem(label: "Profile", icon: Icon(Icons.person)),
           ]),
     );
   }
