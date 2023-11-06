@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/widget/yard_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -32,10 +33,16 @@ class _MapWidgetState extends State<MapWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Text("City:"),
+            Text(
+              "City:",
+              style: MyTheme().titleStyle,
+            ),
             DropdownButton(
               value: selectedCity,
-              hint: const Text('Select a City'),
+              hint: Text(
+                'Select a City',
+                style: MyTheme().subtitleStyle,
+              ),
               items: const [
                 DropdownMenuItem(
                   value: "All",
