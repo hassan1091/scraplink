@@ -3,6 +3,7 @@ import 'package:scraplink/page/home/home_widget.dart';
 import 'package:scraplink/page/home/map_widget.dart';
 import 'package:scraplink/page/home/profile_widget.dart';
 import 'package:scraplink/page/login.dart';
+import 'package:scraplink/page/search.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> views = [
     const HomeWidget(),
     const MapWidget(),
-    const Text("Search"),
+    const SearchPage(),
     const ProfilePage(),
   ];
 
