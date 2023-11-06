@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/my_theme.dart';
+import 'package:scraplink/page/car_details.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -24,7 +25,10 @@ class ProfilePage extends StatelessWidget {
           "Toyota Camry",
           2013,
           "https://www.copart.com/content/us/en/images/landing-pages/FrontEnd.jpg",
-          () {},
+          () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const CarDetailsPage()));
+          },
         ),
         _CarCard(
           "Toyota Camry",
