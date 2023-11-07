@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/page/car_details.dart';
+import 'package:scraplink/page/register.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -121,7 +122,13 @@ class _ProfileHeader extends StatelessWidget {
               style: MyTheme().titleStyle,
             ),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              RegisterPage(isEditProfile: true)));
+                },
                 child: Text(
                   "Edit profile",
                   style: MyTheme().buttonTextStyle,

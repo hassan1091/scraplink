@@ -3,7 +3,9 @@ import 'package:scraplink/page/home/home.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
 class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key});
+  RegisterPage({super.key, this.isEditProfile = false});
+
+  final bool isEditProfile;
 
   final nameController = TextEditingController();
   final emailController = TextEditingController();
@@ -15,7 +17,7 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Register"),
+        title: Text(isEditProfile ? "EditProfile" : "Register"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -51,7 +53,7 @@ class RegisterPage extends StatelessWidget {
                         builder: (context) => const HomePage(),
                       ));
                 },
-                child: const Text("Create Account"))
+                child: Text(isEditProfile ? "Save" : "Create Account"))
           ]),
         ),
       ),
