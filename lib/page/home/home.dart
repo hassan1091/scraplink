@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:scraplink/page/home/home_widget.dart';
 import 'package:scraplink/page/home/map_widget.dart';
 import 'package:scraplink/page/home/profile_widget.dart';
+import 'package:scraplink/page/home/search.dart';
+import 'package:scraplink/page/home/sell_car.dart';
 import 'package:scraplink/page/login.dart';
-import 'package:scraplink/page/search.dart';
-import 'package:scraplink/page/sell_car.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

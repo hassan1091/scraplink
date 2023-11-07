@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/my_theme.dart';
-import 'package:scraplink/page/car_details.dart';
+import 'package:scraplink/page/home/car_details.dart';
 import 'package:scraplink/page/register.dart';
 
 class ProfilePage extends StatelessWidget {
