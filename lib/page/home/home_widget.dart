@@ -12,7 +12,7 @@ class HomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-      child: ListView(children: [
+      child: Column(children: [
         const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -44,23 +44,21 @@ class HomeWidget extends StatelessWidget {
           "Latest salvage parts:",
           style: MyTheme().titleStyle,
         ),
-        SalvagePartItemCard(
-          imageUrl:
-              'https://m.media-amazon.com/images/I/71dZaqDPigL._AC_UF894,1000_QL80_.jpg',
-          title: 'rim',
-          subtitle: 'On car: Yaris',
-          price: 200,
-          buttonText: 'Buy Now',
-          onPressed: () {},
-        ),
-        SalvagePartItemCard(
-          imageUrl:
-              'https://m.media-amazon.com/images/I/71dZaqDPigL._AC_UF894,1000_QL80_.jpg',
-          title: 'Title',
-          subtitle: 'Description or subtitle goes here.',
-          price: 200,
-          buttonText: 'Buy Now',
-          onPressed: () {},
+        Expanded(
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 0.75, crossAxisCount: 2),
+            itemCount: 6,
+            itemBuilder: (context, index) => SalvagePartItemCard(
+              imageUrl:
+                  'https://m.media-amazon.com/images/I/71dZaqDPigL._AC_UF894,1000_QL80_.jpg',
+              title: 'rim',
+              subtitle: 'On car: Yaris',
+              price: 200,
+              buttonText: 'Buy Now',
+              onPressed: () {},
+            ),
+          ),
         ),
         const SizedBox(
           height: 64,

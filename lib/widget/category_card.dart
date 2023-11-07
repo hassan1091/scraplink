@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/page/home/available_part.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({super.key, required this.name});
@@ -30,7 +31,11 @@ class CategoryCard extends StatelessWidget {
         ),
       ),
       onTap: () {
-        Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AvailablePartPage(),
+            ));
       },
     );
   }

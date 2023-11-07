@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/my_theme.dart';
+import 'package:scraplink/page/home/available_part.dart';
 import 'package:scraplink/widget/my_dropdown_button.dart';
 
 class SearchPage extends StatefulWidget {
@@ -83,7 +84,12 @@ class SearchState extends State<SearchPage> {
           ),
           const SizedBox(height: 16),
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AvailablePartPage()));
+              },
               child: Text(
                 "Search",
                 style: MyTheme().buttonTextStyle,
