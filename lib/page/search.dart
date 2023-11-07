@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/my_theme.dart';
+import 'package:scraplink/widget/my_dropdown_button.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -21,7 +22,7 @@ class SearchState extends State<SearchPage> {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          _SearchDropdown(
+          MyDropdownButton(
             label: "Type:",
             hint: "Select a Type",
             items: const ["Type1", "Type2", "Type3"],
@@ -33,7 +34,7 @@ class SearchState extends State<SearchPage> {
             },
           ),
           const SizedBox(height: 16),
-          _SearchDropdown(
+          MyDropdownButton(
             label: "Manufacturer:",
             hint: "Select a Manufacturer",
             items: const ["Manufacturer1", "Manufacturer2", "Manufacturer3"],
@@ -45,7 +46,7 @@ class SearchState extends State<SearchPage> {
             },
           ),
           const SizedBox(height: 16),
-          _SearchDropdown(
+          MyDropdownButton(
             label: "Car:",
             hint: "Select a Car",
             items: const ["Car1", "Car2", "Car3"],
@@ -57,7 +58,7 @@ class SearchState extends State<SearchPage> {
             },
           ),
           const SizedBox(height: 16),
-          _SearchDropdown(
+          MyDropdownButton(
             label: "Model:",
             hint: "Select a Model",
             items: const ["Model1", "Model2", "Model3"],
@@ -69,7 +70,7 @@ class SearchState extends State<SearchPage> {
             },
           ),
           const SizedBox(height: 16),
-          _SearchDropdown(
+          MyDropdownButton(
             label: "Category:",
             hint: "Select a Category",
             items: const ["Category1", "Category2", "Category3"],
@@ -89,76 +90,6 @@ class SearchState extends State<SearchPage> {
               ))
         ],
       ),
-    );
-  }
-}
-
-class _SearchDropdown extends StatefulWidget {
-  const _SearchDropdown({
-    required this.label,
-    required this.hint,
-    required this.items,
-    required this.selectedItem,
-    required this.onChanged,
-  });
-
-  final String label;
-  final String hint;
-  final List<String> items;
-  final String? selectedItem;
-  final Function(String?) onChanged;
-
-  @override
-  State<_SearchDropdown> createState() => _SearchDropdownState();
-}
-
-class _SearchDropdownState extends State<_SearchDropdown> {
-  String? selectedItem;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedItem = widget.selectedItem;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Expanded(
-          child: Text(
-            widget.label,
-            style: MyTheme().titleStyle,
-          ),
-        ),
-        Expanded(
-          child: DropdownButton(
-            isExpanded: true,
-            value: selectedItem,
-            hint: Text(
-              widget.hint,
-              style: MyTheme().subtitleStyle,
-            ),
-            items: widget.items.map((String item) {
-              return DropdownMenuItem(
-                value: item,
-                child: Text(
-                  item,
-                  style: MyTheme().subtitleStyle,
-                ),
-              );
-            }).toList(),
-            onChanged: (s) {
-              setState(() {
-                selectedItem = s;
-              });
-              widget.onChanged(s);
-            },
-            icon: const Icon(Icons.arrow_drop_down),
-          ),
-        )
-      ],
     );
   }
 }
