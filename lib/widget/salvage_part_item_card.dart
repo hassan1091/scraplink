@@ -28,18 +28,19 @@ class SalvagePartItemCard extends StatelessWidget {
       elevation: 5,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           ClipRRect(
             borderRadius:
                 const BorderRadius.vertical(top: Radius.circular(16.0)),
             child: Image.network(
               imageUrl,
-              height: 150,
+              height: 100,
               fit: BoxFit.cover,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -47,7 +48,7 @@ class SalvagePartItemCard extends StatelessWidget {
                   title,
                   style: MyTheme().titleStyle,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 4),
                 Text(
                   subtitle,
                   style: MyTheme().subtitleStyle,
@@ -56,9 +57,8 @@ class SalvagePartItemCard extends StatelessWidget {
                   "Price: $price",
                   style: MyTheme().subtitleStyle,
                 ),
-                const SizedBox(height: 24),
-                SizedBox(
-                  height: 50,
+                const SizedBox(height: 8),
+                Center(
                   child: ElevatedButton(
                     onPressed: onPressed,
                     child: Text(
