@@ -4,6 +4,7 @@ import 'package:scraplink/page/home/map_widget.dart';
 import 'package:scraplink/page/home/profile_widget.dart';
 import 'package:scraplink/page/login.dart';
 import 'package:scraplink/page/search.dart';
+import 'package:scraplink/page/sell_car.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -65,7 +66,13 @@ class _HomePageState extends State<HomePage> {
             Icons.add,
             size: 50,
           ),
-          onPressed: () {}),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SellCarPage(),
+                ));
+          }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
