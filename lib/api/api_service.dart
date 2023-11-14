@@ -14,4 +14,14 @@ class ApiService {
     AppLocalStorage.setString(AppStorageKey.id,
         Individual.fromJson(response).individualId.toString());
   }
+
+  Future<void> register(Individual individual) async {
+    final response = await Supabase.instance.client
+        .from('individual')
+        .insert(individual.toJson())
+        .select('*')
+        .single();
+    AppLocalStorage.setString(AppStorageKey.id,
+        Individual.fromJson(response).individualId.toString());
+  }
 }

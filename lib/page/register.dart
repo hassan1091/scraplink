@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/api/api_service.dart';
+import 'package:scraplink/api/model/individual.dart';
 import 'package:scraplink/page/home/home.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
@@ -46,17 +48,30 @@ class RegisterPage extends StatelessWidget {
                 controller: cityController, hint: "City", lable: "City"),
             const SizedBox(height: 12),
             ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ));
-                },
+                onPressed: () => _register(context),
                 child: Text(isEditProfile ? "Save" : "Create Account"))
           ]),
         ),
       ),
     );
+  }
+
+  void _register(context) {
+    final individual = Individual(
+        name: nameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+        phoneNumber: phoneController.text,
+        city: cityController.text);
+    ApiService()
+        .register(individual)
+        .then((_) => Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+            (route) => false))
+        .onError((error, stackTrace) => showDialog(
+            context: context,
+            builder: (context) =>
+                const AlertDialog(title: Text("Register failed, try again"))));
   }
 }
