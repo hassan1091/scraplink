@@ -18,6 +18,10 @@ class AppLocalStorage {
     return (await prefs).getString(key.toString());
   }
 
+  static Future<bool> isExist(AppStorageKey key) async {
+    return (await prefs).containsKey(key.toString());
+  }
+
   static Future<void> delete(AppStorageKey key) async {
     (await prefs).remove(key.toString());
   }
