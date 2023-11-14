@@ -76,6 +76,7 @@ class LoginState extends State<LoginPage> {
           ));
     }).onError((error, stackTrace) => showDialog(
         context: context,
-        builder: (context) => AlertDialog(title: Text(error.toString()))));
+        builder: (context) =>
+            const AlertDialog(title: Text("Login failed, try again"))));
   }
 }
