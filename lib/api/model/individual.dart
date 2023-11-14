@@ -1,18 +1,18 @@
 class Individual {
-  final int individualId;
-  final DateTime createdAt;
+  final int? individualId;
+  final DateTime? createdAt;
   final String? name;
-  final String email;
-  final String password;
+  final String? email;
+  final String? password;
   final String? city;
   final String? phoneNumber;
 
   Individual({
-    required this.individualId,
-    required this.createdAt,
+    this.individualId,
+    this.createdAt,
     this.name,
-    required this.email,
-    required this.password,
+    this.email,
+    this.password,
     this.city,
     this.phoneNumber,
   });
@@ -31,8 +31,6 @@ class Individual {
 
   Map<String, dynamic> toJson() {
     return {
-      'individual_id': individualId,
-      'created_at': createdAt.toIso8601String(),
       'name': name,
       'email': email,
       'password': password,
