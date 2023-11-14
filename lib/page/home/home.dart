@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/main.dart';
 import 'package:scraplink/page/home/home_widget.dart';
 import 'package:scraplink/page/home/map_widget.dart';
 import 'package:scraplink/page/home/profile_widget.dart';
 import 'package:scraplink/page/home/search.dart';
 import 'package:scraplink/page/home/sell_car.dart';
-import 'package:scraplink/page/login.dart';
+import 'package:scraplink/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -37,11 +38,9 @@ class _HomePageState extends State<HomePage> {
         IconButton(
           icon: const Icon(Icons.logout),
           onPressed: () {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const LoginPage(),
-                ));
+            AppLocalStorage.delete(AppStorageKey.id).then((_) =>
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const MyApp())));
           },
         )
       ]),
