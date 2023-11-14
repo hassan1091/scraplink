@@ -29,9 +29,9 @@ class MyApp extends StatelessWidget {
         future: AppLocalStorage.isExist(AppStorageKey.id),
         builder: (context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator(); // or your own loading widget
+            return const CircularProgressIndicator();
           } else if (snapshot.hasData && snapshot.data!) {
-            return const HomePage(); // replace with your Home widget
+            return const HomePage();
           } else {
             return const LoginPage();
           }
