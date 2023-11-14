@@ -47,36 +47,32 @@ class LoginState extends State<LoginPage> {
               height: 4,
             ),
             InkWell(
+              onTap: _register,
               child: const Text(
                 "Create new account",
                 style: TextStyle(
                     color: Colors.blue, decoration: TextDecoration.underline),
               ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RegisterPage(),
-                    ));
-              },
             ),
-            ElevatedButton(onPressed: login, child: const Text("Login"))
+            ElevatedButton(onPressed: _login, child: const Text("Login"))
           ],
         )),
       ),
     );
   }
 
-  void login() {
+  void _login() {
     ApiService().login(emailController.text, passwordController.text).then((_) {
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomePage(),
-          ));
+          context, MaterialPageRoute(builder: (context) => const HomePage()));
     }).onError((error, stackTrace) => showDialog(
         context: context,
         builder: (context) =>
             const AlertDialog(title: Text("Login failed, try again"))));
+  }
+
+  void _register() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => RegisterPage()));
   }
 }
