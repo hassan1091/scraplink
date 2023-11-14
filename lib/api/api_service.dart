@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:scraplink/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -13,9 +11,7 @@ class ApiService {
         .eq("email", email)
         .eq("password", password)
         .single();
-    Individual individual = Individual.fromJson(response);
-    log(individual.name.toString());
-    AppLocalStorage.setString(
-        AppStorageKey.id, individual.individualId.toString());
+    AppLocalStorage.setString(AppStorageKey.id,
+        Individual.fromJson(response).individualId.toString());
   }
 }
