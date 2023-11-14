@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/my_theme.dart';
+import 'package:scraplink/page/home/home.dart';
 import 'package:scraplink/page/login.dart';
+import 'package:scraplink/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -23,7 +25,18 @@ class MyApp extends StatelessWidget {
         primaryColor: MyTheme().primary,
         colorScheme: ColorScheme.fromSeed(seedColor: MyTheme().primary),
       ),
-      home: const LoginPage(),
+      home: FutureBuilder(
+        future: AppLocalStorage.isExist(AppStorageKey.id),
+        builder: (context, AsyncSnapshot<bool> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator(); // or your own loading widget
+          } else if (snapshot.hasData && snapshot.data!) {
+            return const HomePage(); // replace with your Home widget
+          } else {
+            return const LoginPage();
+          }
+        },
+      ),
     );
   }
 }
