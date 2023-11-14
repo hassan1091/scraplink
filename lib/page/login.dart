@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/page/home/home.dart';
 import 'package:scraplink/page/register.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
@@ -59,18 +60,22 @@ class LoginState extends State<LoginPage> {
                     ));
               },
             ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ));
-                },
-                child: const Text("Login"))
+            ElevatedButton(onPressed: login, child: const Text("Login"))
           ],
         )),
       ),
     );
+  }
+
+  void login() {
+    ApiService().login(emailController.text, passwordController.text).then((_) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          ));
+    }).onError((error, stackTrace) => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(title: Text(error.toString()))));
   }
 }
