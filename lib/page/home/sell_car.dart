@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:scraplink/api/api_service.dart';
+import 'package:scraplink/api/model/car.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/widget/my_dropdown_button.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
@@ -14,12 +16,13 @@ class SellCarPage extends StatefulWidget {
 }
 
 class _SellCarPageState extends State<SellCarPage> {
-  final carNameController = TextEditingController();
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
   String? selectedMake;
   String? selectedModel;
   String? selectedYear;
-  String? selectedName;
-  String? photoPath;
+  String? selectedLocation;
+  String? imagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -90,16 +93,16 @@ class _SellCarPageState extends State<SellCarPage> {
                 'Al Jawf',
                 'Qassim'
               ],
-              selectedItem: selectedYear,
+              selectedItem: selectedLocation,
               onChanged: (s) {
                 setState(() {
-                  selectedYear = s;
+                  selectedLocation = s;
                 });
               },
             ),
             const SizedBox(height: 16),
             MyTextFormField(
-                controller: carNameController,
+                controller: nameController,
                 hint: "Car Name",
                 lable: "Car Name"),
             Row(
@@ -109,20 +112,13 @@ class _SellCarPageState extends State<SellCarPage> {
                   style: MyTheme().titleStyle,
                 ),
                 IconButton(
-                    onPressed: () async {
-                      final ImagePicker picker = ImagePicker();
-                      final XFile? photo =
-                          await picker.pickImage(source: ImageSource.gallery);
-                      setState(() {
-                        photoPath = photo!.path;
-                      });
-                    },
+                    onPressed: _pickImage,
                     icon: Icon(Icons.image, color: MyTheme().primary)),
               ],
             ),
-            if (photoPath != null)
+            if (imagePath != null)
               Image.file(
-                File(photoPath!),
+                File(imagePath!),
                 height: 200,
               ),
             Text(
@@ -130,20 +126,21 @@ class _SellCarPageState extends State<SellCarPage> {
               style: MyTheme().titleStyle,
             ),
             const SizedBox(height: 4),
-            const Card(
+            Card(
                 elevation: 5,
-                margin: EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+                margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
                 child: TextField(
+                  controller: descriptionController,
                   maxLines: 3,
                   minLines: 3,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: "The car has scratches on the front bumper"),
                 )),
             const SizedBox(height: 16),
             Center(
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _sell,
                   child: Text(
                     "Sell",
                     style: MyTheme().buttonTextStyle,
@@ -153,5 +150,32 @@ class _SellCarPageState extends State<SellCarPage> {
         ),
       ),
     );
+  }
+
+  void _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? photo = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      imagePath = photo!.path;
+    });
+  }
+
+  Future<void> _sell() async {
+    ApiService()
+        .sellCar(
+            Car(
+                make: selectedMake,
+                model: selectedModel,
+                year: selectedYear,
+                location: selectedLocation,
+                name: nameController.text,
+                description: descriptionController.text),
+            imagePath!)
+        .then((_) => Navigator.pop(context))
+        .onError((error, stackTrace) => showDialog(
+              context: context,
+              builder: (context) =>
+                  const AlertDialog(title: Text("Failed to sell car")),
+            ));
   }
 }
