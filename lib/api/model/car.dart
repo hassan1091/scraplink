@@ -7,6 +7,7 @@ class Car {
   String? year;
   String? location;
   String? name;
+  String? imageUrl;
   String? description;
 
   Car({
@@ -18,6 +19,7 @@ class Car {
     this.year,
     this.location,
     this.name,
+    this.imageUrl,
     this.description,
   });
 
@@ -31,6 +33,7 @@ class Car {
       year: json['year'],
       location: json['location'],
       name: json['name'],
+      imageUrl: json['image_url'],
       description: json['description'],
     );
   }
@@ -43,6 +46,7 @@ class Car {
       'year': year,
       'location': location,
       'name': name,
+      'image_url': imageUrl,
       'description': description,
     };
   }
