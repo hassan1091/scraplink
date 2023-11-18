@@ -25,9 +25,9 @@ class Car {
 
   factory Car.fromJson(Map<String, dynamic> json) {
     return Car(
-      carId: json['individualSalvageCarId'],
-      createdAt: DateTime.parse(json['createdAt']),
-      individualId: json['fkIndividualId'],
+      carId: json['individual_salvage_car_id'],
+      createdAt: DateTime.parse(json['created_at']),
+      individualId: json['fk_individual_id'],
       make: json['make'],
       model: json['model'],
       year: json['year'],
@@ -40,7 +40,7 @@ class Car {
 
   Map<String, dynamic> toJson() {
     return {
-      'fkIndividualId': individualId,
+      'fk_individual_id': individualId,
       'make': make,
       'model': model,
       'year': year,
