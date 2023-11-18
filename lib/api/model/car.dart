@@ -1,6 +1,6 @@
 class Car {
   int? carId;
-  DateTime createdAt;
+  DateTime? createdAt;
   int? individualId;
   String? make;
   String? model;
