@@ -11,7 +11,7 @@ class Car {
 
   Car({
     this.carId,
-    required this.createdAt,
+    this.createdAt,
     this.individualId,
     this.make,
     this.model,
