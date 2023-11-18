@@ -1,3 +1,4 @@
+import 'package:scraplink/api/model/car.dart';
 import 'package:scraplink/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -23,5 +24,14 @@ class ApiService {
         .single();
     AppLocalStorage.setString(AppStorageKey.id,
         Individual.fromJson(response).individualId.toString());
+  }
+
+  Future<void> sellCar(Car car) async {
+    car.individualId =
+        int.parse((await AppLocalStorage.getString(AppStorageKey.id))!);
+    final response = await Supabase.instance.client
+        .from('individual_salvage_car')
+        .insert(car.toJson());
+    if (response == null) throw Exception("Failed to add car");
   }
 }
