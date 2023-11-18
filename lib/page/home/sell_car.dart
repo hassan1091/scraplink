@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/widget/my_dropdown_button.dart';
+import 'package:scraplink/widget/my_text_form_field.dart';
 
 class SellCarPage extends StatefulWidget {
   const SellCarPage({super.key});
@@ -13,9 +14,11 @@ class SellCarPage extends StatefulWidget {
 }
 
 class _SellCarPageState extends State<SellCarPage> {
-  String? selectedManufacturer;
-  String? selectedCar;
+  final carNameController = TextEditingController();
+  String? selectedMake;
   String? selectedModel;
+  String? selectedYear;
+  String? selectedName;
   String? photoPath;
 
   @override
@@ -24,29 +27,23 @@ class _SellCarPageState extends State<SellCarPage> {
       appBar: AppBar(title: const Text("Sell")),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
             MyDropdownButton(
-              label: "Manufacturer:",
-              hint: "Select a Manufacturer",
-              items: const ["Manufacturer1", "Manufacturer2", "Manufacturer3"],
-              selectedItem: selectedManufacturer,
+              label: "Make:",
+              hint: "Select a Make",
+              items: const [
+                "toyota",
+                "jeep",
+                "honda",
+                "ford",
+                "hyundai",
+                "kia"
+              ],
+              selectedItem: selectedMake,
               onChanged: (s) {
                 setState(() {
-                  selectedManufacturer = s;
-                });
-              },
-            ),
-            const SizedBox(height: 16),
-            MyDropdownButton(
-              label: "Car:",
-              hint: "Select a Car",
-              items: const ["Car1", "Car2", "Car3"],
-              selectedItem: selectedCar,
-              onChanged: (s) {
-                setState(() {
-                  selectedCar = s;
+                  selectedMake = s;
                 });
               },
             ),
@@ -54,7 +51,7 @@ class _SellCarPageState extends State<SellCarPage> {
             MyDropdownButton(
               label: "Model:",
               hint: "Select a Model",
-              items: const ["Model1", "Model2", "Model3"],
+              items: const ["camry", "Model2", "Model3"],
               selectedItem: selectedModel,
               onChanged: (s) {
                 setState(() {
@@ -63,6 +60,22 @@ class _SellCarPageState extends State<SellCarPage> {
               },
             ),
             const SizedBox(height: 16),
+            MyDropdownButton(
+              label: "Year:",
+              hint: "Select a Year",
+              items: const ["2001", "2002", "2003"],
+              selectedItem: selectedYear,
+              onChanged: (s) {
+                setState(() {
+                  selectedYear = s;
+                });
+              },
+            ),
+            const SizedBox(height: 16),
+            MyTextFormField(
+                controller: carNameController,
+                hint: "Car Name",
+                lable: "Car Name"),
             Row(
               children: [
                 Text(
