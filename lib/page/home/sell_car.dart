@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/widget/my_dropdown_button.dart';
 
 class SellCarPage extends StatefulWidget {
+  const SellCarPage({super.key});
+
   @override
   State<SellCarPage> createState() => _SellCarPageState();
 }
@@ -12,6 +16,7 @@ class _SellCarPageState extends State<SellCarPage> {
   String? selectedManufacturer;
   String? selectedCar;
   String? selectedModel;
+  String? photoPath;
 
   @override
   Widget build(BuildContext context) {
@@ -65,14 +70,22 @@ class _SellCarPageState extends State<SellCarPage> {
                   style: MyTheme().titleStyle,
                 ),
                 IconButton(
-                    onPressed: () {
-                      ImagePicker()
-                          .pickImage(source: ImageSource.gallery)
-                          .then((value) => null);
+                    onPressed: () async {
+                      final ImagePicker picker = ImagePicker();
+                      final XFile? photo =
+                          await picker.pickImage(source: ImageSource.gallery);
+                      setState(() {
+                        photoPath = photo!.path;
+                      });
                     },
                     icon: Icon(Icons.image, color: MyTheme().primary)),
               ],
             ),
+            if (photoPath != null)
+              Image.file(
+                File(photoPath!),
+                height: 200,
+              ),
             Text(
               "Description:",
               style: MyTheme().titleStyle,
