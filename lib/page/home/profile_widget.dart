@@ -8,42 +8,41 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        const _ProfileHeader(),
-        const SizedBox(
-          height: 4,
-        ),
-        const Divider(
-          color: Colors.black,
-          height: 4,
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        _CarCard(
-          "Toyota Camry",
-          2013,
-          "https://www.copart.com/content/us/en/images/landing-pages/FrontEnd.jpg",
-          () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const CarDetailsPage()));
-          },
-        ),
-        _CarCard(
-          "Toyota Camry",
-          2013,
-          "https://www.copart.com/content/us/en/images/landing-pages/FrontEnd.jpg",
-          () {},
-        ),
-        _CarCard(
-          "Toyota Camry",
-          2013,
-          "https://www.copart.com/content/us/en/images/landing-pages/FrontEnd.jpg",
-          () {},
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          const _ProfileHeader(),
+          const SizedBox(
+            height: 4,
+          ),
+          const Divider(
+            color: Colors.black,
+            height: 4,
+          ),
+          const SizedBox(
+            height: 4,
+          ),
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              itemCount: 10,
+              itemBuilder: (context, index) => _CarCard(
+                "Toyota Camry",
+                2013,
+                "https://www.copart.com/content/us/en/images/landing-pages/FrontEnd.jpg",
+                () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const CarDetailsPage()));
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
