@@ -72,6 +72,32 @@ class _SellCarPageState extends State<SellCarPage> {
               },
             ),
             const SizedBox(height: 16),
+            MyDropdownButton(
+              label: "Location:",
+              hint: "Select a Location",
+              items: const [
+                'Riyadh',
+                'Makkah',
+                'Madinah',
+                'Eastern Province',
+                'Asir',
+                'Tabuk',
+                'Hail',
+                'Northern Borders',
+                'Jazan',
+                'Najran',
+                'Al Bahah',
+                'Al Jawf',
+                'Qassim'
+              ],
+              selectedItem: selectedYear,
+              onChanged: (s) {
+                setState(() {
+                  selectedYear = s;
+                });
+              },
+            ),
+            const SizedBox(height: 16),
             MyTextFormField(
                 controller: carNameController,
                 hint: "Car Name",
