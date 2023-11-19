@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/api/api_service.dart';
+import 'package:scraplink/api/model/scrap_part.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/widget/category_card.dart';
 import 'package:scraplink/widget/salvage_part_item_card.dart';
@@ -44,21 +46,33 @@ class HomeWidget extends StatelessWidget {
           "Latest salvage parts:",
           style: MyTheme().titleStyle,
         ),
-        Expanded(
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 0.75, crossAxisCount: 2),
-            itemCount: 6,
-            itemBuilder: (context, index) => SalvagePartItemCard(
-              imageUrl:
-                  'https://m.media-amazon.com/images/I/71dZaqDPigL._AC_UF894,1000_QL80_.jpg',
-              title: 'rim',
-              subtitle: 'On car: Yaris',
-              price: 200,
-              buttonText: 'Buy Now',
-              onPressed: () {},
-            ),
-          ),
+        FutureBuilder(
+          future: ApiService().getScrapParts(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            }
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            }
+            List<ScrapPart> parts = snapshot.data!;
+
+            return Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 0.75, crossAxisCount: 2),
+                itemCount: parts.length,
+                itemBuilder: (context, index) => SalvagePartItemCard(
+                  imageUrl: parts[index].imageUrl!,
+                  title: parts[index].name!,
+                  subtitle: parts[index].description!,
+                  price: parts[index].price!,
+                  buttonText: 'Buy Now',
+                  onPressed: () {},
+                ),
+              ),
+            );
+          },
         ),
         const SizedBox(
           height: 64,

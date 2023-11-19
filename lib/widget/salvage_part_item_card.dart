@@ -48,7 +48,6 @@ class SalvagePartItemCard extends StatelessWidget {
                   title,
                   style: MyTheme().titleStyle,
                 ),
-                const SizedBox(height: 4),
                 Text(
                   subtitle,
                   style: MyTheme().subtitleStyle,
@@ -57,7 +56,6 @@ class SalvagePartItemCard extends StatelessWidget {
                   "Price: $price",
                   style: MyTheme().subtitleStyle,
                 ),
-                const SizedBox(height: 8),
                 Center(
                   child: ElevatedButton(
                     onPressed: onPressed,
