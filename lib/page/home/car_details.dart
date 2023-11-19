@@ -1,69 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:scraplink/api/model/car.dart';
 import 'package:scraplink/my_theme.dart';
 
 class CarDetailsPage extends StatelessWidget {
-  const CarDetailsPage({super.key});
+  const CarDetailsPage(this.car, {super.key});
 
-  Card buildCard() {
-    var heading = '\$2300 per month';
-    var subheading = '2 bed, 1 bath, 1300 sqft';
-    var cardImage =
-        const NetworkImage('https://source.unsplash.com/random/800x600?house');
-    var supportingText =
-        'Beautiful home to rent, recently refurbished with modern appliances...';
-    return Card(
-        elevation: 4.0,
-        child: Column(
-          children: [
-            ListTile(
-              title: Text(heading),
-              subtitle: Text(subheading),
-              trailing: const Icon(Icons.favorite_outline),
-            ),
-            SizedBox(
-              height: 200.0,
-              child: Ink.image(
-                image: cardImage,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              alignment: Alignment.centerLeft,
-              child: Text(supportingText),
-            ),
-            ButtonBar(
-              children: [
-                TextButton(
-                  child: const Text('CONTACT AGENT'),
-                  onPressed: () {
-                    /* ... */
-                  },
-                ),
-                TextButton(
-                  child: const Text('LEARN MORE'),
-                  onPressed: () {
-                    /* ... */
-                  },
-                )
-              ],
-            )
-          ],
-        ));
-  }
+  final Car car;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Camry 2013")),
+      appBar: AppBar(title: Text("${car.model} ${car.year}")),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SingleChildScrollView(
+          SingleChildScrollView(
             child: Image(
-              image: NetworkImage(
-                  "https://www.copart.com/content/us/en/images/landing-pages/FrontEnd.jpg"),
+              image: NetworkImage(car.imageUrl!),
               fit: BoxFit.cover,
               width: double.maxFinite,
               height: 200,
@@ -89,8 +43,7 @@ class CarDetailsPage extends StatelessWidget {
                       minLines: 3,
                       decoration:
                           const InputDecoration(border: OutlineInputBorder()),
-                      controller: TextEditingController(
-                          text: "The car has scratches on the front bumper"),
+                      controller: TextEditingController(text: car.description!),
                     ),
                   ),
                 ],
@@ -121,16 +74,12 @@ class CarDetailsPage extends StatelessWidget {
                             children: <Widget>[
                               Text(
                                 "Name: bidder1",
-                                style: MyTheme()
-                                    .titleStyle, // Use your title style here
+                                style: MyTheme().titleStyle,
                               ),
-                              const SizedBox(
-                                height: 4,
-                              ),
+                              const SizedBox(height: 4),
                               Text(
                                 "price: 1420",
-                                style: MyTheme()
-                                    .subtitleStyle, // Use your subtitle style here
+                                style: MyTheme().subtitleStyle,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
