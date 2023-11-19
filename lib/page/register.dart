@@ -63,7 +63,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 controller: cityController, hint: "City", lable: "City"),
             const SizedBox(height: 12),
             ElevatedButton(
-                onPressed: () => _register(context),
+                onPressed: () => _onPressed(context),
                 child: Text(widget.profile != null ? "Save" : "Create Account"))
           ]),
         ),
@@ -71,22 +71,35 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  void _register(context) {
+  void _onPressed(context) {
     final individual = Individual(
         name: nameController.text,
         email: emailController.text,
         password: passwordController.text,
         phoneNumber: phoneController.text,
         city: cityController.text);
-    ApiService()
-        .register(individual)
-        .then((_) => Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
-            (route) => false))
-        .onError((error, stackTrace) => showDialog(
-            context: context,
-            builder: (context) =>
-                const AlertDialog(title: Text("Register failed, try again"))));
+    if (widget.profile == null) {
+      ApiService()
+          .register(individual)
+          .then((_) => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+              (route) => false))
+          .onError((error, stackTrace) => showDialog(
+              context: context,
+              builder: (context) => const AlertDialog(
+                  title: Text("Register failed, try again"))));
+    } else {
+      ApiService()
+          .updateProfile(individual)
+          .then((_) => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+              (route) => false))
+          .onError((error, stackTrace) => showDialog(
+              context: context,
+              builder: (context) => const AlertDialog(
+                  title: Text("Edit profile failed, try again"))));
+    }
   }
 }
