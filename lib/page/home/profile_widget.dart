@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/api/api_service.dart';
+import 'package:scraplink/api/model/car.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/page/home/car_details.dart';
 import 'package:scraplink/page/register.dart';
@@ -13,33 +15,36 @@ class ProfilePage extends StatelessWidget {
       child: Column(
         children: [
           const _ProfileHeader(),
-          const SizedBox(
-            height: 4,
-          ),
+          const SizedBox(height: 4),
           const Divider(
             color: Colors.black,
             height: 4,
           ),
-          const SizedBox(
-            height: 4,
-          ),
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              itemCount: 10,
-              itemBuilder: (context, index) => _CarCard(
-                "Toyota Camry",
-                2013,
-                "https://www.copart.com/content/us/en/images/landing-pages/FrontEnd.jpg",
-                () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const CarDetailsPage()));
-                },
-              ),
-            ),
+          const SizedBox(height: 4),
+          FutureBuilder(
+            future: ApiService().getCars(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              }
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
+              List<Car> cars = snapshot.data!;
+              return Expanded(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: cars.length,
+                      itemBuilder: (context, index) => _CarCard(
+                          "${cars[index].make} ${cars[index].model}",
+                          int.parse(cars[index].year!),
+                          cars[index].imageUrl!,
+                          () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const CarDetailsPage())))));
+            },
           ),
         ],
       ),
@@ -61,9 +66,8 @@ class _CarCard extends StatelessWidget {
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Row(
           children: [
-            const Image(
-              image: NetworkImage(
-                  "https://www.copart.com/content/us/en/images/landing-pages/FrontEnd.jpg"),
+            Image(
+              image: NetworkImage(image),
               height: 116,
               width: 124,
               fit: BoxFit.cover,
