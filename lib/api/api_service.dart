@@ -38,6 +38,15 @@ class ApiService {
         .insert(car.toJson());
   }
 
+  Future<List<Car>> getCars() async {
+    final response = await Supabase.instance.client
+        .from('individual_salvage_car')
+        .select("*")
+        .eq("fk_individual_id",
+            (await AppLocalStorage.getString(AppStorageKey.id)));
+    return response.map((json) => Car.fromJson(json)).toList().cast<Car>();
+  }
+
   Future<String> _uploadImage(String imagePath, {bool isPart = false}) async {
     String imageUrl = _generateUniqueFileName(imagePath);
     await Supabase.instance.client.storage
