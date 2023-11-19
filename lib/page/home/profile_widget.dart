@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/api/model/car.dart';
+import 'package:scraplink/api/model/individual.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/page/home/car_details.dart';
 import 'package:scraplink/page/register.dart';
@@ -14,7 +15,15 @@ class ProfilePage extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          const _ProfileHeader(),
+          FutureBuilder(
+            future: ApiService().getProfile(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const _ProfileHeader();
+              }
+              return _ProfileHeader(snapshot.data);
+            },
+          ),
           const SizedBox(height: 4),
           const Divider(
             color: Colors.black,
@@ -105,7 +114,9 @@ class _CarCard extends StatelessWidget {
 }
 
 class _ProfileHeader extends StatelessWidget {
-  const _ProfileHeader();
+  const _ProfileHeader([this.profile]);
+
+  final Individual? profile;
 
   @override
   Widget build(BuildContext context) {
@@ -115,23 +126,23 @@ class _ProfileHeader extends StatelessWidget {
           Icons.person_outline,
           size: 124,
         ),
-        const SizedBox(
-          width: 4,
-        ),
+        const SizedBox(width: 4),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Ali hassan",
+              profile?.name ?? "#####",
               style: MyTheme().titleStyle,
             ),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              RegisterPage(isEditProfile: true)));
+                  if (profile != null) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                RegisterPage(profile: profile!)));
+                  }
                 },
                 child: Text(
                   "Edit profile",

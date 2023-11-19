@@ -4,22 +4,37 @@ import 'package:scraplink/api/model/individual.dart';
 import 'package:scraplink/page/home/home.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
-class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key, this.isEditProfile = false});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key, this.profile});
 
-  final bool isEditProfile;
+  final Individual? profile;
 
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final phoneController = TextEditingController();
-  final cityController = TextEditingController();
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  late final TextEditingController nameController;
+  late final TextEditingController emailController;
+  late final TextEditingController passwordController;
+  late final TextEditingController phoneController;
+  late final TextEditingController cityController;
+
+  @override
+  void initState() {
+    nameController = TextEditingController(text: widget.profile?.name);
+    emailController = TextEditingController(text: widget.profile?.email);
+    passwordController = TextEditingController(text: widget.profile?.password);
+    phoneController = TextEditingController(text: widget.profile?.phoneNumber);
+    cityController = TextEditingController(text: widget.profile?.city);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEditProfile ? "EditProfile" : "Register"),
+        title: Text(widget.profile != null ? "EditProfile" : "Register"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -30,7 +45,7 @@ class RegisterPage extends StatelessWidget {
               controller: nameController,
               hint: "Name",
               lable: "Name",
-              autofocus: true,
+              autofocus: widget.profile == null,
             ),
             const SizedBox(height: 12),
             MyTextFormField(
@@ -49,7 +64,7 @@ class RegisterPage extends StatelessWidget {
             const SizedBox(height: 12),
             ElevatedButton(
                 onPressed: () => _register(context),
-                child: Text(isEditProfile ? "Save" : "Create Account"))
+                child: Text(widget.profile != null ? "Save" : "Create Account"))
           ]),
         ),
       ),
