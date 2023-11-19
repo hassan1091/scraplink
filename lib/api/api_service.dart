@@ -39,6 +39,14 @@ class ApiService {
     return Individual.fromJson(response);
   }
 
+  Future<void> updateProfile(individual) async {
+    await Supabase.instance.client
+        .from('individual')
+        .update(individual.toJson())
+        .eq("individual_id",
+            (await AppLocalStorage.getString(AppStorageKey.id)));
+  }
+
   Future<void> sellCar(Car car, String imagePath) async {
     car.individualId =
         int.parse((await AppLocalStorage.getString(AppStorageKey.id))!);
