@@ -18,24 +18,24 @@ class HomeWidget extends StatelessWidget {
         const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CategoryCard(name: "toyota"),
-            CategoryCard(name: "jeep"),
+            CategoryCard(name: "Toyota"),
+            CategoryCard(name: "Jeep"),
           ],
         ),
         const SizedBox(height: 12),
         const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CategoryCard(name: "honda"),
-            CategoryCard(name: "ford"),
+            CategoryCard(name: "Honda"),
+            CategoryCard(name: "Ford"),
           ],
         ),
         const SizedBox(height: 12),
         const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CategoryCard(name: "hyundai"),
-            CategoryCard(name: "kia"),
+            CategoryCard(name: "Hyundai"),
+            CategoryCard(name: "Kia"),
           ],
         ),
         const SizedBox(height: 4),

@@ -24,7 +24,8 @@ class CategoryCard extends StatelessWidget {
               height: 100,
               width: 150,
               child: Image(
-                  image: AssetImage("assets/images/${name}_logo.png"),
+                  image: AssetImage(
+                      "assets/images/${name.toLowerCase()}_logo.png"),
                   fit: BoxFit.contain),
             ),
           ],
@@ -34,7 +35,7 @@ class CategoryCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AvailablePartPage(category: name),
+              builder: (context) => AvailablePartPage(make: name),
             ));
       },
     );
