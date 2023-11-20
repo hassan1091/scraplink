@@ -66,17 +66,26 @@ class ApiService {
     return response.map((json) => Car.fromJson(json)).toList().cast<Car>();
   }
 
-  Future<List<ScrapPart>> getScrapParts({String? make}) async {
+  Future<List<ScrapPart>> getScrapParts(
+      {String? make, String? model, String? category, String? year}) async {
     final dynamic response;
     if (make == null) {
       response = await Supabase.instance.client
           .from('scrap_part')
           .select('*, part_category:fk_part_category(part_category_name)');
-    } else {
+    } else if (model == null) {
       response = await Supabase.instance.client
           .from('scrap_part')
           .select('*, part_category:fk_part_category(part_category_name)')
           .eq("part_make", make);
+    } else {
+      response = await Supabase.instance.client
+          .from('scrap_part')
+          .select('*, fk_part_category:part_category(part_category_name)')
+          .eq("part_make", make)
+          .eq("part_model", model)
+          .eq("part_year", year)
+          .eq("fk_part_category:part_category(part_category_name)", category);
     }
     return response
         .map((json) => ScrapPart.fromJson(json))
