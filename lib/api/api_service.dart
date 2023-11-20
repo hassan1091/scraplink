@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:scraplink/api/model/bid.dart';
 import 'package:scraplink/api/model/car.dart';
 import 'package:scraplink/api/model/individual.dart';
 import 'package:scraplink/api/model/scrap_part.dart';
@@ -91,6 +92,14 @@ class ApiService {
         .map((json) => ScrapPart.fromJson(json))
         .toList()
         .cast<ScrapPart>();
+  }
+
+  Future<List<Bid>> getBids(carId) async {
+    final response = await Supabase.instance.client
+        .from('salvage_car_order')
+        .select("*,fk_vendor_id:vendor(*)")
+        .eq("fk_car_id", carId);
+    return response.map((json) => Bid.fromJson(json)).toList().cast<Bid>();
   }
 
   Future<List<Vendor>> getVendors() async {
