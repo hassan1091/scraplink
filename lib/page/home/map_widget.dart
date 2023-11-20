@@ -37,7 +37,7 @@ class _MapWidgetState extends State<MapWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              "City:",
+              "Location:",
               style: MyTheme().titleStyle,
             ),
             DropdownButton(
