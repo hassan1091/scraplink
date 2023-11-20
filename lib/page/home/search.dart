@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/page/home/available_part.dart';
 import 'package:scraplink/widget/my_dropdown_button.dart';
+import 'package:scraplink/widget/my_text_form_field.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -11,8 +13,8 @@ class SearchPage extends StatefulWidget {
 }
 
 class SearchState extends State<SearchPage> {
-  String? selectedType;
-  String? selectedManufacturer;
+  final TextEditingController yearController = TextEditingController();
+  String? selectedMake;
   String? selectedCar;
   String? selectedModel;
   String? selectedCategory;
@@ -24,37 +26,13 @@ class SearchState extends State<SearchPage> {
       child: Column(
         children: [
           MyDropdownButton(
-            label: "Type:",
-            hint: "Select a Type",
-            items: const ["Type1", "Type2", "Type3"],
-            selectedItem: selectedType,
+            label: "Make:",
+            hint: "Select a Make",
+            items: Constants.models.keys.toList(),
+            selectedItem: selectedMake,
             onChanged: (s) {
               setState(() {
-                selectedType = s;
-              });
-            },
-          ),
-          const SizedBox(height: 16),
-          MyDropdownButton(
-            label: "Manufacturer:",
-            hint: "Select a Manufacturer",
-            items: const ["Manufacturer1", "Manufacturer2", "Manufacturer3"],
-            selectedItem: selectedManufacturer,
-            onChanged: (s) {
-              setState(() {
-                selectedManufacturer = s;
-              });
-            },
-          ),
-          const SizedBox(height: 16),
-          MyDropdownButton(
-            label: "Car:",
-            hint: "Select a Car",
-            items: const ["Car1", "Car2", "Car3"],
-            selectedItem: selectedCar,
-            onChanged: (s) {
-              setState(() {
-                selectedCar = s;
+                selectedMake = s;
               });
             },
           ),
@@ -62,7 +40,7 @@ class SearchState extends State<SearchPage> {
           MyDropdownButton(
             label: "Model:",
             hint: "Select a Model",
-            items: const ["Model1", "Model2", "Model3"],
+            items: Constants.models[selectedMake] ?? [],
             selectedItem: selectedModel,
             onChanged: (s) {
               setState(() {
@@ -74,7 +52,7 @@ class SearchState extends State<SearchPage> {
           MyDropdownButton(
             label: "Category:",
             hint: "Select a Category",
-            items: const ["Category1", "Category2", "Category3"],
+            items: Constants.partCategory,
             selectedItem: selectedCategory,
             onChanged: (s) {
               setState(() {
@@ -82,13 +60,24 @@ class SearchState extends State<SearchPage> {
               });
             },
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 4),
+          MyTextFormField(
+              controller: yearController,
+              hint: "Year",
+              lable: "Year",
+              type: const TextInputType.numberWithOptions()),
+          const SizedBox(height: 4),
           ElevatedButton(
               onPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const AvailablePartPage()));
+                        builder: (context) => AvailablePartPage(
+                              make: selectedMake,
+                              model: selectedModel,
+                              category: selectedCategory,
+                              year: yearController.text,
+                            )));
               },
               child: Text(
                 "Search",
