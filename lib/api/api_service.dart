@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:scraplink/api/model/car.dart';
 import 'package:scraplink/api/model/individual.dart';
 import 'package:scraplink/api/model/scrap_part.dart';
+import 'package:scraplink/api/model/vendor.dart';
 import 'package:scraplink/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -81,6 +82,14 @@ class ApiService {
         .map((json) => ScrapPart.fromJson(json))
         .toList()
         .cast<ScrapPart>();
+  }
+
+  Future<List<Vendor>> getVendors() async {
+    final response = await Supabase.instance.client.from('vendor').select("*");
+    return response
+        .map((json) => Vendor.fromJson(json))
+        .toList()
+        .cast<Vendor>();
   }
 
   Future<String> _uploadImage(String imagePath, {bool isPart = false}) async {
