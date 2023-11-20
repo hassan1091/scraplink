@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:scraplink/api/model/scrap_part.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 class Constants {
   static const List<String> regions = [
     'Riyadh',
@@ -95,4 +99,23 @@ class Constants {
     "Wheels and Tires",
     "Sensors and Modules"
   ];
+
+  static void contact(phoneNumber, context, {ScrapPart? scrapPart}) {
+    Uri url = Uri.parse("https://wa.me/$phoneNumber?text=");
+    if (scrapPart != null) {
+      url = Uri.parse("https://wa.me/$phoneNumber?text="
+          "I am a customer from ScrapLink app: "
+          "\nI want to buy \nName:${scrapPart.name}. "
+          "\nDescription:${scrapPart.description}. "
+          "\nPrice:${scrapPart.price}.");
+    }
+    launchUrl(url, mode: LaunchMode.externalApplication).then((value) {
+      if (!value) {
+        showDialog(
+            context: context,
+            builder: (_) =>
+                const AlertDialog(title: Text("Could not launch WhatsApp.")));
+      }
+    });
+  }
 }
