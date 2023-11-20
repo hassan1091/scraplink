@@ -31,7 +31,9 @@ class ScrapPart {
     return ScrapPart(
       partId: json['part_id'],
       createdAt: DateTime.parse(json['created_at']),
-      fkPartCategory: json['fk_part_category'],
+      fkPartCategory: (json['fk_part_category'] is Map<String, dynamic>)
+          ? json['fk_part_category']["part_category_id"]
+          : json['fk_part_category'],
       name: json['part_name'],
       description: json['part_description'],
       make: json['part_make'],
