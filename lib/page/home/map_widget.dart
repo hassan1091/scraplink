@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/api/api_service.dart';
+import 'package:scraplink/api/model/vendor.dart';
 import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/widget/yard_card.dart';
@@ -62,33 +64,36 @@ class _MapWidgetState extends State<MapWidget> {
             ),
           ],
         ),
-        Expanded(
-          child: GridView.count(
-            crossAxisCount: 2,
-            children: [
-              YardCard(
-                name: "scrap 1",
-                city: "Al-damam",
-                onPressed: () => _contact("+966502130371"),
+        FutureBuilder(
+          future: ApiService().getVendors(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            }
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            }
+            List<Vendor> vendors = snapshot.data!;
+            if (selectedLocation != null) {
+              vendors = vendors
+                  .where((element) => element.city == selectedLocation)
+                  .toList();
+            }
+            return Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                itemCount: vendors.length,
+                itemBuilder: (context, index) {
+                  return YardCard(
+                    name: vendors[index].name!,
+                    city: vendors[index].city!,
+                    onPressed: () => _contact(vendors[index].phoneNumber!),
+                  );
+                },
               ),
-              YardCard(
-                  name: "scrap 2",
-                  city: "mam",
-                  onPressed: () => _contact("+9665021371")),
-              YardCard(
-                  name: "scrap 3",
-                  city: "mam",
-                  onPressed: () => _contact("+9665021371")),
-              YardCard(
-                  name: "scrap 4",
-                  city: "mam",
-                  onPressed: () => _contact("+9665021371")),
-              YardCard(
-                  name: "scrap 55",
-                  city: "mam",
-                  onPressed: () => _contact("+9665021371")),
-            ],
-          ),
+            );
+          },
         )
       ],
     );
