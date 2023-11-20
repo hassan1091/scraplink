@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/api/model/scrap_part.dart';
+import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
 
 class SalvagePartItemCard extends StatelessWidget {
   const SalvagePartItemCard({
     super.key,
-    required this.imageUrl,
-    required this.title,
-    required this.subtitle,
-    required this.buttonText,
-    required this.price,
-    this.onPressed,
+    required this.scrapPart,
   });
 
-  final String imageUrl;
-  final String title;
-  final String subtitle;
-  final String buttonText;
-  final double price;
-  final VoidCallback? onPressed;
+  final ScrapPart scrapPart;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +26,7 @@ class SalvagePartItemCard extends StatelessWidget {
             borderRadius:
                 const BorderRadius.vertical(top: Radius.circular(16.0)),
             child: Image.network(
-              imageUrl,
+              scrapPart.imageUrl!,
               height: 100,
               fit: BoxFit.cover,
             ),
@@ -45,22 +37,24 @@ class SalvagePartItemCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  title,
+                  scrapPart.name!,
                   style: MyTheme().titleStyle,
                 ),
                 Text(
-                  subtitle,
+                  scrapPart.description!,
                   style: MyTheme().subtitleStyle,
                 ),
                 Text(
-                  "Price: $price",
+                  "Price: ${scrapPart.price!}",
                   style: MyTheme().subtitleStyle,
                 ),
                 Center(
                   child: ElevatedButton(
-                    onPressed: onPressed,
+                    onPressed: () => Constants.contact(
+                        scrapPart.vendor!.phoneNumber, context,
+                        scrapPart: scrapPart),
                     child: Text(
-                      buttonText,
+                      "Buy Now",
                       style: MyTheme().buttonTextStyle,
                     ),
                   ),
