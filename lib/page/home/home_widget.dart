@@ -62,14 +62,8 @@ class HomeWidget extends StatelessWidget {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     childAspectRatio: 0.75, crossAxisCount: 2),
                 itemCount: parts.length,
-                itemBuilder: (context, index) => SalvagePartItemCard(
-                  imageUrl: parts[index].imageUrl!,
-                  title: parts[index].name!,
-                  subtitle: parts[index].description!,
-                  price: parts[index].price!,
-                  buttonText: 'Buy Now',
-                  onPressed: () {},
-                ),
+                itemBuilder: (context, index) =>
+                    SalvagePartItemCard(scrapPart: parts[index]),
               ),
             );
           },

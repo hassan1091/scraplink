@@ -29,18 +29,11 @@ class AvailablePartPage extends StatelessWidget {
           List<ScrapPart> parts = snapshot.data!;
 
           return GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 0.75, crossAxisCount: 2),
-            itemCount: parts.length,
-            itemBuilder: (context, index) => SalvagePartItemCard(
-              imageUrl: parts[index].imageUrl!,
-              title: parts[index].name!,
-              subtitle: parts[index].description!,
-              price: parts[index].price!,
-              buttonText: 'Buy Now',
-              onPressed: () {},
-            ),
-          );
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 0.75, crossAxisCount: 2),
+              itemCount: parts.length,
+              itemBuilder: (context, index) =>
+                  SalvagePartItemCard(scrapPart: parts[index]));
         },
       ),
     );
