@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/widget/yard_card.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -11,7 +12,7 @@ class MapWidget extends StatefulWidget {
 }
 
 class _MapWidgetState extends State<MapWidget> {
-  String? selectedCity;
+  String? selectedLocation;
 
   void _contact(phoneNumber) {
     Uri url = Uri.parse("https://wa.me/$phoneNumber");
@@ -38,29 +39,27 @@ class _MapWidgetState extends State<MapWidget> {
               style: MyTheme().titleStyle,
             ),
             DropdownButton(
-              value: selectedCity,
+              value: selectedLocation,
               hint: Text(
-                'Select a City',
+                "Select a Location",
                 style: MyTheme().subtitleStyle,
               ),
-              items: const [
-                DropdownMenuItem(
-                  value: "All",
-                  child: Text("All"),
-                ),
-                DropdownMenuItem(
-                  value: "Al-hasa",
-                  child: Text("Al-hasa"),
-                ),
-                DropdownMenuItem(value: "Al-damam", child: Text("Al-damam"))
-              ],
+              items: Constants.regions.map((String item) {
+                return DropdownMenuItem(
+                  value: item,
+                  child: Text(
+                    item,
+                    style: MyTheme().subtitleStyle,
+                  ),
+                );
+              }).toList(),
               onChanged: (s) {
                 setState(() {
-                  selectedCity = s;
+                  selectedLocation = s;
                 });
               },
               icon: const Icon(Icons.arrow_drop_down),
-            )
+            ),
           ],
         ),
         Expanded(
