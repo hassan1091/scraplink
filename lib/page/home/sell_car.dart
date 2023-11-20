@@ -18,10 +18,10 @@ class SellCarPage extends StatefulWidget {
 
 class _SellCarPageState extends State<SellCarPage> {
   final nameController = TextEditingController();
+  final yearController = TextEditingController();
   final descriptionController = TextEditingController();
   String? selectedMake;
   String? selectedModel;
-  String? selectedYear;
   String? selectedLocation;
   String? imagePath;
 
@@ -36,14 +36,7 @@ class _SellCarPageState extends State<SellCarPage> {
             MyDropdownButton(
               label: "Make:",
               hint: "Select a Make",
-              items: const [
-                "toyota",
-                "jeep",
-                "honda",
-                "ford",
-                "hyundai",
-                "kia"
-              ],
+              items: Constants.models.keys.toList(),
               selectedItem: selectedMake,
               onChanged: (s) {
                 setState(() {
@@ -55,23 +48,11 @@ class _SellCarPageState extends State<SellCarPage> {
             MyDropdownButton(
               label: "Model:",
               hint: "Select a Model",
-              items: const ["camry", "Model2", "Model3"],
+              items: Constants.models[selectedMake] ?? [],
               selectedItem: selectedModel,
               onChanged: (s) {
                 setState(() {
                   selectedModel = s;
-                });
-              },
-            ),
-            const SizedBox(height: 16),
-            MyDropdownButton(
-              label: "Year:",
-              hint: "Select a Year",
-              items: const ["2001", "2002", "2003"],
-              selectedItem: selectedYear,
-              onChanged: (s) {
-                setState(() {
-                  selectedYear = s;
                 });
               },
             ),
@@ -87,11 +68,7 @@ class _SellCarPageState extends State<SellCarPage> {
                 });
               },
             ),
-            const SizedBox(height: 16),
-            MyTextFormField(
-                controller: nameController,
-                hint: "Car Name",
-                lable: "Car Name"),
+            const SizedBox(height: 4),
             Row(
               children: [
                 Text(
@@ -108,6 +85,18 @@ class _SellCarPageState extends State<SellCarPage> {
                 File(imagePath!),
                 height: 200,
               ),
+            const SizedBox(height: 4),
+            MyTextFormField(
+                controller: nameController,
+                hint: "Car Name",
+                lable: "Car Name"),
+            const SizedBox(height: 16),
+            MyTextFormField(
+                controller: yearController,
+                hint: "Year",
+                lable: "Year",
+                type: const TextInputType.numberWithOptions()),
+            const SizedBox(height: 4),
             Text(
               "Description:",
               style: MyTheme().titleStyle,
@@ -153,7 +142,7 @@ class _SellCarPageState extends State<SellCarPage> {
             Car(
                 make: selectedMake,
                 model: selectedModel,
-                year: selectedYear,
+                year: yearController.text,
                 location: selectedLocation,
                 name: nameController.text,
                 description: descriptionController.text),
