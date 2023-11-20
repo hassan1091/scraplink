@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/api/model/car.dart';
+import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/widget/my_dropdown_button.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
@@ -78,21 +79,7 @@ class _SellCarPageState extends State<SellCarPage> {
             MyDropdownButton(
               label: "Location:",
               hint: "Select a Location",
-              items: const [
-                'Riyadh',
-                'Makkah',
-                'Madinah',
-                'Eastern Province',
-                'Asir',
-                'Tabuk',
-                'Hail',
-                'Northern Borders',
-                'Jazan',
-                'Najran',
-                'Al Bahah',
-                'Al Jawf',
-                'Qassim'
-              ],
+              items: Constants.regions,
               selectedItem: selectedLocation,
               onChanged: (s) {
                 setState(() {
