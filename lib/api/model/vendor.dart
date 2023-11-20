@@ -5,7 +5,7 @@ class Vendor {
   String? email;
   String? password;
   String? phoneNumber;
-  String? city;
+  String? location;
 
   Vendor({
     this.id,
@@ -14,7 +14,7 @@ class Vendor {
     this.password,
     this.name,
     this.phoneNumber,
-    this.city,
+    this.location,
   });
 
   Vendor.fromJson(Map<String, dynamic> map)
@@ -24,7 +24,7 @@ class Vendor {
         password = map['vendor_password'],
         name = map['vendor_name'],
         phoneNumber = map['vendor_phone_number'],
-        city = map['vendor_city'];
+        location = map['vendor_city'];
 
   Map<String, dynamic> toJson() => {
         'vendor_id': id,
@@ -33,6 +33,6 @@ class Vendor {
         'vendor_password': password,
         'vendor_name': name,
         'vendor_phone_number': phoneNumber,
-        'vendor_city': city,
+        'vendor_city': location,
       };
 }

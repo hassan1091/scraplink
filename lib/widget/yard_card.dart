@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/api/model/vendor.dart';
+import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
 
 class YardCard extends StatelessWidget {
   const YardCard({
     super.key,
-    required this.name,
-    required this.city,
-    this.onPressed,
+    required this.vendor,
   });
 
-  final String name;
-  final String city;
-  final VoidCallback? onPressed;
+  final Vendor vendor;
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +36,16 @@ class YardCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Name: $name",
+                  "Name: ${vendor.name}",
                   style: MyTheme().titleStyle,
                 ),
                 Text(
-                  "City: $city",
+                  "City: ${vendor.location}",
                   style: MyTheme().subtitleStyle,
                 ),
                 ElevatedButton(
-                  onPressed: onPressed,
+                  onPressed: () =>
+                      Constants.contact(vendor.phoneNumber, context),
                   style: ButtonStyle(
                       backgroundColor: MaterialStateColor.resolveWith(
                           (states) => Colors.green)),

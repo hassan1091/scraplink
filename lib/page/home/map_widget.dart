@@ -4,7 +4,6 @@ import 'package:scraplink/api/model/vendor.dart';
 import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/widget/yard_card.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MapWidget extends StatefulWidget {
   const MapWidget({super.key});
@@ -15,19 +14,6 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> {
   String? selectedLocation;
-
-  void _contact(phoneNumber) {
-    Uri url = Uri.parse("https://wa.me/$phoneNumber");
-    launchUrl(url, mode: LaunchMode.externalApplication).then((value) {
-      if (!value) {
-        showDialog(
-            context: context,
-            builder: (_) => const AlertDialog(
-                title: Text(
-                    "Could not launch WhatsApp. Make sure WhatsApp is installed on your device.")));
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +62,7 @@ class _MapWidgetState extends State<MapWidget> {
             List<Vendor> vendors = snapshot.data!;
             if (selectedLocation != null) {
               vendors = vendors
-                  .where((element) => element.city == selectedLocation)
+                  .where((element) => element.location == selectedLocation)
                   .toList();
             }
             return Expanded(
@@ -84,13 +70,8 @@ class _MapWidgetState extends State<MapWidget> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
                 itemCount: vendors.length,
-                itemBuilder: (context, index) {
-                  return YardCard(
-                    name: vendors[index].name!,
-                    city: vendors[index].city!,
-                    onPressed: () => _contact(vendors[index].phoneNumber!),
-                  );
-                },
+                itemBuilder: (context, index) =>
+                    YardCard(vendor: vendors[index]),
               ),
             );
           },
