@@ -71,18 +71,19 @@ class ApiService {
       {String? make, String? model, String? category, String? year}) async {
     final dynamic response;
     if (make == null) {
-      response = await Supabase.instance.client
-          .from('scrap_part')
-          .select('*, part_category:fk_part_category(part_category_name)');
+      response = await Supabase.instance.client.from('scrap_part').select(
+          '*, part_category:fk_part_category(part_category_name),fk_vendor_id:vendor(*)');
     } else if (model == null) {
       response = await Supabase.instance.client
           .from('scrap_part')
-          .select('*, part_category:fk_part_category(part_category_name)')
+          .select(
+              '*, part_category:fk_part_category(part_category_name),fk_vendor_id:vendor(*)')
           .eq("part_make", make);
     } else {
       response = await Supabase.instance.client
           .from('scrap_part')
-          .select('*, fk_part_category:part_category(part_category_name)')
+          .select(
+              '*, fk_part_category:part_category(part_category_name),fk_vendor_id:vendor(*)')
           .eq("part_make", make)
           .eq("part_model", model)
           .eq("part_year", year)

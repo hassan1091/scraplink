@@ -1,5 +1,7 @@
+import 'package:scraplink/api/model/vendor.dart';
+
 class ScrapPart {
-  final int? partId;
+  final int? id;
   final DateTime? createdAt;
   final int? fkPartCategory;
   final String? name;
@@ -7,13 +9,13 @@ class ScrapPart {
   final String? make;
   final String? model;
   final String? year;
-  final double? price;
-  final int? fkVendorId;
+  final num? price;
+  final Vendor? vendor;
   final String? imageUrl;
   final String? category;
 
   ScrapPart({
-    this.partId,
+    this.id,
     this.createdAt,
     this.fkPartCategory,
     this.name,
@@ -22,14 +24,14 @@ class ScrapPart {
     this.model,
     this.year,
     this.price,
-    this.fkVendorId,
+    this.vendor,
     this.imageUrl,
     this.category,
   });
 
   factory ScrapPart.fromJson(Map<String, dynamic> json) {
     return ScrapPart(
-      partId: json['part_id'],
+      id: json['part_id'],
       createdAt: DateTime.parse(json['created_at']),
       fkPartCategory: (json['fk_part_category'] is Map<String, dynamic>)
           ? json['fk_part_category']["part_category_id"]
@@ -39,8 +41,8 @@ class ScrapPart {
       make: json['part_make'],
       model: json['part_model'],
       year: json['part_year'],
-      price: json['part_price']!.toDouble(),
-      fkVendorId: json['fk_vendor_id'],
+      price: json['part_price'],
+      vendor: Vendor.fromJson(json['fk_vendor_id']),
       imageUrl: json['image_url'],
       category: json['part_category_name'],
     );
