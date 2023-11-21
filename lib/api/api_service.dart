@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:scraplink/api/model/bid.dart';
 import 'package:scraplink/api/model/car.dart';
+import 'package:scraplink/api/model/raw_material.dart';
 import 'package:scraplink/api/model/scrap_part.dart';
 import 'package:scraplink/api/model/user_profile.dart';
 import 'package:scraplink/constants.dart';
@@ -166,6 +167,16 @@ class ApiService {
         .map((json) => UserProfile.fromRecycleCompanyJson(json))
         .toList()
         .cast<UserProfile>();
+  }
+
+  Future<List<RawMaterial>> getRawMaterial() async {
+    final response = await Supabase.instance.client
+        .from('raw_material')
+        .select("*,fk_vendor_id:vendor(*)");
+    return response
+        .map((json) => RawMaterial.fromJson(json))
+        .toList()
+        .cast<RawMaterial>();
   }
 
   Future<String> _uploadImage(String imagePath, {bool isPart = false}) async {
