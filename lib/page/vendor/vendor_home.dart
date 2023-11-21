@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scraplink/main.dart';
 import 'package:scraplink/page/vendor/vendor_home_widget.dart';
 import 'package:scraplink/page/vendor/vendor_map_widget.dart';
+import 'package:scraplink/page/vendor/vendor_profile_widget.dart';
 import 'package:scraplink/page/vendor/vendor_search_widget.dart';
 import 'package:scraplink/shared_preferences.dart';
 
@@ -17,14 +18,14 @@ class _VendorHomePageState extends State<VendorHomePage> {
     const VendorHomeWidget(),
     const VendorMapWidget(),
     const VendorSearchPage(),
-    // const VendorProfilePage(),
+    const VendorProfileWidget(),
   ];
 
   List<String> titles = [
     "Home",
     "Nearby Recycling Company",
     "Search",
-    // "Profile",
+    "Profile",
   ];
 
   int selectedIndex = 0;
