@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/api/model/bid.dart';
+import 'package:scraplink/api/model/car.dart';
 import 'package:scraplink/api/model/scrap_part.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -100,14 +102,21 @@ class Constants {
     "Sensors and Modules"
   ];
 
-  static void contact(phoneNumber, context, {ScrapPart? scrapPart}) {
+  static void contact(phoneNumber, context,
+      {ScrapPart? scrapPart, Bid? bid, Car? car}) {
     Uri url = Uri.parse("https://wa.me/$phoneNumber?text=");
     if (scrapPart != null) {
       url = Uri.parse("https://wa.me/$phoneNumber?text="
-          "I am a customer from ScrapLink app: "
+          "Hi, ${scrapPart.vendor!.name}I am a customer from ScrapLink app: "
           "\nI want to buy \nName:${scrapPart.name}. "
           "\nDescription:${scrapPart.description}. "
           "\nPrice:${scrapPart.price}.");
+    } else if (bid != null) {
+      url = Uri.parse("https://wa.me/$phoneNumber?text="
+          "Hi ${bid.vendor!.name},I accept your biding in ScrapLink app: "
+          "In car:${car!.name}."
+          "\nDescription:${car.description}. "
+          "\nYour bidding is:${bid.price}.");
     }
     launchUrl(url, mode: LaunchMode.externalApplication).then((value) {
       if (!value) {
