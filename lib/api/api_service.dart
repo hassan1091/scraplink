@@ -15,8 +15,9 @@ class ApiService {
     final response = await Supabase.instance.client
         .from(role)
         .select("${role}_id")
-        .eq("email", email)
-        .eq("password", password)
+        .eq(role == Role.individual.name ? "email" : "${role}_email", email)
+        .eq(role == Role.individual.name ? "password" : "${role}_password",
+            password)
         .single();
     AppLocalStorage.setString(
         AppStorageKey.id, response["${role}_id"].toString());
@@ -75,12 +76,16 @@ class ApiService {
     return UserProfile.fromIndividualJson(response);
   }
 
-  Future<List<Car>> getCars() async {
-    final response = await Supabase.instance.client
-        .from('individual_salvage_car')
-        .select("*")
-        .eq("fk_individual_id",
-            (await AppLocalStorage.getString(AppStorageKey.id)));
+  Future<List<Car>> getCars({bool isIndividual = true}) async {
+    final response = isIndividual
+        ? await Supabase.instance.client
+            .from('individual_salvage_car')
+            .select("*")
+            .eq("fk_individual_id",
+                (await AppLocalStorage.getString(AppStorageKey.id)))
+        : await Supabase.instance.client
+            .from('individual_salvage_car')
+            .select("*");
     return response.map((json) => Car.fromJson(json)).toList().cast<Car>();
   }
 
