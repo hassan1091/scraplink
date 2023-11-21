@@ -128,3 +128,6 @@ class Constants {
     });
   }
 }
+
+// ignore: constant_identifier_names
+enum Role { individual, vendor, recycling_company }
