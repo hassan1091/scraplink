@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/api/model/user_profile.dart';
+import 'package:scraplink/constants.dart';
 import 'package:scraplink/page/home/home.dart';
+import 'package:scraplink/page/vendor/vendor_home.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -19,6 +21,8 @@ class _RegisterPageState extends State<RegisterPage> {
   late final TextEditingController passwordController;
   late final TextEditingController phoneController;
   late final TextEditingController cityController;
+
+  String groupValue = Role.individual.name;
 
   @override
   void initState() {
@@ -62,6 +66,42 @@ class _RegisterPageState extends State<RegisterPage> {
             MyTextFormField(
                 controller: cityController, hint: "City", lable: "City"),
             const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text('Individual'),
+                Radio<String>(
+                  value: Role.individual.name,
+                  groupValue: groupValue,
+                  onChanged: (value) {
+                    setState(() {
+                      groupValue = value!;
+                    });
+                  },
+                ),
+                const Text('Vendor'),
+                Radio<String>(
+                  value: Role.vendor.name,
+                  groupValue: groupValue,
+                  onChanged: (value) {
+                    setState(() {
+                      groupValue = value!;
+                    });
+                  },
+                ),
+                const Text('Recycling Company'),
+                Radio<String>(
+                  value: Role.recycling_company.name,
+                  groupValue: groupValue,
+                  onChanged: (value) {
+                    setState(() {
+                      groupValue = value!;
+                    });
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
             ElevatedButton(
                 onPressed: () => _onPressed(context),
                 child: Text(widget.profile != null ? "Save" : "Create Account"))
@@ -79,16 +119,21 @@ class _RegisterPageState extends State<RegisterPage> {
         phoneNumber: phoneController.text,
         city: cityController.text);
     if (widget.profile == null) {
-      ApiService()
-          .register(individual)
-          .then((_) => Navigator.pushAndRemoveUntil(
+      ApiService().register(individual, groupValue).then((_) {
+        if (groupValue == Role.vendor.name) {
+          return Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-              (route) => false))
-          .onError((error, stackTrace) => showDialog(
-              context: context,
-              builder: (context) => const AlertDialog(
-                  title: Text("Register failed, try again"))));
+              MaterialPageRoute(builder: (context) => const VendorHomePage()),
+              (route) => false);
+        }
+        return Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+            (route) => false);
+      }).onError((error, stackTrace) => showDialog(
+          context: context,
+          builder: (context) =>
+              const AlertDialog(title: Text("Register failed, try again"))));
     } else {
       ApiService()
           .updateProfile(individual)
