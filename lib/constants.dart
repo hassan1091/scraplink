@@ -102,6 +102,22 @@ class Constants {
     "Sensors and Modules"
   ];
 
+  static const List<String> materialTypes = [
+    'steel',
+    'aluminum',
+    'copper',
+    'rubber',
+    'plastics',
+    'glass',
+    'oils',
+    'lead',
+    'gold',
+    'silver',
+    'platinum',
+    'electronics',
+    'fibers'
+  ];
+
   static void contact(phoneNumber, context,
       {ScrapPart? scrapPart, Bid? bid, Car? car}) {
     Uri url = Uri.parse("https://wa.me/$phoneNumber?text=");
