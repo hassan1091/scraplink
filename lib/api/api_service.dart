@@ -48,6 +48,16 @@ class ApiService {
         .insert(car.toJson());
   }
 
+  Future<void> accept(Bid bid) async {
+    await Supabase.instance.client.from('salvage_car_order').update(
+        {"status": BidStatus.accepted.name}).eq("salvage_car_order_id", bid.id);
+  }
+
+  Future<void> reject(Bid bid) async {
+    await Supabase.instance.client.from('salvage_car_order').update(
+        {"status": BidStatus.rejected.name}).eq("salvage_car_order_id", bid.id);
+  }
+
   Future<Individual> getProfile() async {
     final response = await Supabase.instance.client
         .from('individual')
