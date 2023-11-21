@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scraplink/main.dart';
 import 'package:scraplink/page/vendor/vendor_home_widget.dart';
 import 'package:scraplink/page/vendor/vendor_map_widget.dart';
+import 'package:scraplink/page/vendor/vendor_search_widget.dart';
 import 'package:scraplink/shared_preferences.dart';
 
 class VendorHomePage extends StatefulWidget {
@@ -15,14 +16,14 @@ class _VendorHomePageState extends State<VendorHomePage> {
   List<Widget> views = [
     const VendorHomeWidget(),
     const VendorMapWidget(),
-    // const VendorSearchPage(),
+    const VendorSearchPage(),
     // const VendorProfilePage(),
   ];
 
   List<String> titles = [
     "Home",
     "Nearby Recycling Company",
-    // "Search",
+    "Search",
     // "Profile",
   ];
 
