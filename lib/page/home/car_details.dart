@@ -3,23 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/api/model/bid.dart';
 import 'package:scraplink/api/model/car.dart';
+import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
 
-class CarDetailsPage extends StatelessWidget {
+class CarDetailsPage extends StatefulWidget {
   const CarDetailsPage(this.car, {super.key});
 
   final Car car;
 
   @override
+  State<CarDetailsPage> createState() => _CarDetailsPageState();
+}
+
+class _CarDetailsPageState extends State<CarDetailsPage> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("${car.model} ${car.year}")),
+      appBar: AppBar(title: Text("${widget.car.model} ${widget.car.year}")),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SingleChildScrollView(
             child: Image(
-              image: NetworkImage(car.imageUrl!),
+              image: NetworkImage(widget.car.imageUrl!),
               fit: BoxFit.cover,
               width: double.maxFinite,
               height: 200,
@@ -45,7 +51,8 @@ class CarDetailsPage extends StatelessWidget {
                       minLines: 3,
                       decoration:
                           const InputDecoration(border: OutlineInputBorder()),
-                      controller: TextEditingController(text: car.description!),
+                      controller:
+                          TextEditingController(text: widget.car.description!),
                     ),
                   ),
                 ],
@@ -53,7 +60,7 @@ class CarDetailsPage extends StatelessWidget {
             ),
           ),
           FutureBuilder(
-            future: ApiService().getBids(car.carId),
+            future: ApiService().getBids(widget.car.carId),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
@@ -93,28 +100,57 @@ class CarDetailsPage extends StatelessWidget {
                                     "price: ${bids[index].price}",
                                     style: MyTheme().subtitleStyle,
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      IconButton(
-                                        color: Colors.green,
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                          Icons.check_circle_outline,
-                                          size: 50,
+                                  if (bids[index].status ==
+                                      BidStatus.pending.name)
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        IconButton(
+                                          color: Colors.green,
+                                          onPressed: () => _accept(bids[index]),
+                                          icon: const Icon(
+                                            Icons.check_circle_outline,
+                                            size: 50,
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(width: 32),
-                                      IconButton(
-                                        color: Colors.red,
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                          CupertinoIcons.xmark_circle,
-                                          size: 50,
+                                        const SizedBox(width: 32),
+                                        IconButton(
+                                          color: Colors.red,
+                                          onPressed: () => _reject(bids[index]),
+                                          icon: const Icon(
+                                            CupertinoIcons.xmark_circle,
+                                            size: 50,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  )
+                                      ],
+                                    )
+                                  else ...[
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      children: [
+                                        if (bids[index].status ==
+                                            BidStatus.accepted.name)
+                                          IconButton(
+                                            onPressed: () =>
+                                                _sendAccepted(bids[index]),
+                                            icon: const Icon(
+                                              Icons.reply,
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                        Text(bids[index].status!.toUpperCase(),
+                                            style: TextStyle(
+                                              color: bids[index].status ==
+                                                      BidStatus.accepted.name
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.bold,
+                                            )),
+                                      ],
+                                    ),
+                                  ]
                                 ],
                               ),
                             ],
@@ -132,56 +168,34 @@ class CarDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget buildC() => Card(
-        elevation: 10,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Name: bidder1",
-                    style: MyTheme().titleStyle, // Use your title style here
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Text(
-                    "price: 1420",
-                    style:
-                        MyTheme().subtitleStyle, // Use your subtitle style here
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        color: Colors.green,
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.check_circle_outline,
-                          size: 50,
-                        ),
-                      ),
-                      const SizedBox(width: 32),
-                      IconButton(
-                        color: Colors.red,
-                        onPressed: () {},
-                        icon: const Icon(
-                          CupertinoIcons.xmark_circle,
-                          size: 50,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
+  void _reject(Bid bid) async {
+    await ApiService()
+        .reject(bid)
+        .then((_) => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CarDetailsPage(widget.car))))
+        .onError((error, stackTrace) => showDialog(
+              context: context,
+              builder: (context) =>
+                  const AlertDialog(title: Text("Failed to reject. Try again")),
+            ));
+  }
+
+  void _accept(Bid bid) async {
+    await ApiService().accept(bid).then((_) {
+      _sendAccepted(bid);
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => CarDetailsPage(widget.car)));
+    }).onError((error, stackTrace) => showDialog(
+          context: context,
+          builder: (context) =>
+              const AlertDialog(title: Text("Failed to accept. Try again")),
+        ));
+  }
+
+  void _sendAccepted(Bid bid) {
+    Constants.contact(bid.vendor!.phoneNumber, context,
+        bid: bid, car: widget.car);
+  }
 }
