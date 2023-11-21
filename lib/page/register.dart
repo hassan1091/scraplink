@@ -20,7 +20,7 @@ class _RegisterPageState extends State<RegisterPage> {
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   late final TextEditingController phoneController;
-  late final TextEditingController cityController;
+  late final TextEditingController locationController;
 
   String groupValue = Role.individual.name;
 
@@ -30,7 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
     emailController = TextEditingController(text: widget.profile?.email);
     passwordController = TextEditingController(text: widget.profile?.password);
     phoneController = TextEditingController(text: widget.profile?.phoneNumber);
-    cityController = TextEditingController(text: widget.profile?.city);
+    locationController = TextEditingController(text: widget.profile?.location);
     super.initState();
   }
 
@@ -64,43 +64,44 @@ class _RegisterPageState extends State<RegisterPage> {
                 controller: phoneController, hint: "Phone", lable: "Phone"),
             const SizedBox(height: 12),
             MyTextFormField(
-                controller: cityController, hint: "City", lable: "City"),
+                controller: locationController, hint: "City", lable: "City"),
             const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Individual'),
-                Radio<String>(
-                  value: Role.individual.name,
-                  groupValue: groupValue,
-                  onChanged: (value) {
-                    setState(() {
-                      groupValue = value!;
-                    });
-                  },
-                ),
-                const Text('Vendor'),
-                Radio<String>(
-                  value: Role.vendor.name,
-                  groupValue: groupValue,
-                  onChanged: (value) {
-                    setState(() {
-                      groupValue = value!;
-                    });
-                  },
-                ),
-                const Text('Recycling Company'),
-                Radio<String>(
-                  value: Role.recycling_company.name,
-                  groupValue: groupValue,
-                  onChanged: (value) {
-                    setState(() {
-                      groupValue = value!;
-                    });
-                  },
-                ),
-              ],
-            ),
+            if (widget.profile == null)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text('Individual'),
+                  Radio<String>(
+                    value: Role.individual.name,
+                    groupValue: groupValue,
+                    onChanged: (value) {
+                      setState(() {
+                        groupValue = value!;
+                      });
+                    },
+                  ),
+                  const Text('Vendor'),
+                  Radio<String>(
+                    value: Role.vendor.name,
+                    groupValue: groupValue,
+                    onChanged: (value) {
+                      setState(() {
+                        groupValue = value!;
+                      });
+                    },
+                  ),
+                  const Text('Recycling Company'),
+                  Radio<String>(
+                    value: Role.recycling_company.name,
+                    groupValue: groupValue,
+                    onChanged: (value) {
+                      setState(() {
+                        groupValue = value!;
+                      });
+                    },
+                  ),
+                ],
+              ),
             const SizedBox(height: 12),
             ElevatedButton(
                 onPressed: () => _onPressed(context),
@@ -112,14 +113,14 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void _onPressed(context) {
-    final individual = UserProfile(
+    final userProfile = UserProfile(
         name: nameController.text,
         email: emailController.text,
         password: passwordController.text,
         phoneNumber: phoneController.text,
-        city: cityController.text);
+        location: locationController.text);
     if (widget.profile == null) {
-      ApiService().register(individual, groupValue).then((_) {
+      ApiService().register(userProfile, groupValue).then((_) {
         if (groupValue == Role.vendor.name) {
           return Navigator.pushAndRemoveUntil(
               context,
@@ -136,7 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
               const AlertDialog(title: Text("Register failed, try again"))));
     } else {
       ApiService()
-          .updateProfile(individual)
+          .updateProfile(userProfile)
           .then((_) => Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const HomePage()),

@@ -1,4 +1,4 @@
-import 'package:scraplink/api/model/vendor.dart';
+import 'package:scraplink/api/model/user_profile.dart';
 
 class ScrapPart {
   final int? id;
@@ -10,7 +10,7 @@ class ScrapPart {
   final String? model;
   final String? year;
   final num? price;
-  final Vendor? vendor;
+  final UserProfile? vendor;
   final String? imageUrl;
   final String? category;
 
@@ -42,7 +42,7 @@ class ScrapPart {
       model: json['part_model'],
       year: json['part_year'],
       price: json['part_price'],
-      vendor: Vendor.fromJson(json['fk_vendor_id']),
+      vendor: UserProfile.fromVendorJson(json['fk_vendor_id']),
       imageUrl: json['image_url'],
       category: json['part_category_name'],
     );

@@ -1,9 +1,9 @@
-import 'package:scraplink/api/model/vendor.dart';
+import 'package:scraplink/api/model/user_profile.dart';
 
 class Bid {
   final int? id;
   final int? carId;
-  final Vendor? vendor;
+  final UserProfile? vendor;
   final num? price;
   final String? status;
 
@@ -19,7 +19,7 @@ class Bid {
     return Bid(
       id: json['salvage_car_order_id'],
       carId: json['fk_car_id'],
-      vendor: Vendor.fromJson(json['fk_vendor_id']),
+      vendor: UserProfile.fromVendorJson(json['fk_vendor_id']),
       price: json['bidding_price'],
       status: json['status'],
     );

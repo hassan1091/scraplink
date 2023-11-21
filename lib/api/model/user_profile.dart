@@ -4,7 +4,7 @@ class UserProfile {
   final String? name;
   final String? email;
   final String? password;
-  final String? city;
+  final String? location;
   final String? phoneNumber;
 
   UserProfile({
@@ -13,7 +13,7 @@ class UserProfile {
     this.name,
     this.email,
     this.password,
-    this.city,
+    this.location,
     this.phoneNumber,
   });
 
@@ -24,7 +24,7 @@ class UserProfile {
       name: json['name'],
       email: json['email'],
       password: json['password'],
-      city: json['city'],
+      location: json['city'],
       phoneNumber: json['phone_number'],
     );
   }
@@ -36,7 +36,7 @@ class UserProfile {
       name: json['vendor_name'],
       email: json['vendor_email'],
       password: json['vendor_password'],
-      city: json['vendor_city'],
+      location: json['vendor_city'],
       phoneNumber: json['vendor_phone_number'],
     );
   }
@@ -48,7 +48,7 @@ class UserProfile {
       name: json['company_name'],
       email: json['company_email'],
       password: json['company_password'],
-      city: json['company_city'],
+      location: json['company_city'],
       phoneNumber: json['company_phone_number'],
     );
   }
@@ -58,7 +58,7 @@ class UserProfile {
       'name': name,
       'email': email,
       'password': password,
-      'city': city,
+      'city': location,
       'phone_number': phoneNumber,
     };
   }
@@ -68,7 +68,7 @@ class UserProfile {
       'vendor_name': name,
       'vendor_email': email,
       'vendor_password': password,
-      'vendor_city': city,
+      'vendor_city': location,
       'vendor_phone_number': phoneNumber,
     };
   }
@@ -78,7 +78,7 @@ class UserProfile {
       'company_name': name,
       'company_email': email,
       'company_password': password,
-      'company_city': city,
+      'company_city': location,
       'company_phone_number': phoneNumber,
     };
   }

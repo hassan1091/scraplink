@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/api/api_service.dart';
-import 'package:scraplink/api/model/vendor.dart';
+import 'package:scraplink/api/model/user_profile.dart';
 import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/widget/yard_card.dart';
@@ -59,7 +59,7 @@ class _MapWidgetState extends State<MapWidget> {
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             }
-            List<Vendor> vendors = snapshot.data!;
+            List<UserProfile> vendors = snapshot.data!;
             if (selectedLocation != null) {
               vendors = vendors
                   .where((element) => element.location == selectedLocation)

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scraplink/api/model/vendor.dart';
+import 'package:scraplink/api/model/user_profile.dart';
 import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
 
@@ -9,7 +9,7 @@ class YardCard extends StatelessWidget {
     required this.vendor,
   });
 
-  final Vendor vendor;
+  final UserProfile vendor;
 
   @override
   Widget build(BuildContext context) {
