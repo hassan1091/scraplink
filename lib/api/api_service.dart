@@ -67,13 +67,16 @@ class ApiService {
   }
 
   Future<UserProfile> getProfile() async {
+    String currentRole = (await AppLocalStorage.getString(AppStorageKey.role))!;
     final response = await Supabase.instance.client
-        .from('individual')
+        .from(currentRole)
         .select("*")
-        .eq("individual_id",
+        .eq("${currentRole}_id",
             (await AppLocalStorage.getString(AppStorageKey.id)))
         .single();
-    return UserProfile.fromIndividualJson(response);
+    return currentRole == Role.individual.name
+        ? UserProfile.fromIndividualJson(response)
+        : UserProfile.fromVendorJson(response);
   }
 
   Future<List<Car>> getCars({bool isIndividual = true}) async {
