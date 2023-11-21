@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/constants.dart';
 import 'package:scraplink/page/home/available_part.dart';
+import 'package:scraplink/page/vendor/available_cars.dart';
+import 'package:scraplink/shared_preferences.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({super.key, required this.name});
@@ -32,11 +35,21 @@ class CategoryCard extends StatelessWidget {
         ),
       ),
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AvailablePartPage(make: name),
-            ));
+        AppLocalStorage.getString(AppStorageKey.role).then((value) {
+          if (value == Role.vendor.name) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AvailableCarPage(make: name),
+                ));
+          } else {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AvailablePartPage(make: name),
+                ));
+          }
+        });
       },
     );
   }
