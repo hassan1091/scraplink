@@ -78,16 +78,37 @@ class ApiService {
         : UserProfile.fromVendorJson(response);
   }
 
-  Future<List<Car>> getCars({bool isIndividual = true}) async {
-    final response = isIndividual
-        ? await Supabase.instance.client
-            .from('individual_salvage_car')
-            .select("*")
-            .eq("fk_individual_id",
-                (await AppLocalStorage.getString(AppStorageKey.id)))
-        : await Supabase.instance.client
-            .from('individual_salvage_car')
-            .select("*");
+  Future<List<Car>> getCars(
+      {bool isIndividual = true,
+      String? make,
+      String? model,
+      String? location,
+      String? year}) async {
+    final dynamic response;
+    if (isIndividual) {
+      response = await Supabase.instance.client
+          .from('individual_salvage_car')
+          .select("*")
+          .eq("fk_individual_id",
+              (await AppLocalStorage.getString(AppStorageKey.id)));
+    } else if (make == null) {
+      response = await Supabase.instance.client
+          .from('individual_salvage_car')
+          .select("*");
+    } else if (model == null) {
+      response = await Supabase.instance.client
+          .from('individual_salvage_car')
+          .select("*")
+          .eq('make', make);
+    } else {
+      response = await Supabase.instance.client
+          .from('individual_salvage_car')
+          .select("*")
+          .eq('make', make)
+          .eq('model', model)
+          .eq('location', location)
+          .eq('year', year);
+    }
     return response.map((json) => Car.fromJson(json)).toList().cast<Car>();
   }
 
