@@ -3,6 +3,7 @@ import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/page/home/home.dart';
 import 'package:scraplink/page/login.dart';
+import 'package:scraplink/page/recycling_company/company_home.dart';
 import 'package:scraplink/page/vendor/vendor_home.dart';
 import 'package:scraplink/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -36,11 +37,12 @@ class MyApp extends StatelessWidget {
             return FutureBuilder(
                 future: AppLocalStorage.getString(AppStorageKey.role),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData &&
-                      snapshot.data == Role.individual.name) {
+                  if (snapshot.data == Role.individual.name) {
                     return const HomePage();
-                  } else {
+                  } else if (snapshot.data == Role.vendor.name) {
                     return const VendorHomePage();
+                  } else {
+                    return const CompanyHomePage();
                   }
                 });
           } else {
