@@ -6,6 +6,7 @@ import 'package:scraplink/api/model/car.dart';
 import 'package:scraplink/api/model/scrap_part.dart';
 import 'package:scraplink/api/model/user_profile.dart';
 import 'package:scraplink/api/model/vendor.dart';
+import 'package:scraplink/constants.dart';
 import 'package:scraplink/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -17,19 +18,24 @@ class ApiService {
         .eq("email", email)
         .eq("password", password)
         .single();
-
     AppLocalStorage.setString(
         AppStorageKey.id, response["${role}_id"].toString());
+    AppLocalStorage.setString(AppStorageKey.role, role);
   }
 
-  Future<void> register(UserProfile individual) async {
+  Future<void> register(UserProfile profile, String role) async {
     final response = await Supabase.instance.client
-        .from('individual')
-        .insert(individual.toIndividualJson())
-        .select('*')
+        .from(role)
+        .insert(role == Role.individual.name
+            ? profile.toIndividualJson()
+            : role == Role.vendor.name
+                ? profile.toVendorJson()
+                : profile.toRecycleCompanyJson())
+        .select("${role}_id")
         .single();
-    AppLocalStorage.setString(AppStorageKey.id,
-        UserProfile.fromIndividualJson(response).individualId.toString());
+    AppLocalStorage.setString(
+        AppStorageKey.id, response["${role}_id"].toString());
+    AppLocalStorage.setString(AppStorageKey.role, role);
   }
 
   Future<void> updateProfile(individual) async {
