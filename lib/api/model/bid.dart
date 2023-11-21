@@ -25,3 +25,5 @@ class Bid {
     );
   }
 }
+
+enum BidStatus { accepted, rejected, pending }
