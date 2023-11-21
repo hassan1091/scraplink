@@ -38,11 +38,14 @@ class ApiService {
     AppLocalStorage.setString(AppStorageKey.role, role);
   }
 
-  Future<void> updateProfile(individual) async {
+  Future<void> updateProfile(UserProfile userProfile) async {
+    String currentRole = (await AppLocalStorage.getString(AppStorageKey.role))!;
     await Supabase.instance.client
-        .from('individual')
-        .update(individual.toIndividualJson())
-        .eq("individual_id",
+        .from(currentRole)
+        .update(currentRole == Role.individual.name
+            ? userProfile.toIndividualJson()
+            : userProfile.toVendorJson())
+        .eq("${currentRole}_id",
             (await AppLocalStorage.getString(AppStorageKey.id)));
   }
 
