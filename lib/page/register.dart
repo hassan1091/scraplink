@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/api/model/user_profile.dart';
 import 'package:scraplink/constants.dart';
-import 'package:scraplink/page/home/home.dart';
-import 'package:scraplink/page/vendor/vendor_home.dart';
+import 'package:scraplink/main.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -121,15 +120,9 @@ class _RegisterPageState extends State<RegisterPage> {
         location: locationController.text);
     if (widget.profile == null) {
       ApiService().register(userProfile, groupValue).then((_) {
-        if (groupValue == Role.vendor.name) {
-          return Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const VendorHomePage()),
-              (route) => false);
-        }
-        return Navigator.pushAndRemoveUntil(
+        Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
+            MaterialPageRoute(builder: (context) => const MyApp()),
             (route) => false);
       }).onError((error, stackTrace) => showDialog(
           context: context,
@@ -140,7 +133,7 @@ class _RegisterPageState extends State<RegisterPage> {
           .updateProfile(userProfile)
           .then((_) => Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
+              MaterialPageRoute(builder: (context) => const MyApp()),
               (route) => false))
           .onError((error, stackTrace) => showDialog(
               context: context,
