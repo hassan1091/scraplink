@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/api/api_service.dart';
+import 'package:scraplink/constants.dart';
 import 'package:scraplink/page/home/home.dart';
 import 'package:scraplink/page/register.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
@@ -14,6 +15,8 @@ class LoginPage extends StatefulWidget {
 class LoginState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  String groupValue = Role.individual.name;
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +38,49 @@ class LoginState extends State<LoginPage> {
               hint: "Email",
               autofocus: true,
             ),
-            const SizedBox(
-              height: 6,
-            ),
+            const SizedBox(height: 6),
             MyTextFormField(
               controller: passwordController,
               lable: "Password",
               hint: "Password",
             ),
-            const SizedBox(
-              height: 4,
+            const SizedBox(height: 4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text('Individual'),
+                Radio<String>(
+                  value: Role.individual.name,
+                  groupValue: groupValue,
+                  onChanged: (value) {
+                    setState(() {
+                      groupValue = value!;
+                    });
+                  },
+                ),
+                const Text('Vendor'),
+                Radio<String>(
+                  value: Role.vendor.name,
+                  groupValue: groupValue,
+                  onChanged: (value) {
+                    setState(() {
+                      groupValue = value!;
+                    });
+                  },
+                ),
+                const Text('Recycling Company'),
+                Radio<String>(
+                  value: Role.recycling_company.name,
+                  groupValue: groupValue,
+                  onChanged: (value) {
+                    setState(() {
+                      groupValue = value!;
+                    });
+                  },
+                ),
+              ],
             ),
+            const SizedBox(height: 4),
             InkWell(
               onTap: _register,
               child: const Text(
@@ -62,17 +97,19 @@ class LoginState extends State<LoginPage> {
   }
 
   void _login() {
-    ApiService().login(emailController.text, passwordController.text).then((_) {
+    ApiService()
+        .login(emailController.text, passwordController.text, groupValue)
+        .then((_) {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const HomePage()));
     }).onError((error, stackTrace) => showDialog(
-        context: context,
-        builder: (context) =>
-            const AlertDialog(title: Text("Login failed, try again"))));
+            context: context,
+            builder: (context) =>
+                const AlertDialog(title: Text("Login failed, try again"))));
   }
 
   void _register() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => RegisterPage()));
+        context, MaterialPageRoute(builder: (context) => const RegisterPage()));
   }
 }
