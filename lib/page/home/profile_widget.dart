@@ -6,8 +6,8 @@ import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/page/home/car_details.dart';
 import 'package:scraplink/page/register.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfileWidget extends StatelessWidget {
+  const ProfileWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

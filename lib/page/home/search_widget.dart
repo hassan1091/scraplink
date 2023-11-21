@@ -5,14 +5,14 @@ import 'package:scraplink/page/home/available_part.dart';
 import 'package:scraplink/widget/my_dropdown_button.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
-class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+class SearchWidget extends StatefulWidget {
+  const SearchWidget({super.key});
 
   @override
   State<StatefulWidget> createState() => SearchState();
 }
 
-class SearchState extends State<SearchPage> {
+class SearchState extends State<SearchWidget> {
   final TextEditingController yearController = TextEditingController();
   String? selectedMake;
   String? selectedCar;
