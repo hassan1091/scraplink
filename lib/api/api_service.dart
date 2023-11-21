@@ -10,15 +10,16 @@ import 'package:scraplink/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ApiService {
-  Future<void> login(String email, String password) async {
+  Future<void> login(String email, String password, String role) async {
     final response = await Supabase.instance.client
-        .from('individual')
-        .select("*")
+        .from(role)
+        .select("${role}_id")
         .eq("email", email)
         .eq("password", password)
         .single();
-    AppLocalStorage.setString(AppStorageKey.id,
-        Individual.fromJson(response).individualId.toString());
+
+    AppLocalStorage.setString(
+        AppStorageKey.id, response["${role}_id"].toString());
   }
 
   Future<void> register(Individual individual) async {
