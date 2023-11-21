@@ -135,6 +135,15 @@ class ApiService {
         .cast<UserProfile>();
   }
 
+  Future<List<UserProfile>> getRecycleCompanies() async {
+    final response =
+        await Supabase.instance.client.from('recycling_company').select("*");
+    return response
+        .map((json) => UserProfile.fromRecycleCompanyJson(json))
+        .toList()
+        .cast<UserProfile>();
+  }
+
   Future<String> _uploadImage(String imagePath, {bool isPart = false}) async {
     String imageUrl = _generateUniqueFileName(imagePath);
     await Supabase.instance.client.storage
