@@ -102,11 +102,12 @@ class LoginState extends State<LoginPage> {
         .login(emailController.text, passwordController.text, groupValue)
         .then((_) {
       if (groupValue == Role.vendor.name) {
-        return Navigator.pushReplacement(context,
+        Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const VendorHomePage()));
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const HomePage()));
       }
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomePage()));
     }).onError((error, stackTrace) => showDialog(
             context: context,
             builder: (context) =>
