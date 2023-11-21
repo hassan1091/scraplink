@@ -69,7 +69,7 @@ class UserProfile {
       'vendor_email': email,
       'vendor_password': password,
       'vendor_city': city,
-      'phone_number': phoneNumber,
+      'vendor_phone_number': phoneNumber,
     };
   }
 
