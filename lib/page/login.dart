@@ -3,6 +3,7 @@ import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/constants.dart';
 import 'package:scraplink/page/home/home.dart';
 import 'package:scraplink/page/register.dart';
+import 'package:scraplink/page/vendor/vendor_home.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
 class LoginPage extends StatefulWidget {
@@ -100,6 +101,10 @@ class LoginState extends State<LoginPage> {
     ApiService()
         .login(emailController.text, passwordController.text, groupValue)
         .then((_) {
+      if (groupValue == Role.vendor.name) {
+        return Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const VendorHomePage()));
+      }
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const HomePage()));
     }).onError((error, stackTrace) => showDialog(
