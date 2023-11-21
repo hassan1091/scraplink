@@ -3,8 +3,8 @@ import 'dart:math';
 
 import 'package:scraplink/api/model/bid.dart';
 import 'package:scraplink/api/model/car.dart';
-import 'package:scraplink/api/model/individual.dart';
 import 'package:scraplink/api/model/scrap_part.dart';
+import 'package:scraplink/api/model/user_profile.dart';
 import 'package:scraplink/api/model/vendor.dart';
 import 'package:scraplink/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -22,20 +22,20 @@ class ApiService {
         AppStorageKey.id, response["${role}_id"].toString());
   }
 
-  Future<void> register(Individual individual) async {
+  Future<void> register(UserProfile individual) async {
     final response = await Supabase.instance.client
         .from('individual')
-        .insert(individual.toJson())
+        .insert(individual.toIndividualJson())
         .select('*')
         .single();
     AppLocalStorage.setString(AppStorageKey.id,
-        Individual.fromJson(response).individualId.toString());
+        UserProfile.fromIndividualJson(response).individualId.toString());
   }
 
   Future<void> updateProfile(individual) async {
     await Supabase.instance.client
         .from('individual')
-        .update(individual.toJson())
+        .update(individual.toIndividualJson())
         .eq("individual_id",
             (await AppLocalStorage.getString(AppStorageKey.id)));
   }
@@ -59,14 +59,14 @@ class ApiService {
         {"status": BidStatus.rejected.name}).eq("salvage_car_order_id", bid.id);
   }
 
-  Future<Individual> getProfile() async {
+  Future<UserProfile> getProfile() async {
     final response = await Supabase.instance.client
         .from('individual')
         .select("*")
         .eq("individual_id",
             (await AppLocalStorage.getString(AppStorageKey.id)))
         .single();
-    return Individual.fromJson(response);
+    return UserProfile.fromIndividualJson(response);
   }
 
   Future<List<Car>> getCars() async {

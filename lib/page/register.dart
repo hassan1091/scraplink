@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/api/api_service.dart';
-import 'package:scraplink/api/model/individual.dart';
+import 'package:scraplink/api/model/user_profile.dart';
 import 'package:scraplink/page/home/home.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key, this.profile});
 
-  final Individual? profile;
+  final UserProfile? profile;
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -72,7 +72,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void _onPressed(context) {
-    final individual = Individual(
+    final individual = UserProfile(
         name: nameController.text,
         email: emailController.text,
         password: passwordController.text,

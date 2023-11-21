@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/api/model/car.dart';
-import 'package:scraplink/api/model/individual.dart';
+import 'package:scraplink/api/model/user_profile.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/page/home/car_details.dart';
 import 'package:scraplink/page/register.dart';
@@ -116,7 +116,7 @@ class _CarCard extends StatelessWidget {
 class _ProfileHeader extends StatelessWidget {
   const _ProfileHeader([this.profile]);
 
-  final Individual? profile;
+  final UserProfile? profile;
 
   @override
   Widget build(BuildContext context) {
