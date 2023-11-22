@@ -11,7 +11,7 @@ class VendorProfileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
+      child: ListView(
         children: [
           FutureBuilder(
             future: ApiService().getProfile(),
@@ -27,7 +27,73 @@ class VendorProfileWidget extends StatelessWidget {
             color: Colors.black,
             height: 4,
           ),
+          const SizedBox(height: 16),
+          _MyImageButton(
+              imageUrl: "https://i.imgur.com/AevlkOd.jpg",
+              text: "Parts",
+              onTap: () {}),
+          const SizedBox(height: 16),
+          _MyImageButton(
+              imageUrl: "https://i.imgur.com/kQYa2tf.jpg",
+              text: "Raw Material",
+              onTap: () {}),
+          const SizedBox(height: 16),
+          _MyImageButton(
+              imageUrl: "https://i.imgur.com/hEbImj7.jpg",
+              text: "Salvage Cars",
+              onTap: () {}),
+          const SizedBox(height: 100),
         ],
+      ),
+    );
+  }
+}
+
+class _MyImageButton extends StatelessWidget {
+  const _MyImageButton(
+      {required this.imageUrl, required this.text, required this.onTap});
+
+  final String imageUrl;
+  final String text;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      elevation: 6,
+      child: SizedBox(
+        width: 300,
+        height: 200,
+        child: InkWell(
+          radius: 100,
+          onTap: onTap,
+          child: Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              Ink.image(
+                fit: BoxFit.cover,
+                image: NetworkImage(imageUrl),
+              ),
+              Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  margin: const EdgeInsets.only(right: 50, bottom: 25),
+                  decoration: BoxDecoration(
+                    color: MyTheme().primary.withOpacity(0.5),
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  ),
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 32,
+                    ),
+                  ))
+            ],
+          ),
+        ),
       ),
     );
   }
