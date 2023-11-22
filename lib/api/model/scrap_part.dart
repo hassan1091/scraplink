@@ -1,4 +1,6 @@
 import 'package:scraplink/api/model/user_profile.dart';
+import 'package:scraplink/constants.dart';
+import 'package:scraplink/shared_preferences.dart';
 
 class ScrapPart {
   final int? id;
@@ -11,7 +13,7 @@ class ScrapPart {
   final String? year;
   final num? price;
   final UserProfile? vendor;
-  final String? imageUrl;
+  String? imageUrl;
   final String? category;
 
   ScrapPart({
@@ -47,4 +49,16 @@ class ScrapPart {
       category: json['part_category_name'],
     );
   }
+
+  Future<Map<String, dynamic>> toJson() async => {
+        'fk_part_category': Constants.partCategory.indexOf(category!) + 1,
+        'part_name': name,
+        'part_description': description,
+        'part_make': make,
+        'part_model': model,
+        'part_year': year,
+        'part_price': price,
+        'fk_vendor_id': (await AppLocalStorage.getString(AppStorageKey.id)),
+        'image_url': imageUrl,
+      };
 }
