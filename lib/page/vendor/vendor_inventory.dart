@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/my_theme.dart';
+import 'package:scraplink/widget/materials.dart';
 import 'package:scraplink/widget/scraps.dart';
 
 class VendorInventoryPage extends StatelessWidget {
@@ -21,8 +22,10 @@ class VendorInventoryPage extends StatelessWidget {
                 style: MyTheme().buttonTextStyle,
               )),
           const SizedBox(height: 16),
-          const Expanded(
-            child: ScrapsWidget(isInventory: true),
+          Expanded(
+            child: type == "Parts"
+                ? const ScrapsWidget(isInventory: true)
+                : const MaterialsWidget(isInventory: true),
           ),
         ],
       ),

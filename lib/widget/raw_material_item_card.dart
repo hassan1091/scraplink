@@ -6,9 +6,11 @@ class RawMaterialItemCard extends StatelessWidget {
   const RawMaterialItemCard({
     super.key,
     required this.rawMaterial,
+    this.isInventory = false,
   });
 
   final RawMaterial rawMaterial;
+  final bool isInventory;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,7 @@ class RawMaterialItemCard extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {},
                     child: Text(
-                      "Buy Now",
+                      isInventory ? "Delete" : "Buy Now",
                       style: MyTheme().buttonTextStyle,
                     ),
                   ),

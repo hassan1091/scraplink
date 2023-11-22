@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:scraplink/api/api_service.dart';
-import 'package:scraplink/api/model/raw_material.dart';
 import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
-import 'package:scraplink/widget/raw_material_item_card.dart';
+import 'package:scraplink/widget/materials.dart';
 
 class CompanyHomeWidget extends StatefulWidget {
   const CompanyHomeWidget({
@@ -84,38 +82,8 @@ class _CompanyHomeWidgetState extends State<CompanyHomeWidget> {
             ),
           ],
         ),
-        FutureBuilder(
-          future: ApiService().getRawMaterial(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            }
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            }
-            List<RawMaterial> materials = snapshot.data!;
-            if (selectedLocation != null) {
-              materials = materials
-                  .where((element) =>
-                      element.fkVendorId.location == selectedLocation)
-                  .toList();
-            }
-            if (selectedType != null) {
-              materials = materials
-                  .where((element) => element.type == selectedType)
-                  .toList();
-            }
-            return Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
-                itemCount: materials.length,
-                itemBuilder: (context, index) =>
-                    RawMaterialItemCard(rawMaterial: materials[index]),
-              ),
-            );
-          },
-        )
+        MaterialsWidget(
+            selectedLocation: selectedLocation, selectedType: selectedType)
       ],
     );
   }
