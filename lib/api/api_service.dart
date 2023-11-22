@@ -191,10 +191,19 @@ class ApiService {
         .cast<UserProfile>();
   }
 
-  Future<List<RawMaterial>> getRawMaterial() async {
-    final response = await Supabase.instance.client
-        .from('raw_material')
-        .select("*,fk_vendor_id:vendor(*)");
+  Future<List<RawMaterial>> getRawMaterial({bool isInventory = false}) async {
+    final dynamic response;
+    if (isInventory) {
+      response = await Supabase.instance.client
+          .from('raw_material')
+          .select("*,fk_vendor_id:vendor(*)")
+          .eq("fk_vendor_id",
+              (await AppLocalStorage.getString(AppStorageKey.id)));
+    } else {
+      response = await Supabase.instance.client
+          .from('raw_material')
+          .select("*,fk_vendor_id:vendor(*)");
+    }
     return response
         .map((json) => RawMaterial.fromJson(json))
         .toList()
