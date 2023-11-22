@@ -117,9 +117,20 @@ class ApiService {
   }
 
   Future<List<ScrapPart>> getScrapParts(
-      {String? make, String? model, String? category, String? year}) async {
+      {bool isInventory = false,
+      String? make,
+      String? model,
+      String? category,
+      String? year}) async {
     final dynamic response;
-    if (make == null) {
+    if (isInventory) {
+      response = await Supabase.instance.client
+          .from('scrap_part')
+          .select(
+              '*, part_category:fk_part_category(part_category_name),fk_vendor_id:vendor(*)')
+          .eq("fk_vendor_id",
+              (await AppLocalStorage.getString(AppStorageKey.id)));
+    } else if (make == null) {
       response = await Supabase.instance.client.from('scrap_part').select(
           '*, part_category:fk_part_category(part_category_name),fk_vendor_id:vendor(*)');
     } else if (model == null) {
