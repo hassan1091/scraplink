@@ -77,6 +77,12 @@ class ApiService {
         .insert(await scrapPart.toJson());
   }
 
+  Future<void> sellRawMaterial(RawMaterial rawMaterial) async {
+    await Supabase.instance.client
+        .from('raw_material')
+        .insert(await rawMaterial.toJson());
+  }
+
   Future<void> accept(Bid bid) async {
     await Supabase.instance.client.from('salvage_car_order').update(
         {"status": BidStatus.accepted.name}).eq("salvage_car_order_id", bid.id);
