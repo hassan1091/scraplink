@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/my_theme.dart';
+import 'package:scraplink/page/vendor/sell_Part.dart';
 import 'package:scraplink/widget/cars.dart';
 import 'package:scraplink/widget/materials.dart';
 import 'package:scraplink/widget/scraps.dart';
@@ -18,7 +19,14 @@ class VendorInventoryPage extends StatelessWidget {
           if (type != "Cars") ...[
             const SizedBox(height: 16),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (type == "Parts") {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SellPartPage()));
+                  }
+                },
                 child: Text(
                   "Add New",
                   style: MyTheme().buttonTextStyle,
