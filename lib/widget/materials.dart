@@ -41,7 +41,7 @@ class MaterialsWidget extends StatelessWidget {
         return Expanded(
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2),
+                crossAxisCount: 2, childAspectRatio: 0.75),
             itemCount: materials.length,
             itemBuilder: (context, index) => RawMaterialItemCard(
                 rawMaterial: materials[index], isInventory: isInventory),
