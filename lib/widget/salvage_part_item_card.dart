@@ -7,9 +7,11 @@ class SalvagePartItemCard extends StatelessWidget {
   const SalvagePartItemCard({
     super.key,
     required this.scrapPart,
+    this.isInventory = false,
   });
 
   final ScrapPart scrapPart;
+  final bool isInventory;
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +52,17 @@ class SalvagePartItemCard extends StatelessWidget {
                 ),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () => Constants.contact(
-                        scrapPart.vendor!.phoneNumber, context,
-                        scrapPart: scrapPart),
+                    onPressed: () {
+                      if (isInventory) {
+                        return;
+                      } else {
+                        Constants.contact(
+                            scrapPart.vendor!.phoneNumber, context,
+                            scrapPart: scrapPart);
+                      }
+                    },
                     child: Text(
-                      "Buy Now",
+                      isInventory ? "Delete" : "Buy Now",
                       style: MyTheme().buttonTextStyle,
                     ),
                   ),

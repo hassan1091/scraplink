@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scraplink/api/api_service.dart';
-import 'package:scraplink/api/model/scrap_part.dart';
-import 'package:scraplink/widget/salvage_part_item_card.dart';
+import 'package:scraplink/widget/scraps.dart';
 
 class AvailablePartPage extends StatelessWidget {
   const AvailablePartPage(
@@ -16,26 +14,8 @@ class AvailablePartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Available Part ${make ?? ""}")),
-      body: FutureBuilder(
-        future: ApiService().getScrapParts(
-            make: make, model: model, category: category, year: year),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          }
-          if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          }
-          List<ScrapPart> parts = snapshot.data!;
-
-          return GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 0.75, crossAxisCount: 2),
-              itemCount: parts.length,
-              itemBuilder: (context, index) =>
-                  SalvagePartItemCard(scrapPart: parts[index]));
-        },
-      ),
+      body: ScrapsWidget(
+          make: make, model: model, category: category, year: year),
     );
   }
 }
