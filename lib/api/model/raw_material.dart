@@ -1,4 +1,5 @@
 import 'package:scraplink/api/model/user_profile.dart';
+import 'package:scraplink/shared_preferences.dart';
 
 class RawMaterial {
   final int? id;
@@ -27,11 +28,9 @@ class RawMaterial {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'fk_vendor_id': fkVendorId,
-      'type': type,
-      'description': description,
-    };
-  }
+  Future<Map<String, dynamic>> toJson() async => {
+        'fk_vendor_id': (await AppLocalStorage.getString(AppStorageKey.id)),
+        'type': type,
+        'description': description,
+      };
 }
