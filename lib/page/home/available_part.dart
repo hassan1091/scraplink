@@ -15,7 +15,7 @@ class AvailablePartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Available Part $make")),
+      appBar: AppBar(title: Text("Available Part ${make ?? ""}")),
       body: FutureBuilder(
         future: ApiService().getScrapParts(
             make: make, model: model, category: category, year: year),
