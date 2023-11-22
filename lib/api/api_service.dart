@@ -15,8 +15,19 @@ class ApiService {
     final response = await Supabase.instance.client
         .from(role)
         .select("${role}_id")
-        .eq(role == Role.individual.name ? "email" : "${role}_email", email)
-        .eq(role == Role.individual.name ? "password" : "${role}_password",
+        .eq(
+            role == Role.individual.name
+                ? "email"
+                : role == Role.recycling_company.name
+                    ? "company_email"
+                    : "${role}_email",
+            email)
+        .eq(
+            role == Role.individual.name
+                ? "password"
+                : role == Role.recycling_company.name
+                    ? "company_password"
+                    : "${role}_password",
             password)
         .single();
     AppLocalStorage.setString(
