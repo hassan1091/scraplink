@@ -59,13 +59,6 @@ class _VendorHomePageState extends State<VendorHomePage> {
             BottomNavigationBarItem(label: "Search", icon: Icon(Icons.search)),
             BottomNavigationBarItem(label: "Profile", icon: Icon(Icons.person)),
           ]),
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(
-            Icons.add,
-            size: 50,
-          ),
-          onPressed: () {}),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
