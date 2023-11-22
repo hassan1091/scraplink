@@ -3,6 +3,7 @@ import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/api/model/user_profile.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/page/register.dart';
+import 'package:scraplink/page/vendor/vendor_inventory.dart';
 
 class VendorProfileWidget extends StatelessWidget {
   const VendorProfileWidget({super.key});
@@ -31,17 +32,32 @@ class VendorProfileWidget extends StatelessWidget {
           _MyImageButton(
               imageUrl: "https://i.imgur.com/AevlkOd.jpg",
               text: "Parts",
-              onTap: () {}),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const VendorInventoryPage("Parts")));
+              }),
           const SizedBox(height: 16),
           _MyImageButton(
               imageUrl: "https://i.imgur.com/kQYa2tf.jpg",
               text: "Raw Material",
-              onTap: () {}),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const VendorInventoryPage("Material")));
+              }),
           const SizedBox(height: 16),
           _MyImageButton(
               imageUrl: "https://i.imgur.com/hEbImj7.jpg",
               text: "Salvage Cars",
-              onTap: () {}),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const VendorInventoryPage("Cars")));
+              }),
           const SizedBox(height: 100),
         ],
       ),
