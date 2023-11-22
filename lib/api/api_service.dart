@@ -167,10 +167,19 @@ class ApiService {
   }
 
   Future<List<Bid>> getBids(carId) async {
-    final response = await Supabase.instance.client
-        .from('salvage_car_order')
-        .select("*,fk_vendor_id:vendor(*)")
-        .eq("fk_car_id", carId);
+    final dynamic response;
+    if (carId == null) {
+      response = await Supabase.instance.client
+          .from('salvage_car_order')
+          .select("*,fk_vendor_id:vendor(*)")
+          .eq("fk_vendor_id",
+              (await AppLocalStorage.getString(AppStorageKey.id)));
+    } else {
+      response = await Supabase.instance.client
+          .from('salvage_car_order')
+          .select("*,fk_vendor_id:vendor(*)")
+          .eq("fk_car_id", carId);
+    }
     return response.map((json) => Bid.fromJson(json)).toList().cast<Bid>();
   }
 
