@@ -70,6 +70,13 @@ class ApiService {
         .insert(car.toJson());
   }
 
+  Future<void> sellScrapPart(ScrapPart scrapPart, String imagePath) async {
+    scrapPart.imageUrl = (await _uploadImage(imagePath, isPart: true));
+    await Supabase.instance.client
+        .from('scrap_part')
+        .insert(await scrapPart.toJson());
+  }
+
   Future<void> accept(Bid bid) async {
     await Supabase.instance.client.from('salvage_car_order').update(
         {"status": BidStatus.accepted.name}).eq("salvage_car_order_id", bid.id);
