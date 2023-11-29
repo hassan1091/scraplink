@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/api/model/raw_material.dart';
+import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
 
 class RawMaterialItemCard extends StatelessWidget {
@@ -47,7 +48,13 @@ class RawMaterialItemCard extends StatelessWidget {
                 ),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (!isInventory) {
+                        Constants.contact(
+                            rawMaterial.fkVendorId.phoneNumber, context,
+                            rawMaterial: rawMaterial);
+                      }
+                    },
                     child: Text(
                       isInventory ? "Delete" : "Buy Now",
                       style: MyTheme().buttonTextStyle,

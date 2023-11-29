@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/api/model/bid.dart';
 import 'package:scraplink/api/model/car.dart';
+import 'package:scraplink/api/model/raw_material.dart';
 import 'package:scraplink/api/model/scrap_part.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -119,7 +120,7 @@ class Constants {
   ];
 
   static void contact(phoneNumber, context,
-      {ScrapPart? scrapPart, Bid? bid, Car? car}) {
+      {ScrapPart? scrapPart, Bid? bid, Car? car, RawMaterial? rawMaterial}) {
     Uri url = Uri.parse("https://wa.me/$phoneNumber?text=");
     if (scrapPart != null) {
       url = Uri.parse("https://wa.me/$phoneNumber?text="
@@ -133,6 +134,11 @@ class Constants {
           "In car:${car!.name}."
           "\nDescription:${car.description}. "
           "\nYour bidding is:${bid.price}.");
+    } else if (rawMaterial != null) {
+      url = Uri.parse("https://wa.me/$phoneNumber?text="
+          "Hi ${rawMaterial.fkVendorId.name}, I am a customer from ScrapLink app: "
+          "I want to buy  ${rawMaterial.type}}."
+          "\nDescription:${rawMaterial.description}.");
     }
     launchUrl(url, mode: LaunchMode.externalApplication).then((value) {
       if (!value) {
