@@ -32,6 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailController = TextEditingController(text: widget.profile?.email);
     _passwordController = TextEditingController(text: widget.profile?.password);
     _phoneController = TextEditingController(text: widget.profile?.phoneNumber);
+    _selectedLocation = widget.profile?.location;
     super.initState();
   }
 
@@ -72,7 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
             const SizedBox(height: 12),
             MyTextFormField(
               controller: _phoneController,
-              hint: "05########",
+              hint: "+9665########",
               lable: "Phone",
               validator: FieldValidation.validatePhone,
             ),
@@ -141,7 +142,7 @@ class _RegisterPageState extends State<RegisterPage> {
           name: _nameController.text,
           email: _emailController.text,
           password: _passwordController.text,
-          phoneNumber: _phoneController.text.replaceRange(0, 1, "+966"),
+          phoneNumber: _phoneController.text,
           location: _selectedLocation);
       if (widget.profile == null) {
         ApiService().register(userProfile, _groupValue).then((_) {

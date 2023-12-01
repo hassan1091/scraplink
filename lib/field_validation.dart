@@ -44,10 +44,10 @@ class FieldValidation {
   static FormFieldValidator<String>? validatePhone = (value) {
     if (value == null || value.isEmpty) {
       return 'Phone number is required.';
-    } else if (value.length != 10) {
-      return 'Phone number must be 10 digits long.';
-    } else if (!RegExp(r'^05[0-9]{8}$').hasMatch(value)) {
-      return 'Phone number must start with "05" and followed by 8 digits.';
+    } else if (value.length != 13) {
+      return 'Phone number must be 13 digits long.';
+    } else if (!RegExp(r'^\+9665[0-9]{8}$').hasMatch(value)) {
+      return 'Phone number must start with "9665" and followed by 8 digits.';
     }
     return null;
   };
