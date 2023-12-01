@@ -29,4 +29,26 @@ class FieldValidation {
     }
     return null;
   };
+
+  static FormFieldValidator<String>? validateName = (value) {
+    if (value == null || value.isEmpty) {
+      return 'Name is required.';
+    } else if (value.length > 50) {
+      return 'Name must be at most 50 characters long.';
+    } else if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+      return 'Please type your name without any numbers or special characters.';
+    }
+    return null;
+  };
+
+  static FormFieldValidator<String>? validatePhone = (value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required.';
+    } else if (value.length != 10) {
+      return 'Phone number must be 10 digits long.';
+    } else if (!RegExp(r'^05[0-9]{8}$').hasMatch(value)) {
+      return 'Phone number must start with "05" and followed by 8 digits.';
+    }
+    return null;
+  };
 }
