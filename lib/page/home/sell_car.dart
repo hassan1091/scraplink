@@ -17,13 +17,13 @@ class SellCarPage extends StatefulWidget {
 }
 
 class _SellCarPageState extends State<SellCarPage> {
-  final nameController = TextEditingController();
-  final yearController = TextEditingController();
-  final descriptionController = TextEditingController();
-  String? selectedMake;
-  String? selectedModel;
-  String? selectedLocation;
-  String? imagePath;
+  final _nameController = TextEditingController();
+  final _yearController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  String? _selectedMake;
+  String? _selectedModel;
+  String? _selectedLocation;
+  String? _imagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +37,10 @@ class _SellCarPageState extends State<SellCarPage> {
               label: "Make:",
               hint: "Select a Make",
               items: Constants.models.keys.toList(),
-              selectedItem: selectedMake,
+              selectedItem: _selectedMake,
               onChanged: (s) {
                 setState(() {
-                  selectedMake = s;
+                  _selectedMake = s;
                 });
               },
             ),
@@ -48,11 +48,11 @@ class _SellCarPageState extends State<SellCarPage> {
             MyDropdownButton(
               label: "Model:",
               hint: "Select a Model",
-              items: Constants.models[selectedMake] ?? [],
-              selectedItem: selectedModel,
+              items: Constants.models[_selectedMake] ?? [],
+              selectedItem: _selectedModel,
               onChanged: (s) {
                 setState(() {
-                  selectedModel = s;
+                  _selectedModel = s;
                 });
               },
             ),
@@ -61,10 +61,10 @@ class _SellCarPageState extends State<SellCarPage> {
               label: "Location:",
               hint: "Select a Location",
               items: Constants.regions,
-              selectedItem: selectedLocation,
+              selectedItem: _selectedLocation,
               onChanged: (s) {
                 setState(() {
-                  selectedLocation = s;
+                  _selectedLocation = s;
                 });
               },
             ),
@@ -80,19 +80,19 @@ class _SellCarPageState extends State<SellCarPage> {
                     icon: Icon(Icons.image, color: MyTheme().primary)),
               ],
             ),
-            if (imagePath != null)
+            if (_imagePath != null)
               Image.file(
-                File(imagePath!),
+                File(_imagePath!),
                 height: 200,
               ),
             const SizedBox(height: 4),
             MyTextFormField(
-                controller: nameController,
+                controller: _nameController,
                 hint: "Car Name",
                 lable: "Car Name"),
             const SizedBox(height: 16),
             MyTextFormField(
-                controller: yearController,
+                controller: _yearController,
                 hint: "Year",
                 lable: "Year",
                 type: const TextInputType.numberWithOptions()),
@@ -106,7 +106,7 @@ class _SellCarPageState extends State<SellCarPage> {
                 elevation: 5,
                 margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
                 child: TextField(
-                  controller: descriptionController,
+                  controller: _descriptionController,
                   maxLines: 3,
                   minLines: 3,
                   decoration: const InputDecoration(
@@ -132,7 +132,7 @@ class _SellCarPageState extends State<SellCarPage> {
     final ImagePicker picker = ImagePicker();
     final XFile? photo = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
-      imagePath = photo!.path;
+      _imagePath = photo!.path;
     });
   }
 
@@ -140,13 +140,13 @@ class _SellCarPageState extends State<SellCarPage> {
     ApiService()
         .sellCar(
             Car(
-                make: selectedMake,
-                model: selectedModel,
-                year: yearController.text,
-                location: selectedLocation,
-                name: nameController.text,
-                description: descriptionController.text),
-            imagePath!)
+                make: _selectedMake,
+                model: _selectedModel,
+                year: _yearController.text,
+                location: _selectedLocation,
+                name: _nameController.text,
+                description: _descriptionController.text),
+            _imagePath!)
         .then((_) => Navigator.pop(context))
         .onError((error, stackTrace) => showDialog(
               context: context,

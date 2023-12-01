@@ -15,26 +15,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Widget> views = [
+  final List<Widget> _views = [
     const HomeWidget(),
     const MapWidget(),
     const SearchWidget(),
     const ProfileWidget(),
   ];
 
-  List<String> titles = [
+  final List<String> _titles = [
     "Home",
     "Nearby yards",
     "Search",
     "Profile",
   ];
 
-  int selectedIndex = 0;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(titles[selectedIndex]), actions: [
+      appBar: AppBar(title: Text(_titles[_selectedIndex]), actions: [
         IconButton(
           icon: const Icon(Icons.logout),
           onPressed: () {
@@ -44,15 +44,15 @@ class _HomePageState extends State<HomePage> {
           },
         )
       ]),
-      body: views[selectedIndex],
+      body: _views[_selectedIndex],
       bottomSheet: BottomNavigationBar(
           onTap: (selected) {
             setState(() {
-              selectedIndex = selected;
+              _selectedIndex = selected;
             });
           },
           type: BottomNavigationBarType.fixed,
-          currentIndex: selectedIndex,
+          currentIndex: _selectedIndex,
           items: const [
             BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
             BottomNavigationBarItem(
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SellCarPage(),
+                  builder: (context) => const SellCarPage(),
                 ));
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

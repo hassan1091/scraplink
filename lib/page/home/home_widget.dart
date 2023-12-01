@@ -6,9 +6,7 @@ import 'package:scraplink/widget/category_card.dart';
 import 'package:scraplink/widget/salvage_part_item_card.dart';
 
 class HomeWidget extends StatefulWidget {
-  const HomeWidget({
-    super.key,
-  });
+  const HomeWidget({super.key});
 
   @override
   State<HomeWidget> createState() => _HomeWidgetState();

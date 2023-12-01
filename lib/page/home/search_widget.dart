@@ -13,11 +13,10 @@ class SearchWidget extends StatefulWidget {
 }
 
 class SearchState extends State<SearchWidget> {
-  final TextEditingController yearController = TextEditingController();
-  String? selectedMake;
-  String? selectedCar;
-  String? selectedModel;
-  String? selectedCategory;
+  final TextEditingController _yearController = TextEditingController();
+  String? _selectedMake;
+  String? _selectedModel;
+  String? _selectedCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +28,10 @@ class SearchState extends State<SearchWidget> {
             label: "Make:",
             hint: "Select a Make",
             items: Constants.models.keys.toList(),
-            selectedItem: selectedMake,
+            selectedItem: _selectedMake,
             onChanged: (s) {
               setState(() {
-                selectedMake = s;
+                _selectedMake = s;
               });
             },
           ),
@@ -40,11 +39,11 @@ class SearchState extends State<SearchWidget> {
           MyDropdownButton(
             label: "Model:",
             hint: "Select a Model",
-            items: Constants.models[selectedMake] ?? [],
-            selectedItem: selectedModel,
+            items: Constants.models[_selectedMake] ?? [],
+            selectedItem: _selectedModel,
             onChanged: (s) {
               setState(() {
-                selectedModel = s;
+                _selectedModel = s;
               });
             },
           ),
@@ -53,16 +52,16 @@ class SearchState extends State<SearchWidget> {
             label: "Category:",
             hint: "Select a Category",
             items: Constants.partCategory,
-            selectedItem: selectedCategory,
+            selectedItem: _selectedCategory,
             onChanged: (s) {
               setState(() {
-                selectedCategory = s;
+                _selectedCategory = s;
               });
             },
           ),
           const SizedBox(height: 4),
           MyTextFormField(
-              controller: yearController,
+              controller: _yearController,
               hint: "Year",
               lable: "Year",
               type: const TextInputType.numberWithOptions()),
@@ -73,10 +72,10 @@ class SearchState extends State<SearchWidget> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => AvailablePartPage(
-                              make: selectedMake,
-                              model: selectedModel,
-                              category: selectedCategory,
-                              year: yearController.text,
+                              make: _selectedMake,
+                              model: _selectedModel,
+                              category: _selectedCategory,
+                              year: _yearController.text,
                             )));
               },
               child: Text(
