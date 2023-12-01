@@ -66,6 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
               controller: _passwordController,
               hint: "Password",
               lable: "Password",
+              isPassword: true,
               validator: FieldValidation.validatePassword,
             ),
             const SizedBox(height: 12),
@@ -140,7 +141,7 @@ class _RegisterPageState extends State<RegisterPage> {
           name: _nameController.text,
           email: _emailController.text,
           password: _passwordController.text,
-          phoneNumber: _phoneController.text,
+          phoneNumber: _phoneController.text.replaceRange(0, 1, "+966"),
           location: _selectedLocation);
       if (widget.profile == null) {
         ApiService().register(userProfile, _groupValue).then((_) {
