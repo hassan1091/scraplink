@@ -35,17 +35,17 @@ class MyTextFormField extends StatefulWidget {
 }
 
 class _MyTextFormFieldState extends State<MyTextFormField> {
-  late bool isSecure;
+  late bool _isSecure;
 
   void switchSecure() {
     setState(() {
-      isSecure = !isSecure;
+      _isSecure = !_isSecure;
     });
   }
 
   @override
   void initState() {
-    isSecure = widget.isPassword;
+    _isSecure = widget.isPassword;
     super.initState();
   }
 
@@ -60,7 +60,7 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
               ? IconButton(
                   onPressed: switchSecure,
                   icon:
-                      Icon(isSecure ? Icons.visibility_off : Icons.visibility))
+                      Icon(_isSecure ? Icons.visibility_off : Icons.visibility))
               : widget.isAddressMap
                   ? IconButton(
                       onPressed: widget.onTap,
@@ -78,9 +78,9 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
             ]
           : null,
       controller: widget.controller,
-      obscureText: isSecure,
+      obscureText: _isSecure,
       readOnly: widget.isReadOnly,
-      enableSuggestions: !isSecure,
+      enableSuggestions: !_isSecure,
       onEditingComplete: widget.onEditingComplete,
       onTap: !widget.isAddressMap ? widget.onTap : null,
     );
