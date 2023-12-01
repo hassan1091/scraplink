@@ -17,14 +17,15 @@ class SellPartPage extends StatefulWidget {
 }
 
 class _SellPartPageState extends State<SellPartPage> {
-  final nameController = TextEditingController();
-  final yearController = TextEditingController();
-  final priceController = TextEditingController();
-  final descriptionController = TextEditingController();
-  String? selectedMake;
-  String? selectedModel;
-  String? selectedCategory;
-  String? imagePath;
+  final _nameController = TextEditingController();
+  final _yearController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  String? _selectedMake;
+  String? _selectedModel;
+  String? _selectedCategory;
+  String? _imagePath;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,102 +33,106 @@ class _SellPartPageState extends State<SellPartPage> {
       appBar: AppBar(title: const Text("Sell")),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: ListView(
-          children: [
-            MyDropdownButton(
-              label: "Make:",
-              hint: "Select a Make",
-              items: Constants.models.keys.toList(),
-              selectedItem: selectedMake,
-              onChanged: (s) {
-                setState(() {
-                  selectedMake = s;
-                });
-              },
-            ),
-            const SizedBox(height: 16),
-            MyDropdownButton(
-              label: "Model:",
-              hint: "Select a Model",
-              items: Constants.models[selectedMake] ?? [],
-              selectedItem: selectedModel,
-              onChanged: (s) {
-                setState(() {
-                  selectedModel = s;
-                });
-              },
-            ),
-            const SizedBox(height: 16),
-            MyDropdownButton(
-              label: "Category:",
-              hint: "Select a Category",
-              items: Constants.partCategory,
-              selectedItem: selectedCategory,
-              onChanged: (s) {
-                setState(() {
-                  selectedCategory = s;
-                });
-              },
-            ),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                Text(
-                  "Scrap Part image:",
-                  style: MyTheme().titleStyle,
-                ),
-                IconButton(
-                    onPressed: _pickImage,
-                    icon: Icon(Icons.image, color: MyTheme().primary)),
-              ],
-            ),
-            if (imagePath != null)
-              Image.file(
-                File(imagePath!),
-                height: 200,
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: [
+              MyDropdownButton(
+                label: "Make:",
+                hint: "Select a Make",
+                items: Constants.models.keys.toList(),
+                selectedItem: _selectedMake,
+                onChanged: (s) {
+                  setState(() {
+                    _selectedMake = s;
+                  });
+                },
               ),
-            const SizedBox(height: 4),
-            MyTextFormField(
-                controller: nameController, hint: "Name", lable: "Name"),
-            const SizedBox(height: 16),
-            MyTextFormField(
-                controller: yearController,
-                hint: "Year",
-                lable: "Year",
-                type: const TextInputType.numberWithOptions()),
-            const SizedBox(height: 16),
-            MyTextFormField(
-                controller: priceController,
-                hint: "Price",
-                lable: "Price",
-                type: TextInputType.number),
-            const SizedBox(height: 4),
-            Text(
-              "Description:",
-              style: MyTheme().titleStyle,
-            ),
-            const SizedBox(height: 4),
-            Card(
-                elevation: 5,
-                margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
-                child: TextField(
-                  controller: descriptionController,
-                  maxLines: 3,
-                  minLines: 3,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "The scrap part one year used"),
-                )),
-            const SizedBox(height: 16),
-            Center(
-              child: ElevatedButton(
-                  onPressed: _sell,
-                  child: Text(
-                    "Sell",
-                    style: MyTheme().buttonTextStyle,
+              const SizedBox(height: 16),
+              MyDropdownButton(
+                label: "Model:",
+                hint: "Select a Model",
+                items: Constants.models[_selectedMake] ?? [],
+                selectedItem: _selectedModel,
+                onChanged: (s) {
+                  setState(() {
+                    _selectedModel = s;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              MyDropdownButton(
+                label: "Category:",
+                hint: "Select a Category",
+                items: Constants.partCategory,
+                selectedItem: _selectedCategory,
+                onChanged: (s) {
+                  setState(() {
+                    _selectedCategory = s;
+                  });
+                },
+              ),
+              const SizedBox(height: 4),
+              Row(
+                children: [
+                  Text(
+                    "Scrap Part image:",
+                    style: MyTheme().titleStyle,
+                  ),
+                  IconButton(
+                      onPressed: _pickImage,
+                      icon: Icon(Icons.image, color: MyTheme().primary)),
+                ],
+              ),
+              if (_imagePath != null)
+                Image.file(
+                  File(_imagePath!),
+                  height: 200,
+                ),
+              const SizedBox(height: 4),
+              MyTextFormField(
+                  controller: _nameController, hint: "Name", lable: "Name"),
+              const SizedBox(height: 16),
+              MyTextFormField(
+                  controller: _yearController,
+                  hint: "Year",
+                  lable: "Year",
+                  type: const TextInputType.numberWithOptions()),
+              const SizedBox(height: 16),
+              MyTextFormField(
+                  controller: _priceController,
+                  hint: "Price",
+                  lable: "Price",
+                  type: TextInputType.number),
+              const SizedBox(height: 4),
+              Text(
+                "Description:",
+                style: MyTheme().titleStyle,
+              ),
+              const SizedBox(height: 4),
+              Card(
+                  elevation: 5,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+                  child: TextField(
+                    controller: _descriptionController,
+                    maxLines: 3,
+                    minLines: 3,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "The scrap part one year used"),
                   )),
-            )
-          ],
+              const SizedBox(height: 16),
+              Center(
+                child: ElevatedButton(
+                    onPressed: _sell,
+                    child: Text(
+                      "Sell",
+                      style: MyTheme().buttonTextStyle,
+                    )),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -137,7 +142,7 @@ class _SellPartPageState extends State<SellPartPage> {
     final ImagePicker picker = ImagePicker();
     final XFile? photo = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
-      imagePath = photo!.path;
+      _imagePath = photo!.path;
     });
   }
 
@@ -145,14 +150,14 @@ class _SellPartPageState extends State<SellPartPage> {
     ApiService()
         .sellScrapPart(
             ScrapPart(
-                make: selectedMake,
-                model: selectedModel,
-                category: selectedCategory,
-                name: nameController.text,
-                year: yearController.text,
-                price: num.parse(priceController.text),
-                description: descriptionController.text),
-            imagePath!)
+                make: _selectedMake,
+                model: _selectedModel,
+                category: _selectedCategory,
+                name: _nameController.text,
+                year: _yearController.text,
+                price: num.parse(_priceController.text),
+                description: _descriptionController.text),
+            _imagePath!)
         .then((_) => Navigator.pop(context))
         .onError((error, stackTrace) {
       return showDialog(
