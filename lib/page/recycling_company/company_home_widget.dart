@@ -13,8 +13,8 @@ class CompanyHomeWidget extends StatefulWidget {
 }
 
 class _CompanyHomeWidgetState extends State<CompanyHomeWidget> {
-  String? selectedLocation;
-  String? selectedType;
+  String? _selectedLocation;
+  String? _selectedType;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class _CompanyHomeWidgetState extends State<CompanyHomeWidget> {
               style: MyTheme().titleStyle,
             ),
             DropdownButton(
-              value: selectedLocation,
+              value: _selectedLocation,
               hint: Text(
                 "Select a Location",
                 style: MyTheme().subtitleStyle,
@@ -44,7 +44,7 @@ class _CompanyHomeWidgetState extends State<CompanyHomeWidget> {
               }).toList(),
               onChanged: (s) {
                 setState(() {
-                  selectedLocation = s;
+                  _selectedLocation = s;
                 });
               },
               icon: const Icon(Icons.arrow_drop_down),
@@ -59,7 +59,7 @@ class _CompanyHomeWidgetState extends State<CompanyHomeWidget> {
               style: MyTheme().titleStyle,
             ),
             DropdownButton(
-              value: selectedType,
+              value: _selectedType,
               hint: Text(
                 "Select a Material Type",
                 style: MyTheme().subtitleStyle,
@@ -75,7 +75,7 @@ class _CompanyHomeWidgetState extends State<CompanyHomeWidget> {
               }).toList(),
               onChanged: (s) {
                 setState(() {
-                  selectedType = s;
+                  _selectedType = s;
                 });
               },
               icon: const Icon(Icons.arrow_drop_down),
@@ -83,7 +83,7 @@ class _CompanyHomeWidgetState extends State<CompanyHomeWidget> {
           ],
         ),
         MaterialsWidget(
-            selectedLocation: selectedLocation, selectedType: selectedType)
+            selectedLocation: _selectedLocation, selectedType: _selectedType)
       ],
     );
   }
