@@ -28,12 +28,12 @@ class _VendorHomePageState extends State<VendorHomePage> {
     "Profile",
   ];
 
-  int selectedIndex = 0;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_titles[selectedIndex]), actions: [
+      appBar: AppBar(title: Text(_titles[_selectedIndex]), actions: [
         IconButton(
           icon: const Icon(Icons.logout),
           onPressed: () {
@@ -43,15 +43,15 @@ class _VendorHomePageState extends State<VendorHomePage> {
           },
         )
       ]),
-      body: _views[selectedIndex],
+      body: _views[_selectedIndex],
       bottomSheet: BottomNavigationBar(
           onTap: (selected) {
             setState(() {
-              selectedIndex = selected;
+              _selectedIndex = selected;
             });
           },
           type: BottomNavigationBarType.fixed,
-          currentIndex: selectedIndex,
+          currentIndex: _selectedIndex,
           items: const [
             BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
             BottomNavigationBarItem(
