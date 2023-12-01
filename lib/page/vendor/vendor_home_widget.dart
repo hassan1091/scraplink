@@ -5,11 +5,16 @@ import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/widget/car_item_card.dart';
 import 'package:scraplink/widget/category_card.dart';
 
-class VendorHomeWidget extends StatelessWidget {
+class VendorHomeWidget extends StatefulWidget {
   const VendorHomeWidget({
     super.key,
   });
 
+  @override
+  State<VendorHomeWidget> createState() => _VendorHomeWidgetState();
+}
+
+class _VendorHomeWidgetState extends State<VendorHomeWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -58,11 +63,19 @@ class VendorHomeWidget extends StatelessWidget {
             List<Car> cars = snapshot.data!;
 
             return Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 0.75, crossAxisCount: 2),
-                itemCount: cars.length,
-                itemBuilder: (context, index) => CarItemCard(car: cars[index]),
+              child: RefreshIndicator(
+                onRefresh: () async => setState(() {}),
+                child: RefreshIndicator(
+                  onRefresh: () async => setState(() {}),
+                  child: GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: 0.75, crossAxisCount: 2),
+                    itemCount: cars.length,
+                    itemBuilder: (context, index) =>
+                        CarItemCard(car: cars[index]),
+                  ),
+                ),
               ),
             );
           },
