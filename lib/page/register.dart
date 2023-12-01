@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/api/model/user_profile.dart';
 import 'package:scraplink/constants.dart';
+import 'package:scraplink/field_validation.dart';
 import 'package:scraplink/main.dart';
+import 'package:scraplink/widget/my_dropdown_button.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -15,21 +17,21 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  late final TextEditingController nameController;
-  late final TextEditingController emailController;
-  late final TextEditingController passwordController;
-  late final TextEditingController phoneController;
-  late final TextEditingController locationController;
+  late final TextEditingController _nameController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+  late final TextEditingController _phoneController;
+  final _formKey = GlobalKey<FormState>();
 
-  String groupValue = Role.individual.name;
+  String _groupValue = Role.individual.name;
+  String? _selectedLocation;
 
   @override
   void initState() {
-    nameController = TextEditingController(text: widget.profile?.name);
-    emailController = TextEditingController(text: widget.profile?.email);
-    passwordController = TextEditingController(text: widget.profile?.password);
-    phoneController = TextEditingController(text: widget.profile?.phoneNumber);
-    locationController = TextEditingController(text: widget.profile?.location);
+    _nameController = TextEditingController(text: widget.profile?.name);
+    _emailController = TextEditingController(text: widget.profile?.email);
+    _passwordController = TextEditingController(text: widget.profile?.password);
+    _phoneController = TextEditingController(text: widget.profile?.phoneNumber);
     super.initState();
   }
 
@@ -42,28 +44,49 @@ class _RegisterPageState extends State<RegisterPage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
+          key: _formKey,
           child: ListView(children: [
             const SizedBox(height: 6),
             MyTextFormField(
-              controller: nameController,
+              controller: _nameController,
               hint: "Name",
               lable: "Name",
               autofocus: widget.profile == null,
+              validator: FieldValidation.validateName,
             ),
             const SizedBox(height: 12),
             MyTextFormField(
-                controller: emailController, hint: "Email", lable: "Email"),
+              controller: _emailController,
+              hint: "Email",
+              lable: "Email",
+              validator: FieldValidation.validateEmail,
+            ),
             const SizedBox(height: 12),
             MyTextFormField(
-                controller: passwordController,
-                hint: "Password",
-                lable: "Password"),
+              controller: _passwordController,
+              hint: "Password",
+              lable: "Password",
+              validator: FieldValidation.validatePassword,
+            ),
             const SizedBox(height: 12),
             MyTextFormField(
-                controller: phoneController, hint: "Phone", lable: "Phone"),
+              controller: _phoneController,
+              hint: "05########",
+              lable: "Phone",
+              validator: FieldValidation.validatePhone,
+            ),
             const SizedBox(height: 12),
-            MyTextFormField(
-                controller: locationController, hint: "City", lable: "City"),
+            MyDropdownButton(
+              label: "Location:",
+              hint: "Select a Location",
+              items: Constants.regions,
+              selectedItem: _selectedLocation,
+              onChanged: (s) {
+                setState(() {
+                  _selectedLocation = s;
+                });
+              },
+            ),
             const SizedBox(height: 12),
             if (widget.profile == null)
               Row(
@@ -72,30 +95,30 @@ class _RegisterPageState extends State<RegisterPage> {
                   const Text('Individual'),
                   Radio<String>(
                     value: Role.individual.name,
-                    groupValue: groupValue,
+                    groupValue: _groupValue,
                     onChanged: (value) {
                       setState(() {
-                        groupValue = value!;
+                        _groupValue = value!;
                       });
                     },
                   ),
                   const Text('Vendor'),
                   Radio<String>(
                     value: Role.vendor.name,
-                    groupValue: groupValue,
+                    groupValue: _groupValue,
                     onChanged: (value) {
                       setState(() {
-                        groupValue = value!;
+                        _groupValue = value!;
                       });
                     },
                   ),
                   const Text('Recycling Company'),
                   Radio<String>(
                     value: Role.recycling_company.name,
-                    groupValue: groupValue,
+                    groupValue: _groupValue,
                     onChanged: (value) {
                       setState(() {
-                        groupValue = value!;
+                        _groupValue = value!;
                       });
                     },
                   ),
@@ -103,7 +126,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             const SizedBox(height: 12),
             ElevatedButton(
-                onPressed: () => _onPressed(context),
+                onPressed: _onPressed,
                 child: Text(widget.profile != null ? "Save" : "Create Account"))
           ]),
         ),
@@ -111,34 +134,36 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  void _onPressed(context) {
-    final userProfile = UserProfile(
-        name: nameController.text,
-        email: emailController.text,
-        password: passwordController.text,
-        phoneNumber: phoneController.text,
-        location: locationController.text);
-    if (widget.profile == null) {
-      ApiService().register(userProfile, groupValue).then((_) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const MyApp()),
-            (route) => false);
-      }).onError((error, stackTrace) => showDialog(
-          context: context,
-          builder: (context) =>
-              const AlertDialog(title: Text("Register failed, try again"))));
-    } else {
-      ApiService()
-          .updateProfile(userProfile)
-          .then((_) => Navigator.pushAndRemoveUntil(
+  void _onPressed() {
+    if (_formKey.currentState!.validate()) {
+      final userProfile = UserProfile(
+          name: _nameController.text,
+          email: _emailController.text,
+          password: _passwordController.text,
+          phoneNumber: _phoneController.text,
+          location: _selectedLocation);
+      if (widget.profile == null) {
+        ApiService().register(userProfile, _groupValue).then((_) {
+          Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const MyApp()),
-              (route) => false))
-          .onError((error, stackTrace) => showDialog(
-              context: context,
-              builder: (context) => const AlertDialog(
-                  title: Text("Edit profile failed, try again"))));
+              (route) => false);
+        }).onError((error, stackTrace) => showDialog(
+            context: context,
+            builder: (context) =>
+                const AlertDialog(title: Text("Register failed, try again"))));
+      } else {
+        ApiService()
+            .updateProfile(userProfile)
+            .then((_) => Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const MyApp()),
+                (route) => false))
+            .onError((error, stackTrace) => showDialog(
+                context: context,
+                builder: (context) => const AlertDialog(
+                    title: Text("Edit profile failed, try again"))));
+      }
     }
   }
 }
