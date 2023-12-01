@@ -14,14 +14,14 @@ class VendorHomePage extends StatefulWidget {
 }
 
 class _VendorHomePageState extends State<VendorHomePage> {
-  List<Widget> views = [
+  final List<Widget> _views = [
     const VendorHomeWidget(),
     const VendorMapWidget(),
     const VendorSearchPage(),
     const VendorProfileWidget(),
   ];
 
-  List<String> titles = [
+  final List<String> _titles = [
     "Home",
     "Nearby Recycling Company",
     "Search",
@@ -33,7 +33,7 @@ class _VendorHomePageState extends State<VendorHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(titles[selectedIndex]), actions: [
+      appBar: AppBar(title: Text(_titles[selectedIndex]), actions: [
         IconButton(
           icon: const Icon(Icons.logout),
           onPressed: () {
@@ -43,7 +43,7 @@ class _VendorHomePageState extends State<VendorHomePage> {
           },
         )
       ]),
-      body: views[selectedIndex],
+      body: _views[selectedIndex],
       bottomSheet: BottomNavigationBar(
           onTap: (selected) {
             setState(() {

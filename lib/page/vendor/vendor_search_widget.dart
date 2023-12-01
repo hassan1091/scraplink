@@ -13,11 +13,10 @@ class VendorSearchPage extends StatefulWidget {
 }
 
 class SearchState extends State<VendorSearchPage> {
-  final TextEditingController yearController = TextEditingController();
-  String? selectedMake;
-  String? selectedCar;
-  String? selectedModel;
-  String? selectedLocation;
+  final TextEditingController _yearController = TextEditingController();
+  String? _selectedMake;
+  String? _selectedModel;
+  String? _selectedLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +28,10 @@ class SearchState extends State<VendorSearchPage> {
             label: "Make:",
             hint: "Select a Make",
             items: Constants.models.keys.toList(),
-            selectedItem: selectedMake,
+            selectedItem: _selectedMake,
             onChanged: (s) {
               setState(() {
-                selectedMake = s;
+                _selectedMake = s;
               });
             },
           ),
@@ -40,11 +39,11 @@ class SearchState extends State<VendorSearchPage> {
           MyDropdownButton(
             label: "Model:",
             hint: "Select a Model",
-            items: Constants.models[selectedMake] ?? [],
-            selectedItem: selectedModel,
+            items: Constants.models[_selectedMake] ?? [],
+            selectedItem: _selectedModel,
             onChanged: (s) {
               setState(() {
-                selectedModel = s;
+                _selectedModel = s;
               });
             },
           ),
@@ -53,16 +52,16 @@ class SearchState extends State<VendorSearchPage> {
             label: "Location:",
             hint: "Select a Location",
             items: Constants.regions,
-            selectedItem: selectedLocation,
+            selectedItem: _selectedLocation,
             onChanged: (s) {
               setState(() {
-                selectedLocation = s;
+                _selectedLocation = s;
               });
             },
           ),
           const SizedBox(height: 4),
           MyTextFormField(
-              controller: yearController,
+              controller: _yearController,
               hint: "Year",
               lable: "Year",
               type: const TextInputType.numberWithOptions()),
@@ -73,10 +72,10 @@ class SearchState extends State<VendorSearchPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => AvailableCarPage(
-                              make: selectedMake,
-                              model: selectedModel,
-                              location: selectedLocation,
-                              year: yearController.text,
+                              make: _selectedMake,
+                              model: _selectedModel,
+                              location: _selectedLocation,
+                              year: _yearController.text,
                             )));
               },
               child: Text(

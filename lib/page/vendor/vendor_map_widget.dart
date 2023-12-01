@@ -13,7 +13,7 @@ class VendorMapWidget extends StatefulWidget {
 }
 
 class _VendorMapWidgetState extends State<VendorMapWidget> {
-  String? selectedLocation;
+  String? _selectedLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class _VendorMapWidgetState extends State<VendorMapWidget> {
               style: MyTheme().titleStyle,
             ),
             DropdownButton(
-              value: selectedLocation,
+              value: _selectedLocation,
               hint: Text(
                 "Select a Location",
                 style: MyTheme().subtitleStyle,
@@ -43,7 +43,7 @@ class _VendorMapWidgetState extends State<VendorMapWidget> {
               }).toList(),
               onChanged: (s) {
                 setState(() {
-                  selectedLocation = s;
+                  _selectedLocation = s;
                 });
               },
               icon: const Icon(Icons.arrow_drop_down),
@@ -60,9 +60,9 @@ class _VendorMapWidgetState extends State<VendorMapWidget> {
               return Text('Error: ${snapshot.error}');
             }
             List<UserProfile> companies = snapshot.data!;
-            if (selectedLocation != null) {
+            if (_selectedLocation != null) {
               companies = companies
-                  .where((element) => element.location == selectedLocation)
+                  .where((element) => element.location == _selectedLocation)
                   .toList();
             }
             return Expanded(

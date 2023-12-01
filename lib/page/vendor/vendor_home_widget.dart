@@ -6,9 +6,7 @@ import 'package:scraplink/widget/car_item_card.dart';
 import 'package:scraplink/widget/category_card.dart';
 
 class VendorHomeWidget extends StatefulWidget {
-  const VendorHomeWidget({
-    super.key,
-  });
+  const VendorHomeWidget({super.key});
 
   @override
   State<VendorHomeWidget> createState() => _VendorHomeWidgetState();
