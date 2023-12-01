@@ -3,7 +3,7 @@ import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/api/model/raw_material.dart';
 import 'package:scraplink/widget/raw_material_item_card.dart';
 
-class MaterialsWidget extends StatelessWidget {
+class MaterialsWidget extends StatefulWidget {
   const MaterialsWidget({
     super.key,
     this.selectedLocation,
@@ -16,9 +16,14 @@ class MaterialsWidget extends StatelessWidget {
   final bool isInventory;
 
   @override
+  State<MaterialsWidget> createState() => _MaterialsWidgetState();
+}
+
+class _MaterialsWidgetState extends State<MaterialsWidget> {
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ApiService().getRawMaterial(isInventory: isInventory),
+      future: ApiService().getRawMaterial(isInventory: widget.isInventory),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
@@ -27,24 +32,28 @@ class MaterialsWidget extends StatelessWidget {
           return Text('Error: ${snapshot.error}');
         }
         List<RawMaterial> materials = snapshot.data!;
-        if (selectedLocation != null) {
+        if (widget.selectedLocation != null) {
           materials = materials
-              .where(
-                  (element) => element.fkVendorId.location == selectedLocation)
+              .where((element) =>
+                  element.fkVendorId.location == widget.selectedLocation)
               .toList();
         }
-        if (selectedType != null) {
+        if (widget.selectedType != null) {
           materials = materials
-              .where((element) => element.type == selectedType)
+              .where((element) => element.type == widget.selectedType)
               .toList();
         }
         return Expanded(
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, childAspectRatio: 0.75),
-            itemCount: materials.length,
-            itemBuilder: (context, index) => RawMaterialItemCard(
-                rawMaterial: materials[index], isInventory: isInventory),
+          child: RefreshIndicator(
+            onRefresh: () async => setState(() {}),
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, childAspectRatio: 0.75),
+              itemCount: materials.length,
+              itemBuilder: (context, index) => RawMaterialItemCard(
+                  rawMaterial: materials[index],
+                  isInventory: widget.isInventory),
+            ),
           ),
         );
       },
