@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/field_validation.dart';
 import 'package:scraplink/my_theme.dart';
 
 class MyDropdownButton extends StatefulWidget {
-  const MyDropdownButton({super.key,
+  const MyDropdownButton({
+    super.key,
     required this.label,
     required this.hint,
     required this.items,
@@ -41,13 +43,14 @@ class _MyDropdownButtonState extends State<MyDropdownButton> {
           ),
         ),
         Expanded(
-          child: DropdownButton(
+          child: DropdownButtonFormField(
             isExpanded: true,
             value: selectedItem,
             hint: Text(
               widget.hint,
               style: MyTheme().subtitleStyle,
             ),
+            validator: FieldValidation.validateRequired,
             items: widget.items.map((String item) {
               return DropdownMenuItem(
                 value: item,
