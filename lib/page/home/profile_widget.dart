@@ -6,9 +6,14 @@ import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/page/home/car_details.dart';
 import 'package:scraplink/page/register.dart';
 
-class ProfileWidget extends StatelessWidget {
+class ProfileWidget extends StatefulWidget {
   const ProfileWidget({super.key});
 
+  @override
+  State<ProfileWidget> createState() => _ProfileWidgetState();
+}
+
+class _ProfileWidgetState extends State<ProfileWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,19 +46,21 @@ class ProfileWidget extends StatelessWidget {
               }
               List<Car> cars = snapshot.data!;
               return Expanded(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      itemCount: cars.length,
-                      itemBuilder: (context, index) => _CarCard(
-                          "${cars[index].make} ${cars[index].model}",
-                          int.parse(cars[index].year!),
-                          cars[index].imageUrl!,
-                          () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) =>
-                                      CarDetailsPage(cars[index]))))));
+                  child: RefreshIndicator(
+                onRefresh: () async => setState(() {}),
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    itemCount: cars.length,
+                    itemBuilder: (context, index) => _CarCard(
+                        "${cars[index].make} ${cars[index].model}",
+                        int.parse(cars[index].year!),
+                        cars[index].imageUrl!,
+                        () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => CarDetailsPage(cars[index]))))),
+              ));
             },
           ),
         ],

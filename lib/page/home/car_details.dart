@@ -71,94 +71,101 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
               List<Bid> bids = snapshot.data!;
 
               return Expanded(
-                child: GridView.builder(
-                  itemCount: bids.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // Change as needed
-                    childAspectRatio: 1.5,
-                  ),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Expanded(
-                          child: Column(
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    bids[index].vendor!.name!,
-                                    style: MyTheme().titleStyle,
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    "price: ${bids[index].price}",
-                                    style: MyTheme().subtitleStyle,
-                                  ),
-                                  if (bids[index].status ==
-                                      BidStatus.pending.name)
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        IconButton(
-                                          color: Colors.green,
-                                          onPressed: () => _accept(bids[index]),
-                                          icon: const Icon(
-                                            Icons.check_circle_outline,
-                                            size: 50,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 32),
-                                        IconButton(
-                                          color: Colors.red,
-                                          onPressed: () => _reject(bids[index]),
-                                          icon: const Icon(
-                                            CupertinoIcons.xmark_circle,
-                                            size: 50,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  else ...[
-                                    const SizedBox(height: 8),
-                                    Row(
-                                      children: [
-                                        if (bids[index].status ==
-                                            BidStatus.accepted.name)
+                child: RefreshIndicator(
+                  onRefresh: () async => setState(() {}),
+                  child: GridView.builder(
+                    itemCount: bids.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Change as needed
+                      childAspectRatio: 1.5,
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      return Card(
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Expanded(
+                            child: Column(
+                              children: <Widget>[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      bids[index].vendor!.name!,
+                                      style: MyTheme().titleStyle,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      "price: ${bids[index].price}",
+                                      style: MyTheme().subtitleStyle,
+                                    ),
+                                    if (bids[index].status ==
+                                        BidStatus.pending.name)
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
                                           IconButton(
+                                            color: Colors.green,
                                             onPressed: () =>
-                                                _sendAccepted(bids[index]),
+                                                _accept(bids[index]),
                                             icon: const Icon(
-                                              Icons.reply,
-                                              color: Colors.blue,
+                                              Icons.check_circle_outline,
+                                              size: 50,
                                             ),
                                           ),
-                                        Text(bids[index].status!.toUpperCase(),
-                                            style: TextStyle(
-                                              color: bids[index].status ==
-                                                      BidStatus.accepted.name
-                                                  ? Colors.green
-                                                  : Colors.red,
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.bold,
-                                            )),
-                                      ],
-                                    ),
-                                  ]
-                                ],
-                              ),
-                            ],
+                                          const SizedBox(width: 32),
+                                          IconButton(
+                                            color: Colors.red,
+                                            onPressed: () =>
+                                                _reject(bids[index]),
+                                            icon: const Icon(
+                                              CupertinoIcons.xmark_circle,
+                                              size: 50,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    else ...[
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        children: [
+                                          if (bids[index].status ==
+                                              BidStatus.accepted.name)
+                                            IconButton(
+                                              onPressed: () =>
+                                                  _sendAccepted(bids[index]),
+                                              icon: const Icon(
+                                                Icons.reply,
+                                                color: Colors.blue,
+                                              ),
+                                            ),
+                                          Text(
+                                              bids[index].status!.toUpperCase(),
+                                              style: TextStyle(
+                                                color: bids[index].status ==
+                                                        BidStatus.accepted.name
+                                                    ? Colors.green
+                                                    : Colors.red,
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.bold,
+                                              )),
+                                        ],
+                                      ),
+                                    ]
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               );
             },

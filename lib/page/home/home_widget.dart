@@ -5,11 +5,16 @@ import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/widget/category_card.dart';
 import 'package:scraplink/widget/salvage_part_item_card.dart';
 
-class HomeWidget extends StatelessWidget {
+class HomeWidget extends StatefulWidget {
   const HomeWidget({
     super.key,
   });
 
+  @override
+  State<HomeWidget> createState() => _HomeWidgetState();
+}
+
+class _HomeWidgetState extends State<HomeWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,9 +44,7 @@ class HomeWidget extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 4),
-        const Divider(
-          color: Colors.black,
-        ),
+        const Divider(color: Colors.black),
         Text(
           "Latest salvage parts:",
           style: MyTheme().titleStyle,
@@ -58,19 +61,20 @@ class HomeWidget extends StatelessWidget {
             List<ScrapPart> parts = snapshot.data!;
 
             return Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 0.75, crossAxisCount: 2),
-                itemCount: parts.length,
-                itemBuilder: (context, index) =>
-                    SalvagePartItemCard(scrapPart: parts[index]),
+              child: RefreshIndicator(
+                onRefresh: () async => setState(() {}),
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 0.75, crossAxisCount: 2),
+                  itemCount: parts.length,
+                  itemBuilder: (context, index) =>
+                      SalvagePartItemCard(scrapPart: parts[index]),
+                ),
               ),
             );
           },
         ),
-        const SizedBox(
-          height: 64,
-        )
+        const SizedBox(height: 64)
       ]),
     );
   }

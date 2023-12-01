@@ -4,7 +4,7 @@ import 'package:scraplink/api/model/scrap_part.dart';
 
 import 'salvage_part_item_card.dart';
 
-class ScrapsWidget extends StatelessWidget {
+class ScrapsWidget extends StatefulWidget {
   const ScrapsWidget({
     super.key,
     this.make,
@@ -21,14 +21,19 @@ class ScrapsWidget extends StatelessWidget {
   final bool isInventory;
 
   @override
+  State<ScrapsWidget> createState() => _ScrapsWidgetState();
+}
+
+class _ScrapsWidgetState extends State<ScrapsWidget> {
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: ApiService().getScrapParts(
-          isInventory: isInventory,
-          make: make,
-          model: model,
-          category: category,
-          year: year),
+          isInventory: widget.isInventory,
+          make: widget.make,
+          model: widget.model,
+          category: widget.category,
+          year: widget.year),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
@@ -38,12 +43,15 @@ class ScrapsWidget extends StatelessWidget {
         }
         List<ScrapPart> parts = snapshot.data!;
 
-        return GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 0.75, crossAxisCount: 2),
-            itemCount: parts.length,
-            itemBuilder: (context, index) => SalvagePartItemCard(
-                scrapPart: parts[index], isInventory: isInventory));
+        return RefreshIndicator(
+          onRefresh: () async => setState(() {}),
+          child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 0.75, crossAxisCount: 2),
+              itemCount: parts.length,
+              itemBuilder: (context, index) => SalvagePartItemCard(
+                  scrapPart: parts[index], isInventory: widget.isInventory)),
+        );
       },
     );
   }

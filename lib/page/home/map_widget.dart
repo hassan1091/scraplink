@@ -66,12 +66,15 @@ class _MapWidgetState extends State<MapWidget> {
                   .toList();
             }
             return Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
-                itemCount: vendors.length,
-                itemBuilder: (context, index) =>
-                    YardCard(vendor: vendors[index]),
+              child: RefreshIndicator(
+                onRefresh: () async => setState(() {}),
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  itemCount: vendors.length,
+                  itemBuilder: (context, index) =>
+                      YardCard(vendor: vendors[index]),
+                ),
               ),
             );
           },
