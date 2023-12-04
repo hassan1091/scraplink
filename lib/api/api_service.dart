@@ -77,6 +77,15 @@ class ApiService {
         .insert(await scrapPart.toJson());
   }
 
+  Future<void> deleteScrapPart(int scrapId) async {
+    await Supabase.instance.client
+        .from('scrap_part')
+        .delete()
+        .eq("part_id", scrapId)
+        .eq("fk_vendor_id",
+            (await AppLocalStorage.getString(AppStorageKey.id)));
+  }
+
   Future<void> sellRawMaterial(RawMaterial rawMaterial) async {
     await Supabase.instance.client
         .from('raw_material')
