@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/api/model/car.dart';
+import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/widget/car_item_card.dart';
 import 'package:scraplink/widget/category_card.dart';
@@ -18,32 +19,16 @@ class _VendorHomeWidgetState extends State<VendorHomeWidget> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
       child: Column(children: [
-        const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CategoryCard(name: "Toyota"),
-            CategoryCard(name: "Jeep"),
-          ],
-        ),
-        const SizedBox(height: 12),
-        const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CategoryCard(name: "Honda"),
-            CategoryCard(name: "Ford"),
-          ],
-        ),
-        const SizedBox(height: 12),
-        const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CategoryCard(name: "Hyundai"),
-            CategoryCard(name: "Kia"),
-          ],
-        ),
-        const SizedBox(height: 4),
-        const Divider(
-          color: Colors.black,
+        SizedBox(
+          height: 150,
+          child: ListView.builder(
+            itemBuilder: (context, index) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CategoryCard(name: Constants.models.keys.toList()[index]),
+            ),
+            itemCount: Constants.models.keys.toList().length,
+            scrollDirection: Axis.horizontal,
+          ),
         ),
         Text(
           "Latest salvage cars:",
