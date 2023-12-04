@@ -20,7 +20,7 @@ class _AvailableCarPageState extends State<AvailableCarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Available Part ${widget.make}")),
+      appBar: AppBar(title: Text("${widget.make}")),
       body: FutureBuilder(
         future: ApiService().getCars(
             isIndividual: false,
