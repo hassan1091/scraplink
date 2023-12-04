@@ -92,6 +92,15 @@ class ApiService {
         .insert(await rawMaterial.toJson());
   }
 
+  Future<void> deleteRawMaterial(int materialId) async {
+    await Supabase.instance.client
+        .from('raw_material')
+        .delete()
+        .eq("raw_material_id", materialId)
+        .eq("fk_vendor_id",
+            (await AppLocalStorage.getString(AppStorageKey.id)));
+  }
+
   Future<void> accept(Bid bid) async {
     await Supabase.instance.client.from('salvage_car_order').update(
         {"status": BidStatus.accepted.name}).eq("salvage_car_order_id", bid.id);
