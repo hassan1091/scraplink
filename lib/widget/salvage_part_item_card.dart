@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/api/model/scrap_part.dart';
 import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
+import 'package:scraplink/widget/scraps.dart';
 
-class SalvagePartItemCard extends StatelessWidget {
+class SalvagePartItemCard extends StatefulWidget {
   const SalvagePartItemCard({
     super.key,
     required this.scrapPart,
@@ -13,6 +15,11 @@ class SalvagePartItemCard extends StatelessWidget {
   final ScrapPart scrapPart;
   final bool isInventory;
 
+  @override
+  State<SalvagePartItemCard> createState() => _SalvagePartItemCardState();
+}
+
+class _SalvagePartItemCardState extends State<SalvagePartItemCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -28,7 +35,7 @@ class SalvagePartItemCard extends StatelessWidget {
             borderRadius:
                 const BorderRadius.vertical(top: Radius.circular(16.0)),
             child: Image.network(
-              scrapPart.imageUrl!,
+              widget.scrapPart.imageUrl!,
               height: 100,
               fit: BoxFit.cover,
             ),
@@ -39,30 +46,33 @@ class SalvagePartItemCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  scrapPart.name!,
+                  widget.scrapPart.name!,
                   style: MyTheme().titleStyle,
                 ),
                 Text(
-                  scrapPart.description!,
+                  widget.scrapPart.description!,
                   style: MyTheme().subtitleStyle,
                 ),
                 Text(
-                  "Price: ${scrapPart.price!}",
+                  "Price: ${widget.scrapPart.price!}",
                   style: MyTheme().subtitleStyle,
                 ),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {
-                      if (isInventory) {
-                        return;
+                    onPressed: () async {
+                      if (widget.isInventory) {
+                        ApiService().deleteScrapPart(widget.scrapPart.id!).then(
+                            (value) => context
+                                .findAncestorStateOfType<State<ScrapsWidget>>()!
+                                .setState(() {}));
                       } else {
                         Constants.contact(
-                            scrapPart.vendor!.phoneNumber, context,
-                            scrapPart: scrapPart);
+                            widget.scrapPart.vendor!.phoneNumber, context,
+                            scrapPart: widget.scrapPart);
                       }
                     },
                     child: Text(
-                      isInventory ? "Delete" : "Buy Now",
+                      widget.isInventory ? "Delete" : "Buy Now",
                       style: MyTheme().buttonTextStyle,
                     ),
                   ),
