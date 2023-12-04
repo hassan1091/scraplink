@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/api/model/raw_material.dart';
 import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
+import 'package:scraplink/widget/scraps.dart';
 
-class RawMaterialItemCard extends StatelessWidget {
+class RawMaterialItemCard extends StatefulWidget {
   const RawMaterialItemCard({
     super.key,
     required this.rawMaterial,
@@ -13,6 +15,11 @@ class RawMaterialItemCard extends StatelessWidget {
   final RawMaterial rawMaterial;
   final bool isInventory;
 
+  @override
+  State<RawMaterialItemCard> createState() => _RawMaterialItemCardState();
+}
+
+class _RawMaterialItemCardState extends State<RawMaterialItemCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -28,7 +35,7 @@ class RawMaterialItemCard extends StatelessWidget {
             borderRadius:
                 const BorderRadius.vertical(top: Radius.circular(16.0)),
             child: Image.network(
-              "https://xpfrdvwfquqhzzijsboi.supabase.co/storage/v1/object/public/raw_material/${rawMaterial.type}.png",
+              "https://xpfrdvwfquqhzzijsboi.supabase.co/storage/v1/object/public/raw_material/${widget.rawMaterial.type}.png",
               height: 100,
               fit: BoxFit.cover,
             ),
@@ -39,24 +46,30 @@ class RawMaterialItemCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  rawMaterial.type!,
+                  widget.rawMaterial.type!,
                   style: MyTheme().titleStyle,
                 ),
                 Text(
-                  rawMaterial.description!,
+                  widget.rawMaterial.description!,
                   style: MyTheme().subtitleStyle,
                 ),
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
-                      if (!isInventory) {
+                      if (widget.isInventory) {
+                        ApiService()
+                            .deleteScrapPart(widget.rawMaterial.id!)
+                            .then((value) => context
+                                .findAncestorStateOfType<State<ScrapsWidget>>()!
+                                .setState(() {}));
+                      } else {
                         Constants.contact(
-                            rawMaterial.fkVendorId.phoneNumber, context,
-                            rawMaterial: rawMaterial);
+                            widget.rawMaterial.fkVendorId.phoneNumber, context,
+                            rawMaterial: widget.rawMaterial);
                       }
                     },
                     child: Text(
-                      isInventory ? "Delete" : "Buy Now",
+                      widget.isInventory ? "Delete" : "Buy Now",
                       style: MyTheme().buttonTextStyle,
                     ),
                   ),
