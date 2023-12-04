@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MyTextFormField extends StatefulWidget {
-  const MyTextFormField(
-      {Key? key,
-      required this.lable,
-      this.controller,
-      this.hint,
-      this.initial,
-      this.isPassword = false,
-      this.isReadOnly = false,
-      this.isAddressMap = false,
-      this.autofocus = false,
-      this.type,
-      this.validator,
-      this.onTap,
-      this.onEditingComplete})
-      : super(key: key);
+  const MyTextFormField({
+    Key? key,
+    required this.lable,
+    this.controller,
+    this.hint,
+    this.initial,
+    this.isPassword = false,
+    this.isReadOnly = false,
+    this.isAddressMap = false,
+    this.autofocus = false,
+    this.type,
+    this.validator,
+    this.onTap,
+    this.onEditingComplete,
+    this.icon,
+  }) : super(key: key);
   final String lable;
   final TextEditingController? controller;
   final String? hint;
@@ -29,6 +30,7 @@ class MyTextFormField extends StatefulWidget {
   final bool autofocus;
   final VoidCallback? onTap;
   final VoidCallback? onEditingComplete;
+  final Widget? icon;
 
   @override
   State<MyTextFormField> createState() => _MyTextFormFieldState();
@@ -56,6 +58,9 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
           label: Text(widget.lable),
           labelStyle: const TextStyle(fontWeight: FontWeight.bold),
           border: const OutlineInputBorder(),
+          icon: widget.icon != null
+              ? IconButton(onPressed: widget.onTap, icon: widget.icon!)
+              : null,
           suffixIcon: widget.isPassword
               ? IconButton(
                   onPressed: switchSecure,
@@ -82,7 +87,7 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
       readOnly: widget.isReadOnly,
       enableSuggestions: !_isSecure,
       onEditingComplete: widget.onEditingComplete,
-      onTap: !widget.isAddressMap ? widget.onTap : null,
+      onTap: !widget.isAddressMap && widget.icon == null ? widget.onTap : null,
     );
   }
 }
