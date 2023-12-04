@@ -24,6 +24,14 @@ class Bid {
       status: json['status'],
     );
   }
+
+  Map<String, dynamic> toJson(vendorId) {
+    return {
+      'fk_car_id': carId,
+      'fk_vendor_id': vendorId,
+      'bidding_price': price,
+    };
+  }
 }
 
 enum BidStatus { accepted, rejected, pending }
