@@ -120,7 +120,11 @@ class Constants {
   ];
 
   static void contact(phoneNumber, context,
-      {ScrapPart? scrapPart, Bid? bid, Car? car, RawMaterial? rawMaterial}) {
+      {ScrapPart? scrapPart,
+      Bid? bid,
+      Car? car,
+      RawMaterial? rawMaterial,
+      bool isBid = false}) {
     Uri url = Uri.parse("https://wa.me/$phoneNumber?text=");
     if (scrapPart != null) {
       url = Uri.parse("https://wa.me/$phoneNumber?text="
@@ -128,6 +132,12 @@ class Constants {
           "\nI want to buy \nName:${scrapPart.name}. "
           "\nDescription:${scrapPart.description}. "
           "\nPrice:${scrapPart.price}.");
+    } else if (bid != null && isBid) {
+      url = Uri.parse("https://wa.me/$phoneNumber?text="
+          "Hi,you accept your biding in ScrapLink app: "
+          "In car:${car!.name}."
+          "\nDescription:${car.description}. "
+          "\nMy bidding is:${bid.price}.");
     } else if (bid != null) {
       url = Uri.parse("https://wa.me/$phoneNumber?text="
           "Hi ${bid.vendor!.name},I accept your biding in ScrapLink app: "
