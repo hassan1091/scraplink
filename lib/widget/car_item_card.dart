@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scraplink/api/model/car.dart';
 import 'package:scraplink/my_theme.dart';
+import 'package:scraplink/page/home/car_details.dart';
 
 class CarItemCard extends StatelessWidget {
   const CarItemCard({
@@ -45,7 +46,12 @@ class CarItemCard extends StatelessWidget {
                 ),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              CarDetailsPage(car, isVendor: true),
+                        )),
                     child: Text(
                       "Buy Now",
                       style: MyTheme().buttonTextStyle,
