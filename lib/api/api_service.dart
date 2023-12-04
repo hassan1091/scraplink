@@ -101,6 +101,11 @@ class ApiService {
             (await AppLocalStorage.getString(AppStorageKey.id)));
   }
 
+  Future<void> bid(Bid bid) async {
+    await Supabase.instance.client.from('salvage_car_order').insert(
+        bid.toJson((await AppLocalStorage.getString(AppStorageKey.id))));
+  }
+
   Future<void> accept(Bid bid) async {
     await Supabase.instance.client.from('salvage_car_order').update(
         {"status": BidStatus.accepted.name}).eq("salvage_car_order_id", bid.id);
@@ -109,6 +114,14 @@ class ApiService {
   Future<void> reject(Bid bid) async {
     await Supabase.instance.client.from('salvage_car_order').update(
         {"status": BidStatus.rejected.name}).eq("salvage_car_order_id", bid.id);
+  }
+
+  Future<String> getCarOwnerPhone(carId) async {
+    return (await Supabase.instance.client
+        .from('individual_salvage_car')
+        .select("fk_individual_id(phone_number)")
+        .eq("individual_salvage_car_id", carId)
+        .single())["fk_individual_id"]["phone_number"];
   }
 
   Future<UserProfile> getProfile() async {
