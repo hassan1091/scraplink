@@ -7,6 +7,7 @@ import 'package:scraplink/api/model/raw_material.dart';
 import 'package:scraplink/api/model/scrap_part.dart';
 import 'package:scraplink/api/model/user_profile.dart';
 import 'package:scraplink/constants.dart';
+import 'package:scraplink/encrypt_data..dart';
 import 'package:scraplink/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -28,7 +29,7 @@ class ApiService {
                 : role == Role.recycling_company.name
                     ? "company_password"
                     : "${role}_password",
-            password)
+            EncryptData().encryptData(password))
         .single();
     AppLocalStorage.setString(
         AppStorageKey.id, response["${role}_id"].toString());
@@ -36,6 +37,7 @@ class ApiService {
   }
 
   Future<void> register(UserProfile profile, String role) async {
+    profile.password = EncryptData().encryptData(profile.password!);
     final response = await Supabase.instance.client
         .from(role)
         .insert(role == Role.individual.name
