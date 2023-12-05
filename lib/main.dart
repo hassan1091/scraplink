@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/page/home/home.dart';
@@ -9,6 +10,7 @@ import 'package:scraplink/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
+  await dotenv.load();
   await Supabase.initialize(
     url: "https://xpfrdvwfquqhzzijsboi.supabase.co",
     anonKey:
