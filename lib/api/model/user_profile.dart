@@ -3,7 +3,7 @@ class UserProfile {
   final DateTime? createdAt;
   final String? name;
   final String? email;
-  final String? password;
+  String? password;
   final String? location;
   final String? phoneNumber;
 
