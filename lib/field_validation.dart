@@ -30,6 +30,15 @@ class FieldValidation {
     return null;
   };
 
+  static FormFieldValidator<String>? validateYear = (value) {
+    if (value == null || value.isEmpty) {
+      return 'Year is required.';
+    } else if (value.length != 4) {
+      return 'Year must be 4 characters long';
+    }
+    return null;
+  };
+
   static FormFieldValidator<String>? validateName = (value) {
     if (value == null || value.isEmpty) {
       return 'Name is required.';
