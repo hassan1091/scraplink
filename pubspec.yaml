@@ -36,6 +36,8 @@ dependencies:
   image_picker: ^1.0.4
   supabase_flutter: ^1.10.25
   shared_preferences: ^2.2.2
+  encrypt: ^5.0.3
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -99,4 +101,4 @@ flutter:
     - assets/images/toyota_logo.png
     - assets/icons/whatsapp.png
     - assets/icons/bid.png
-
+    - .env
