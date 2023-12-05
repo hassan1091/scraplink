@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/api/model/scrap_part.dart';
 import 'package:scraplink/constants.dart';
+import 'package:scraplink/field_validation.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/widget/my_dropdown_button.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
@@ -91,19 +92,26 @@ class _SellPartPageState extends State<SellPartPage> {
                 ),
               const SizedBox(height: 4),
               MyTextFormField(
-                  controller: _nameController, hint: "Name", lable: "Name"),
+                controller: _nameController,
+                hint: "Name",
+                lable: "Name",
+                validator: FieldValidation.validateRequired,
+              ),
               const SizedBox(height: 16),
               MyTextFormField(
-                  controller: _yearController,
-                  hint: "Year",
-                  lable: "Year",
-                  type: const TextInputType.numberWithOptions()),
+                controller: _yearController,
+                hint: "Year",
+                lable: "Year",
+                type: const TextInputType.numberWithOptions(),
+                validator: FieldValidation.validateYear,
+              ),
               const SizedBox(height: 16),
               MyTextFormField(
                   controller: _priceController,
                   hint: "Price",
                   lable: "Price",
-                  type: TextInputType.number),
+                  type: TextInputType.number,
+                  validator: FieldValidation.validateRequired),
               const SizedBox(height: 4),
               Text(
                 "Description:",
@@ -114,10 +122,11 @@ class _SellPartPageState extends State<SellPartPage> {
                   elevation: 5,
                   margin:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
-                  child: TextField(
+                  child: TextFormField(
                     controller: _descriptionController,
                     maxLines: 3,
                     minLines: 3,
+                    validator: FieldValidation.validateRequired,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "The scrap part one year used"),
@@ -147,24 +156,29 @@ class _SellPartPageState extends State<SellPartPage> {
   }
 
   Future<void> _sell() async {
-    ApiService()
-        .sellScrapPart(
-            ScrapPart(
-                make: _selectedMake,
-                model: _selectedModel,
-                category: _selectedCategory,
-                name: _nameController.text,
-                year: _yearController.text,
-                price: num.parse(_priceController.text),
-                description: _descriptionController.text),
-            _imagePath!)
-        .then((_) => Navigator.pop(context))
-        .onError((error, stackTrace) {
-      return showDialog(
-        context: context,
-        builder: (context) =>
-            const AlertDialog(title: Text("Failed to sell car")),
-      );
-    });
+    if (_imagePath == null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("image is required")));
+    } else if (_formKey.currentState!.validate()) {
+      ApiService()
+          .sellScrapPart(
+              ScrapPart(
+                  make: _selectedMake,
+                  model: _selectedModel,
+                  category: _selectedCategory,
+                  name: _nameController.text,
+                  year: _yearController.text,
+                  price: num.parse(_priceController.text),
+                  description: _descriptionController.text),
+              _imagePath!)
+          .then((_) => Navigator.pop(context))
+          .onError((error, stackTrace) {
+        return showDialog(
+          context: context,
+          builder: (context) =>
+              const AlertDialog(title: Text("Failed to sell car")),
+        );
+      });
+    }
   }
 }
