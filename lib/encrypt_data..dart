@@ -6,7 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class EncryptData {
   final encrypter = Encrypter(AES(generateKey()));
-  final iv = IV.fromUtf8(dotenv.env['SECRET_KEY']!);
+  final iv = IV.fromUtf8(dotenv.env['IV']!);
 
   String encryptData(String data) {
     return encrypter.encrypt(data, iv: iv).base64;
