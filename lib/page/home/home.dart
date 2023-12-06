@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   ];
 
   final List<String> _titles = [
-    "Home",
+    "Home Individual",
     "Nearby yards",
     "Search",
     "Profile",

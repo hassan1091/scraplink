@@ -22,7 +22,7 @@ class _VendorHomePageState extends State<VendorHomePage> {
   ];
 
   final List<String> _titles = [
-    "Home",
+    "Home Vendor",
     "Nearby Recycling Company",
     "Search",
     "Profile",

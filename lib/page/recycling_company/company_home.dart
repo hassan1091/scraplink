@@ -18,7 +18,7 @@ class _CompanyHomePageState extends State<CompanyHomePage> {
   ];
 
   final List<String> _titles = [
-    "Home",
+    "Home Recycling Company",
     "Nearby Yards",
   ];
 
