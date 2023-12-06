@@ -204,7 +204,8 @@ class ApiService {
           .eq("part_make", make)
           .eq("part_model", model)
           .eq("part_year", year)
-          .eq("fk_part_category.part_category_name", category!);
+          .eq("fk_part_category(part_category_name)",
+              Constants.partCategory.indexOf(category!) + 1);
     }
     return response
         .map((json) => ScrapPart.fromJson(json))
