@@ -13,8 +13,7 @@ void main() async {
   await dotenv.load();
   await Supabase.initialize(
     url: "https://xpfrdvwfquqhzzijsboi.supabase.co",
-    anonKey:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwZnJkdndmcXVxaHp6aWpzYm9pIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTkxMTE0ODUsImV4cCI6MjAxNDY4NzQ4NX0.jmXg5tfmI1k_RErtRQyci_upcHLIh5RCs3ShhtksfZs",
+    anonKey: dotenv.env['ANON_KEY']!,
   );
   runApp(const MyApp());
 }
