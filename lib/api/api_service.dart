@@ -218,16 +218,21 @@ class ApiService {
     if (carId == null) {
       response = await Supabase.instance.client
           .from('salvage_car_order')
-          .select("*,fk_vendor_id:vendor(*)")
+          .select(
+              "*,fk_vendor_id:vendor(*),fk_car_id:individual_salvage_car(*)")
           .eq("fk_vendor_id",
               (await AppLocalStorage.getString(AppStorageKey.id)));
+      return response
+          .map((json) => Bid.fromJson(json, isBid: true))
+          .toList()
+          .cast<Bid>();
     } else {
       response = await Supabase.instance.client
           .from('salvage_car_order')
           .select("*,fk_vendor_id:vendor(*)")
           .eq("fk_car_id", carId);
+      return response.map((json) => Bid.fromJson(json)).toList().cast<Bid>();
     }
-    return response.map((json) => Bid.fromJson(json)).toList().cast<Bid>();
   }
 
   Future<List<UserProfile>> getVendors() async {

@@ -35,9 +35,9 @@ class _CarsWidgetState extends State<CarsWidget> {
             onRefresh: () async => setState(() {}),
             child: GridView.builder(
               itemCount: bids.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, // Change as needed
-                childAspectRatio: 1.25,
+                childAspectRatio: widget.car?.carId == null ? 0.9 : 1.25,
               ),
               itemBuilder: (BuildContext context, int index) {
                 return Card(
@@ -51,10 +51,16 @@ class _CarsWidgetState extends State<CarsWidget> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            bids[index].vendor!.name!,
-                            style: MyTheme().titleStyle,
-                          ),
+                          if (widget.car?.carId != null)
+                            Text(
+                              bids[index].vendor!.name!,
+                              style: MyTheme().titleStyle,
+                            )
+                          else
+                            Image.network(
+                              bids[index].carId.imageUrl,
+                              fit: BoxFit.cover,
+                            ),
                           const SizedBox(height: 4),
                           Text(
                             "price: ${bids[index].price}",
