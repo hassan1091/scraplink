@@ -57,7 +57,6 @@ class UserProfile {
     return {
       'name': name,
       'email': email,
-      'password': password,
       'city': location,
       'phone_number': phoneNumber,
     };
@@ -67,7 +66,6 @@ class UserProfile {
     return {
       'vendor_name': name,
       'vendor_email': email,
-      'vendor_password': password,
       'vendor_city': location,
       'vendor_phone_number': phoneNumber,
     };

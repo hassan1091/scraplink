@@ -7,6 +7,7 @@ import 'package:scraplink/api/model/car.dart';
 import 'package:scraplink/constants.dart';
 import 'package:scraplink/field_validation.dart';
 import 'package:scraplink/my_theme.dart';
+import 'package:scraplink/widget/loading_indicator_dialog.dart';
 import 'package:scraplink/widget/my_dropdown_button.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
@@ -152,6 +153,7 @@ class _SellCarPageState extends State<SellCarPage> {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("image is required")));
     } else if (_formKey.currentState!.validate()) {
+      LoadingIndicatorDialog().show(context);
       ApiService()
           .sellCar(
               Car(
@@ -162,12 +164,17 @@ class _SellCarPageState extends State<SellCarPage> {
                   name: _nameController.text,
                   description: _descriptionController.text),
               _imagePath!)
-          .then((_) => Navigator.pop(context))
-          .onError((error, stackTrace) => showDialog(
-                context: context,
-                builder: (context) =>
-                    const AlertDialog(title: Text("Failed to sell car")),
-              ));
+          .then((_) {
+        LoadingIndicatorDialog().dismiss();
+        Navigator.pop(context);
+      }).onError((error, stackTrace) {
+        LoadingIndicatorDialog().dismiss();
+        showDialog(
+          context: context,
+          builder: (context) =>
+              const AlertDialog(title: Text("Failed to sell car")),
+        );
+      });
     }
   }
 }

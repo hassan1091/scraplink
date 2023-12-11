@@ -4,6 +4,7 @@ import 'package:scraplink/constants.dart';
 import 'package:scraplink/field_validation.dart';
 import 'package:scraplink/main.dart';
 import 'package:scraplink/page/register.dart';
+import 'package:scraplink/widget/loading_indicator_dialog.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
 class LoginPage extends StatefulWidget {
@@ -105,15 +106,20 @@ class LoginState extends State<LoginPage> {
 
   void _login() {
     if (_formKey.currentState!.validate()) {
+      LoadingIndicatorDialog().show(context);
       ApiService()
           .login(_emailController.text, _passwordController.text, _groupValue)
           .then((_) {
+        LoadingIndicatorDialog().dismiss();
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const MyApp()));
-      }).onError((error, stackTrace) => showDialog(
-              context: context,
-              builder: (context) =>
-                  const AlertDialog(title: Text("Login failed, try again"))));
+      }).onError((error, stackTrace) {
+        LoadingIndicatorDialog().dismiss();
+        showDialog(
+            context: context,
+            builder: (context) =>
+                const AlertDialog(title: Text("Login failed, try again")));
+      });
     }
   }
 

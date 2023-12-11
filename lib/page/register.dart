@@ -4,6 +4,7 @@ import 'package:scraplink/api/model/user_profile.dart';
 import 'package:scraplink/constants.dart';
 import 'package:scraplink/field_validation.dart';
 import 'package:scraplink/main.dart';
+import 'package:scraplink/widget/loading_indicator_dialog.dart';
 import 'package:scraplink/widget/my_dropdown_button.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
@@ -30,7 +31,7 @@ class _RegisterPageState extends State<RegisterPage> {
   void initState() {
     _nameController = TextEditingController(text: widget.profile?.name);
     _emailController = TextEditingController(text: widget.profile?.email);
-    _passwordController = TextEditingController(text: widget.profile?.password);
+    _passwordController = TextEditingController();
     _phoneController = TextEditingController(text: widget.profile?.phoneNumber);
     _selectedLocation = widget.profile?.location;
     super.initState();
@@ -63,14 +64,16 @@ class _RegisterPageState extends State<RegisterPage> {
               validator: FieldValidation.validateEmail,
             ),
             const SizedBox(height: 12),
-            MyTextFormField(
-              controller: _passwordController,
-              hint: "Password",
-              lable: "Password",
-              isPassword: true,
-              validator: FieldValidation.validatePassword,
-            ),
-            const SizedBox(height: 12),
+            if (widget.profile == null) ...[
+              MyTextFormField(
+                controller: _passwordController,
+                hint: "Password",
+                lable: "Password",
+                isPassword: true,
+                validator: FieldValidation.validatePassword,
+              ),
+              const SizedBox(height: 12)
+            ],
             MyTextFormField(
               controller: _phoneController,
               hint: "+9665########",
@@ -138,6 +141,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void _onPressed() {
     if (_formKey.currentState!.validate()) {
+      LoadingIndicatorDialog().show(context);
       final userProfile = UserProfile(
           name: _nameController.text,
           email: _emailController.text,
@@ -146,25 +150,32 @@ class _RegisterPageState extends State<RegisterPage> {
           location: _selectedLocation);
       if (widget.profile == null) {
         ApiService().register(userProfile, _groupValue).then((_) {
+          LoadingIndicatorDialog().dismiss();
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const MyApp()),
               (route) => false);
-        }).onError((error, stackTrace) => showDialog(
-            context: context,
-            builder: (context) =>
-                const AlertDialog(title: Text("Register failed, try again"))));
+        }).onError((error, stackTrace) {
+          LoadingIndicatorDialog().dismiss();
+          showDialog(
+              context: context,
+              builder: (context) =>
+                  const AlertDialog(title: Text("Register failed, try again")));
+        });
       } else {
-        ApiService()
-            .updateProfile(userProfile)
-            .then((_) => Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const MyApp()),
-                (route) => false))
-            .onError((error, stackTrace) => showDialog(
-                context: context,
-                builder: (context) => const AlertDialog(
-                    title: Text("Edit profile failed, try again"))));
+        ApiService().updateProfile(userProfile).then((_) {
+          LoadingIndicatorDialog().dismiss();
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const MyApp()),
+              (route) => false);
+        }).onError((error, stackTrace) {
+          LoadingIndicatorDialog().dismiss();
+          showDialog(
+              context: context,
+              builder: (context) => const AlertDialog(
+                  title: Text("Edit profile failed, try again")));
+        });
       }
     }
   }
