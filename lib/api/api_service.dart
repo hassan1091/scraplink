@@ -57,8 +57,8 @@ class ApiService {
     await Supabase.instance.client
         .from(currentRole)
         .update(currentRole == Role.individual.name
-            ? userProfile.toIndividualJson()
-            : userProfile.toVendorJson())
+            ? userProfile.toIndividualJson(isEdit: true)
+            : userProfile.toVendorJson(isEdit: true))
         .eq("${currentRole}_id",
             (await AppLocalStorage.getString(AppStorageKey.id)));
   }

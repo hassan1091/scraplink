@@ -53,19 +53,21 @@ class UserProfile {
     );
   }
 
-  Map<String, dynamic> toIndividualJson() {
+  Map<String, dynamic> toIndividualJson({isEdit = false}) {
     return {
       'name': name,
       'email': email,
+      if (!isEdit) 'password': password,
       'city': location,
       'phone_number': phoneNumber,
     };
   }
 
-  Map<String, dynamic> toVendorJson() {
+  Map<String, dynamic> toVendorJson({isEdit = false}) {
     return {
       'vendor_name': name,
       'vendor_email': email,
+      if (!isEdit) 'vendor_password': password,
       'vendor_city': location,
       'vendor_phone_number': phoneNumber,
     };
