@@ -7,6 +7,7 @@ import 'package:scraplink/constants.dart';
 import 'package:scraplink/field_validation.dart';
 import 'package:scraplink/my_theme.dart';
 import 'package:scraplink/shared_preferences.dart';
+import 'package:scraplink/widget/loading_indicator_dialog.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
 class CarDetailsPage extends StatefulWidget {
@@ -88,9 +89,11 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                   validator: FieldValidation.validateRequired,
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
+                      LoadingIndicatorDialog().show(context);
                       await ApiService().bid(Bid(
                           carId: widget.car.carId,
                           price: num.parse(bidController.text)));
+                      LoadingIndicatorDialog().dismiss();
                       setState(() {});
                     }
                   },

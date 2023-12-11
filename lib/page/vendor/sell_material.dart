@@ -4,6 +4,7 @@ import 'package:scraplink/api/model/raw_material.dart';
 import 'package:scraplink/constants.dart';
 import 'package:scraplink/field_validation.dart';
 import 'package:scraplink/my_theme.dart';
+import 'package:scraplink/widget/loading_indicator_dialog.dart';
 import 'package:scraplink/widget/my_dropdown_button.dart';
 import 'package:scraplink/widget/my_text_form_field.dart';
 
@@ -88,14 +89,15 @@ class _SellMaterialPageState extends State<SellMaterialPage> {
 
   Future<void> _sell() async {
     if (_formKey.currentState!.validate()) {
+      LoadingIndicatorDialog().show(context);
       ApiService()
           .sellRawMaterial(RawMaterial(
               type: _selectedType, description: _descriptionController.text))
-          .then((_) => Navigator.pop(context))
-          .onError((error, stackTrace) {
-        debugPrint(error.toString());
-
-        return showDialog(
+          .then((_) {
+        Navigator.pop(context);
+      }).onError((error, stackTrace) {
+        LoadingIndicatorDialog().dismiss();
+        showDialog(
           context: context,
           builder: (context) =>
               const AlertDialog(title: Text("The selling Failed")),

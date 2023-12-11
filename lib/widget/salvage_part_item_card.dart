@@ -3,6 +3,7 @@ import 'package:scraplink/api/api_service.dart';
 import 'package:scraplink/api/model/scrap_part.dart';
 import 'package:scraplink/constants.dart';
 import 'package:scraplink/my_theme.dart';
+import 'package:scraplink/widget/loading_indicator_dialog.dart';
 import 'package:scraplink/widget/scraps.dart';
 
 class SalvagePartItemCard extends StatefulWidget {
@@ -61,10 +62,17 @@ class _SalvagePartItemCardState extends State<SalvagePartItemCard> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (widget.isInventory) {
-                        ApiService().deleteScrapPart(widget.scrapPart.id!).then(
-                            (value) => context
-                                .findAncestorStateOfType<State<ScrapsWidget>>()!
-                                .setState(() {}));
+                        LoadingIndicatorDialog().show(context);
+
+                        ApiService()
+                            .deleteScrapPart(widget.scrapPart.id!)
+                            .then((value) {
+                          LoadingIndicatorDialog().dismiss();
+                          context
+                              .findAncestorStateOfType<State<ScrapsWidget>>()!
+                              .setState(() {});
+                        }).onError((error, stackTrace) =>
+                                LoadingIndicatorDialog().dismiss());
                       } else {
                         Constants.contact(
                             widget.scrapPart.vendor!.phoneNumber, context,
